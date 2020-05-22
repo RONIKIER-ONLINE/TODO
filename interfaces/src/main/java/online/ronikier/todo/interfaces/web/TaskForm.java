@@ -1,18 +1,35 @@
 package online.ronikier.todo.interfaces.web;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import online.ronikier.todo.domain.Task;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.util.Date;
 
 @Data
+@AllArgsConstructor
 public class TaskForm {
+
     @NotNull
-    @Size(min=1, max=30)
+    private Boolean important;
+
+    @NotNull
+    private Boolean urgent;
+
+    @NotNull
+    private String created;
+
+    @NotNull
+    private String due;
+
+    @NotNull
+    @NotEmpty
+    @Size(max=20)
     private String name;
 
     @NotNull
-    @Size(min=1, max=200)
+    @Size(max=200)
     private String description;
 
 }

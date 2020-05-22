@@ -1,7 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <html>
 <body>
 <form action="#" th:action="@{/task}" th:object="${taskForm}" method="post">
     <table>
+        <tr>
+            <td>Important:</td>
+            <td><input type="checkbox" th:field="*{important}"/></td>
+            <td th:if="${#fields.hasErrors('important')}" th:errors="*{important}">Important Error</td>
+        </tr>
+        <tr>
+            <td>Urgent:</td>
+            <td><input type="checkbox" th:field="*{urgent}"/></td>
+            <td th:if="${#fields.hasErrors('urgent')}" th:errors="*{urgent}">Urgent Error</td>
+        </tr>
+        <tr>
+            <td>Created:</td>
+            <td><input type="date" th:field="*{created}"/></td>
+            <td th:if="${#fields.hasErrors('created')}" th:errors="*{created}">Created Error</td>
+        </tr>
+        <tr>
+            <td>Due:</td>
+            <td><input type="date" th:field="*{due}"/></td>
+            <td th:if="${#fields.hasErrors('due')}" th:errors="*{due}">Due Error</td>
+        </tr>
         <tr>
             <td>Name:</td>
             <td><input type="text" th:field="*{name}"/></td>

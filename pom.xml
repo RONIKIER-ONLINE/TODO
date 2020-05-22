@@ -19,11 +19,12 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>library</module>
 		<module>domain</module>
-		<module>application</module>
+		<module>configuration</module>
 		<module>infrastructure</module>
 		<module>interfaces</module>
-		<module>library</module>
+		<module>application</module>
 	</modules>
 
 </project>
