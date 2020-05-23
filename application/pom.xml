@@ -32,11 +32,6 @@
             <artifactId>todo-interfaces</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>online.ronikier</groupId>
-            <artifactId>todo-library</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -21,7 +21,6 @@
 	<modules>
 		<module>library</module>
 		<module>domain</module>
-		<module>configuration</module>
 		<module>infrastructure</module>
 		<module>interfaces</module>
 		<module>application</module>

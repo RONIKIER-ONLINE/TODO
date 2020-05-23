@@ -1,0 +1,25 @@
+body {
+    font: normal 10px Verdana, Arial, sans-serif;
+}
+
+td.tableLabel {
+    font: bold 10px Verdana, Arial, sans-serif;
+    text-align: right;
+}
+
+td.taskListTaskName {
+    font: bold 10px Verdana, Arial, sans-serif;
+}
+
+input {
+    font: normal 10px Verdana, Arial, sans-serif;
+}
+
+textarea {
+    font: normal 10px Verdana, Arial, sans-serif;
+}
+
+button {
+     font: normal 10px Verdana, Arial, sans-serif;
+}
+

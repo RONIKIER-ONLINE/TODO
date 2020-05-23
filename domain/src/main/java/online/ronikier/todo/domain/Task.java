@@ -1,44 +1,43 @@
 package online.ronikier.todo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-import javax.validation.constraints.*;
-
-import org.neo4j.ogm.annotation.GeneratedValue;
-import org.neo4j.ogm.annotation.Id;
+import lombok.*;
+import online.ronikier.todo.domain.base.AbstractEntity;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
+import javax.validation.constraints.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@NodeEntity
 @Data
-@AllArgsConstructor
-public class Task extends Entity {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
+@NodeEntity
+public class Task extends AbstractEntity {
 
-    @NotNull
+    @NonNull
     private Boolean important;
 
-    @NotNull
+    @NonNull
     private Boolean urgent;
 
-    @NotNull
+    @NonNull
     @Past
     private Date created;
 
-    @NotNull
+    @NonNull
+    private Date start;
+
+    @NonNull
     @Future
     private Date due;
 
-    @NotNull
-    @NotEmpty
-    @Size(max=20)
+    @NonNull
+    @Size(max = 20)
     private String name;
 
-    @NotNull
-    @Size(max=200)
+    @NonNull
+    @Size(max = 200)
     private String description;
 
     /**
@@ -46,22 +45,22 @@ public class Task extends Entity {
      * to ignore the direction of the relationship.
      * https://dzone.com/articles/modelling-data-neo4j
      */
-    @Relationship(type = "SUBTASK", direction = Relationship.UNDIRECTED)
-    public Set<Task> subtasks;
+    @Relationship(type = "SUBTASK", direction = Relationship.INCOMING)
+    public Set<Task> subTasks;
 
     public void requires(Task task) {
-        if (subtasks == null) {
-            subtasks = new HashSet<>();
+        if (subTasks == null) {
+            subTasks = new HashSet<>();
         }
-        subtasks.add(task);
+        subTasks.add(task);
     }
 
     public String toString() {
-        return "'" + this.name + "' subtasks: " + Optional.ofNullable(this.subtasks).orElse(Collections.emptySet()).stream().map(Task::getName).collect(Collectors.toList());
+        return "'" + this.name + "' subtasks: " +
+            Optional.ofNullable(this.subTasks).orElse(Collections.emptySet())
+                .stream()
+                .map(Task::getName)
+                .collect(Collectors.toList());
     }
-
-    private Task() {
-        // Empty constructor required as of Neo4j API 2.0.5
-    };
 
 }

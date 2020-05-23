@@ -1,45 +1,92 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <html>
+<head>
+    <title>Task tracking system - <h1 th:text="#{task}"></h1></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
 <body>
-<form action="#" th:action="@{/task}" th:object="${taskForm}" method="post">
-    <table>
-        <tr>
-            <td>Important:</td>
-            <td><input type="checkbox" th:field="*{important}"/></td>
-            <td th:if="${#fields.hasErrors('important')}" th:errors="*{important}">Important Error</td>
-        </tr>
-        <tr>
-            <td>Urgent:</td>
-            <td><input type="checkbox" th:field="*{urgent}"/></td>
-            <td th:if="${#fields.hasErrors('urgent')}" th:errors="*{urgent}">Urgent Error</td>
-        </tr>
-        <tr>
-            <td>Created:</td>
-            <td><input type="date" th:field="*{created}"/></td>
-            <td th:if="${#fields.hasErrors('created')}" th:errors="*{created}">Created Error</td>
-        </tr>
-        <tr>
-            <td>Due:</td>
-            <td><input type="date" th:field="*{due}"/></td>
-            <td th:if="${#fields.hasErrors('due')}" th:errors="*{due}">Due Error</td>
-        </tr>
-        <tr>
-            <td>Name:</td>
-            <td><input type="text" th:field="*{name}"/></td>
-            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
-        </tr>
-        <tr>
-            <td>Description:</td>
-            <td><input type="text" th:field="*{description}"/></td>
-            <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</td>
-        </tr>
+
+<br/>
+<br/>
+<table align="center" width="622" border="1" cellspacing="0" cellpadding="10">
+    <tr>
+        <td>
+            <form action="#" th:action="@{/task}" th:object="${taskForm}" method="post">
+                <table align="center" width="600">
+                    <tr>
+                        <td class="tableLabel" width="50">Name:</td>
+                        <td width="*"><input type="text" th:field="*{name}"/></td>
+                        <td width="200" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                    </tr>
+                    <tr>
+                        <td class="tableLabel">Description:</td>
+                        <td><textarea cols="50" rows="4" th:field="*{description}"/></td>
+                        <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableLabel">Urgent:</td>
+                        <td><input type="checkbox" th:field="*{urgent}"/></td>
+                        <td th:if="${#fields.hasErrors('urgent')}" th:errors="*{urgent}">Urgent Error</td>
+                    </tr>
+                    <tr>
+                        <td class="tableLabel">Important:</td>
+                        <td><input type="checkbox" th:field="*{important}"/></td>
+                        <td th:if="${#fields.hasErrors('important')}" th:errors="*{important}">Important Error</td>
+                    </tr>
+                    <tr>
+                        <td class="tableLabel">Created:</td>
+                        <td><input type="date" th:field="*{created}"/></td>
+                        <td th:if="${#fields.hasErrors('created')}" th:errors="*{created}">Created Error</td>
+                    </tr>
+                    <tr>
+                        <td class="tableLabel">Start:</td>
+                        <td><input type="date" th:field="*{start}"/></td>
+                        <td th:if="${#fields.hasErrors('start')}" th:errors="*{start}">Start Error</td>
+                    </tr>
+                    <tr>
+                        <td class="tableLabel">Due:</td>
+                        <td><input type="date" th:field="*{due}"/></td>
+                        <td th:if="${#fields.hasErrors('due')}" th:errors="*{due}">Due Error</td>
+                    </tr>
+                    <tr>
+                        <td class="tableLabel"></td>
+                        <td colspan="2">
+                            <button type="submit">ADD TASK</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+    <div th:if="${not #lists.isEmpty(allTasks)}">
         <tr>
             <td>
-                <button type="submit">Submit</button>
+
+                <table align="center" width="600" th:each="task : *{allTasks}">
+                    <tr>
+                        <td>
+                            <hr width="*"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="taskListTaskName" width="*" th:text="${task.name}"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="${task.description}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <hr width="*"/>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
-    </table>
-</form>
+    </div>
+</table>
+
 </body>
 </html>

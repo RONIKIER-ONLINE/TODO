@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import online.ronikier.todo.domain.Task;
 
-import javax.validation.constraints.*;
-import java.util.Date;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,15 +23,20 @@ public class TaskForm {
     private String created;
 
     @NotNull
+    private String start;
+
+    @NotNull
+    @NotEmpty
     private String due;
 
     @NotNull
     @NotEmpty
-    @Size(max=20)
+    @Size(max = 20)
     private String name;
 
     @NotNull
-    @Size(max=200)
+    @NotEmpty
+    @Size(max = 200)
     private String description;
 
 }

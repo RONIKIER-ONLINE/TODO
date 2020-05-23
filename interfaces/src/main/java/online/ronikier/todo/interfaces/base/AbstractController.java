@@ -1,11 +1,11 @@
-package online.ronikier.todo.templates;
+package online.ronikier.todo.interfaces.base;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-public abstract class BaseController implements WebMvcConfigurer {
+public abstract class AbstractController implements WebMvcConfigurer {
 
     public static final String REQUEST_VARIABLE_LANGUAGE = "lang";
 

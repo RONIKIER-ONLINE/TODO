@@ -17,6 +17,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>online.ronikier</groupId>
+            <artifactId>todo-library</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>online.ronikier</groupId>
@@ -27,18 +32,6 @@
         <dependency>
             <groupId>online.ronikier</groupId>
             <artifactId>todo-infrastructure</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>online.ronikier</groupId>
-            <artifactId>todo-library</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>online.ronikier</groupId>
-            <artifactId>todo-configuration</artifactId>
             <version>${project.version}</version>
         </dependency>
 
