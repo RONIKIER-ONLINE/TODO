@@ -14,8 +14,6 @@ public class Utilities {
 
     public static final String DATE_PATTERN = "yyyy-MM-dd";
 
-    private static final DateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
-
     public static Date dateCurrent() {
         return Calendar.getInstance().getTime();
     }
@@ -28,7 +26,11 @@ public class Utilities {
     }
 
     public static Date dateFromString(String dateString) throws ParseException {
-        return dateFormat.parse(dateString);
+        return getDateFormat().parse(dateString);
+    }
+
+    private static DateFormat getDateFormat() {
+        return new SimpleDateFormat(DATE_PATTERN);
     }
 
 }
