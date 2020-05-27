@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.infrastructure.TaskRepository;
 import online.ronikier.todo.interfaces.base.AbstractController;
-import online.ronikier.todo.library.Messages;
+import online.ronikier.todo.Messages;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

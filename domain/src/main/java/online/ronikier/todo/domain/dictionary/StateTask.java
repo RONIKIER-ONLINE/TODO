@@ -2,7 +2,7 @@ package online.ronikier.todo.domain.dictionary;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import online.ronikier.todo.library.Messages;
+import online.ronikier.todo.Messages;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum StateTask {

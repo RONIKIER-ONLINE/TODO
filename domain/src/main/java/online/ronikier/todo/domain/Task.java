@@ -40,11 +40,6 @@ public class Task extends AbstractEntity {
     @Size(max = 200)
     private String description;
 
-    /**
-     * Neo4j doesn't REALLY have bi-directional relationships. It just means when querying
-     * to ignore the direction of the relationship.
-     * https://dzone.com/articles/modelling-data-neo4j
-     */
     @Relationship(type = "SUBTASK", direction = Relationship.INCOMING)
     public Set<Task> subTasks;
 

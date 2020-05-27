@@ -2,6 +2,8 @@ package online.ronikier.todo.interfaces.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import online.ronikier.todo.Parameters;
+import online.ronikier.todo.Messages;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -11,32 +13,27 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class TaskForm {
 
-    @NotNull
+    @NotNull(message = Messages.FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL)
     private Boolean important;
 
-    @NotNull
+    @NotNull(message = Messages.FORM_TASK_VALIDATION_URGENT_NOT_NULL)
     private Boolean urgent;
 
-    @NotNull
-    @NotEmpty
+    @NotEmpty(message = Messages.FORM_TASK_VALIDATION_CREATED_NOT_NULL)
     private String created;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = Messages.FORM_TASK_VALIDATION_START_NOT_NULL)
     private String start;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = Messages.FORM_TASK_VALIDATION_DUE_NOT_NULL)
     private String due;
 
-    @NotNull
-    @NotEmpty
-    @Size(max = 20)
+    @NotEmpty(message = Messages.FORM_TASK_VALIDATION_NAME_NOT_EMPTY)
+    @Size(max = Parameters.FORM_TASK_VALIDATION_NAME_SIZE_MAX, message = Messages.FORM_TASK_VALIDATION_NAME_SIZE_MAX)
     private String name;
 
-    @NotNull
-    @NotEmpty
-    @Size(max = 200)
+    @NotEmpty(message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY)
+    @Size(max = Parameters.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX, message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX)
     private String description;
 
 }

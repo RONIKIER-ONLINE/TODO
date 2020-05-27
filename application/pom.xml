@@ -22,14 +22,16 @@
             <artifactId>todo-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>online.ronikier</groupId>
-            <artifactId>todo-infrastructure</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>online.ronikier</groupId>
             <artifactId>todo-interfaces</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>online.ronikier</groupId>
+            <artifactId>todo-infrastructure</artifactId>
             <version>${project.version}</version>
         </dependency>
 

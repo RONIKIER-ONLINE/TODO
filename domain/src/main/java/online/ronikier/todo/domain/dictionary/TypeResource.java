@@ -2,7 +2,7 @@ package online.ronikier.todo.domain.dictionary;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import online.ronikier.todo.library.Messages;
+import online.ronikier.todo.Messages;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum TypeResource {
@@ -11,9 +11,9 @@ public enum TypeResource {
     MONEY(Messages.TYPE_RESOURCE_MONEY),
     PICTURE(Messages.TYPE_RESOURCE_PICTURE),
     DOCUMENT(Messages.TYPE_RESOURCE_DOCUMENT),
-    TYPE_RESOURCE_URL(Messages.TYPE_RESOURCE_URL),
-    TYPE_RESOURCE_PHONE_NO(Messages.TYPE_RESOURCE_PHONE_NO),
-    TYPE_RESOURCE_EMAIL(Messages.TYPE_RESOURCE_EMAIL);
+    URL(Messages.TYPE_RESOURCE_URL),
+    PHONE_NO(Messages.TYPE_RESOURCE_PHONE_NO),
+    EMAIL(Messages.TYPE_RESOURCE_EMAIL);
 
     private String label;
 
