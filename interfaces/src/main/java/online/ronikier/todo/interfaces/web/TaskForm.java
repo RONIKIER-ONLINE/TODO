@@ -20,9 +20,11 @@ public class TaskForm {
     private Boolean urgent;
 
     @NotNull
+    @NotEmpty
     private String created;
 
     @NotNull
+    @NotEmpty
     private String start;
 
     @NotNull

@@ -3,9 +3,9 @@ package online.ronikier.todo.interfaces.web;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.domain.Task;
-import online.ronikier.todo.domain.configuration.Messages;
 import online.ronikier.todo.infrastructure.TaskRepository;
 import online.ronikier.todo.interfaces.base.AbstractController;
+import online.ronikier.todo.library.Messages;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.validation.Valid;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Controller
@@ -40,6 +38,10 @@ public class TaskController extends AbstractController  {
 
     @PostMapping("/task")
     public String taskAdd(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
+
+        model.addAttribute("allTasks",taskRepository.findAll());
+
+        model.addAttribute("taskCount",taskRepository.count());
 
         if (bindingResult.hasErrors()) {
             log.error(Messages.ERROR_TASK_ADD);
@@ -87,8 +89,6 @@ public class TaskController extends AbstractController  {
         } catch (Exception e) {
             log.error(Messages.EXCEPTION_TASK_CREATION + Messages.SEPARATOR + e.getMessage());
         }
-
-        model.addAttribute("allTasks",taskRepository.findAll());
 
         return "task";
 
