@@ -15,28 +15,18 @@ A:hover {
 	vertical-align: top;
 	font-weight: bold;
 	height=10px;
-	color: #666666;
+	color: red;
 	text-decoration:underline;
 }
-BODY {
-	margin-top: 10px;
-	margin-left:0px;
-	margin-right:0px;
-	margin-bottom: 0px;
-	vertical-align: top;
-	font: Verdana, Geneva, Arial, Helvetica, sans-serif
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
-	font-size: 10px;
-	font-weight: normal;
-	text-align: center;
-}
+
 /* =========================================================== */
 
 /* =================== Table formatting =================== */
 
 TABLE.task {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	border-color : #666666;
+	/*
+	border: 1px solid red;
+	*/
 }
 
 TD.rightTop {
@@ -45,8 +35,8 @@ TD.rightTop {
 }
 TD.rightLabel {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:right;vertical-align: top;
-	font-color:
-	color: #666666;
+	font-color: red;
+	font-weight: bold;
 	height=10px;
 	border-top: 4px solid #FFFFFF;
 
@@ -54,15 +44,24 @@ TD.rightLabel {
 
 TD.leftValue {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;vertical-align: top;
-	font-color:
-	color: #666666;
+	font-color: silver;
+	font-weight: bold;
 	height=10px;
 	border-top: 4px solid #FFFFFF;
 
 }
 
-TD.left {
+TD.taskListTaskName {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
+	font-color: red;
+	font-weight: bold;
+	vertical-align: top;
+	height=10px;
+}
+
+TD.taskListTaskDescription {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
+	font-color: silver;
 	vertical-align: top;
 	height=10px;
 }
@@ -125,7 +124,7 @@ TD.tableFieldDarkRight {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	height=18px;
 	width=60px;
-	color: grey;
+	color: silver;
 	border-right: 1px solid silver;
 	border-bottom: 1px solid silver;
 	border-top: 1px solid silver;
@@ -133,7 +132,7 @@ TD.tableFieldDarkRight {
 	background-color: #ffffff;
 }
 INPUT.textShort {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=80px;height=18px;
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=155px;height=18px;
 }
 INPUT.textMedium {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=70px;height=18px;
@@ -148,15 +147,15 @@ INPUT.textLogin {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=60px;height=18px;
 }
 INPUT.dateShort {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=80px;height=18px;
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=150px;height=18px;
 }
 TEXTAREA.info {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;height=70px;width=180px;color=red
 }
 TEXTAREA.description {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	height=70px;
-	width=180px;
+	height=20px;
+	width=20px;
 	resize: none;
 
 }
@@ -166,7 +165,9 @@ SELECT.selectStandard
 }
 SELECT.selectMedium
 {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=100px;
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width=200px;
+	height=18px;
 }
 SELECT.selectList
 {
@@ -199,7 +200,7 @@ TD.fieldLabel {
 	vertical-align: top;
 	font-weight: bold;
 	height=10px;
-	color: #666666;
+	font-color: red;
 	padding: 5pt 5pt 5pt 10pt;
 }
 
@@ -210,7 +211,7 @@ TD.fieldDescription {
 	font-weight: normal;
 	font-style : italic;
 	height=10px;
-	color: #996666;
+	font-color: blue;
 	padding: 0pt 10pt 0pt 5pt;
 }
 
@@ -228,10 +229,44 @@ TD.fieldContent {
 
 /* =========================================================== */
 
+body {font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;}
 
-div.dialogTitle {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	vertical-align: top;
-	font-weight: bold;
-	color: #666666;
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.taskInfoDialog {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 16px;
+  font-weight: bold;
+  vertical-align: top;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }

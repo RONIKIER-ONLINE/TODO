@@ -33,4 +33,7 @@ public class Utilities {
         return new SimpleDateFormat(DATE_PATTERN);
     }
 
+    public static String stringFromDate(Date date) {
+        return getDateFormat().format(date);
+    }
 }

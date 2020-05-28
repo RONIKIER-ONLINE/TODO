@@ -38,7 +38,9 @@ public class Messages {
     public static final String ERROR_TASK_ADD = "ERROR_TASK_ADD";
     public static final String ERROR_TASK_EXIST = "ERROR_TASK_EXIST";
 
+    public static final String INFO_TASK_EXIST = "INFO_TASK_EXIST";
     public static final String INFO_TASK_CREATED = "INFO_TASK_CREATED";
+    public static final String INFO_TASK_MODIFIED = "INFO_TASK_MODIFIED";
 
     public static final String FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL = "FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL";
     public static final String FORM_TASK_VALIDATION_URGENT_NOT_NULL = "FORM_TASK_VALIDATION_URGENT_NOT_NULL";
@@ -49,5 +51,7 @@ public class Messages {
     public static final String FORM_TASK_VALIDATION_NAME_SIZE_MAX = "FORM_TASK_VALIDATION_NAME_SIZE_MAX";
     public static final String FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX = "FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX";
     public static final String FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY = "FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY";
+
+    public static final String REPOSITORY_TASK_NOT_FOUND = "REPOSITORY_TASK_NOT_FOUND";
 
 }

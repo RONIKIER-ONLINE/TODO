@@ -5,47 +5,87 @@
     <title>Task tracking system - <h1 th:text="#{task}"></h1></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link th:href="@{/styles/main.css}" rel="stylesheet"/>
-
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-      $( function() {
-        $("#taskDialog").dialog();
-      } );
-    </script>
-
 </head>
 <body>
 
-<br/>
-<br/>
+<center>
+    <button id="taskButton" class="buttonShort">TASK INFO</button>
+</center>
 
-<div class="dialogTitle" id="taskDialog" title="Task information" >
-    <table>
-        <tr>
-            <td class="rightLabel">Number of tasks:</td>
-            <td class="leftValue" th:text="*{taskCount}"></td>
-        </tr>
-    </table>
+<!-- The Modal -->
+<div id="taskInfoDialog" class="modal">
+
+    <div class="taskInfoDialog">
+        <span class="close">&times;</span>
+            <table>
+                <tr>
+                    <td class="rightLabel">Number of tasks:</td>
+                    <td class="leftValue" th:text="*{taskCount}"></td>
+                </tr>
+            </table>
+    </div>
+
 </div>
 
-<table class="task" align="center" width="622" border="1" cellspacing="0" cellpadding="10">
+<script>
+
+    // Focus on task name
+    window.onload = function() {
+        document.getElementById("taskName").focus();
+        var taskName = document.getElementById("taskName").value;
+        document.getElementById("taskName").value = '';
+        document.getElementById("taskName").value = taskName;
+    };
+
+    // Get the modal
+    var modal = document.getElementById("taskInfoDialog");
+
+    // Get the button that opens the modal
+    var taskButton = document.getElementById("taskButton");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    taskButton.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+</script>
+
+<br/>
+<br/>
+
+<table class="task" align="center">
     <tr>
         <td>
             <form action="#" th:action="@{/task}" th:object="${taskForm}" method="post">
-                <table align="center" width="600" cellspacing="5">
+                <table align="center" width="800" cellspacing="5">
                     <tr>
-                        <td class="rightLabel" width="50">Name:</td>
-                        <td class="left" width="*"><input type="text" class="textShort" th:field="*{name}"/></td>
-                        <td class="error" width="200" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                        <td class="rightLabel" width="100">Name:</td>
+                        <td class="left" width="*"><input id="taskName" type="text" class="textShort" th:field="*{name}"/></td>
+                        <td class="error" width="300" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name
+                            Error
+                        </td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Description:</td>
-                        <td class="left"><textarea class="description" cols="50" rows="4" th:field="*{description}"/></td>
-                        <td class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error
+                        <td class="left"><textarea class="description" cols="40" rows="5" th:field="*{description}"/>
+                        </td>
+                        <td class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                            Description Error
                         </td>
                     </tr>
                     <tr>
@@ -61,7 +101,8 @@
                     <tr>
                         <td class="rightLabel">Created:</td>
                         <td class="left"><input class="dateShort" type="date" th:field="*{created}"/></td>
-                        <td class="error" th:if="${#fields.hasErrors('created')}" th:errors="*{created}">Created Error</td>
+                        <td class="error" th:if="${#fields.hasErrors('created')}" th:errors="*{created}">Created Error
+                        </td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Start:</td>
@@ -74,30 +115,36 @@
                         <td class="error" th:if="${#fields.hasErrors('due')}" th:errors="*{due}">Due Error</td>
                     </tr>
                     <tr>
+                        <td class="rightLabel">Übertask:</td>
+                        <td class="left" colspan="2">
+                            <select class="selectMedium" th:field="*{uberTaskId}" style="width: 131px; height=18px;">
+                                <option th:value="${task.id}" th:text="${task.name}" th:each="task : *{uberTasks}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                    </tr>
                         <td class="rightLabel"></td>
                         <td class="left" colspan="2">
-                            <button type="submit" class="buttonShort">ADD TASK</button>
+                            <button type="submit" class="buttonShort" name="action" value="save" accesskey="t">SAVE TASK</button>
                         </td>
                     </tr>
                 </table>
             </form>
         </td>
     </tr>
+
     <div th:if="${not #lists.isEmpty(allTasks)}">
         <tr>
             <td>
-
-                <table align="center" width="600" th:each="task : *{allTasks}">
+                <table align="center" width="100%" th:each="task : *{allTasks}">
                     <tr>
-                        <td>
-                            <hr width="*"/>
-                        </td>
+                        &nbsp;<a th:href="@{'/task/' + ${task.id}}">
+                            <label th:text="${task.name}"></label>
+                        </a>
                     </tr>
                     <tr>
-                        <td class="left" width="*" th:text="${task.name}"></td>
-                    </tr>
-                    <tr>
-                        <td class="left" th:text="${task.description}"></td>
+                        <td class="taskListTaskDescription" th:text="${task.description}"></td>
                     </tr>
                     <tr>
                         <td>

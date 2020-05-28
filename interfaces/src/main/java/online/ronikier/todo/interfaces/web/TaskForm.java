@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import online.ronikier.todo.Parameters;
 import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.Task;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -35,5 +36,12 @@ public class TaskForm {
     @NotEmpty(message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY)
     @Size(max = Parameters.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX, message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX)
     private String description;
+
+    private String action;
+
+    private String uberTaskId;
+
+    private Iterable<Task> uberTasks;
+
 
 }
