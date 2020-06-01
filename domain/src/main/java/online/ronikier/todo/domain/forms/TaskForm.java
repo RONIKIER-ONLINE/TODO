@@ -1,8 +1,9 @@
-package online.ronikier.todo.interfaces.web;
+package online.ronikier.todo.domain.forms;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import online.ronikier.todo.Parameters;
+import lombok.NoArgsConstructor;
+import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
 
@@ -11,8 +12,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class TaskForm {
+
+    private Long id;
 
     @NotNull(message = Messages.FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL)
     private Boolean important;

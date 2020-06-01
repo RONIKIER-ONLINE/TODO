@@ -74,6 +74,15 @@
             <form action="#" th:action="@{/task}" th:object="${taskForm}" method="post">
                 <table align="center" width="800" cellspacing="5">
                     <tr>
+                        <td class="rightLabel">Übertask:</td>
+                        <td class="left" colspan="2">
+                            <select class="selectMedium" th:field="*{uberTaskId}" style="width: 131px; height=18px;">
+                                <option th:value="${task.id}" th:text="${task.name}" th:each="task : *{uberTasks}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <input type="hidden" th:field="*{id}"/>
                         <td class="rightLabel" width="100">Name:</td>
                         <td class="left" width="*"><input id="taskName" type="text" class="textShort" th:field="*{name}"/></td>
                         <td class="error" width="300" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name
@@ -115,14 +124,6 @@
                         <td class="error" th:if="${#fields.hasErrors('due')}" th:errors="*{due}">Due Error</td>
                     </tr>
                     <tr>
-                        <td class="rightLabel">Übertask:</td>
-                        <td class="left" colspan="2">
-                            <select class="selectMedium" th:field="*{uberTaskId}" style="width: 131px; height=18px;">
-                                <option th:value="${task.id}" th:text="${task.name}" th:each="task : *{uberTasks}"></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                     </tr>
                         <td class="rightLabel"></td>
                         <td class="left" colspan="2">
@@ -139,12 +140,21 @@
             <td>
                 <table align="center" width="100%" th:each="task : *{allTasks}">
                     <tr>
+                        <td class="taskListTaskName">
                         &nbsp;<a th:href="@{'/task/' + ${task.id}}">
                             <label th:text="${task.name}"></label>
                         </a>
+                        </td>
                     </tr>
                     <tr>
                         <td class="taskListTaskDescription" th:text="${task.description}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a th:href="@{'/task_delete/' + ${task.id}}">
+                                DELETE
+                            </a>
+                        </td>
                     </tr>
                     <tr>
                         <td>

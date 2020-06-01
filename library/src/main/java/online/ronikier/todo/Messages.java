@@ -34,13 +34,18 @@ public class Messages {
     public static final String TYPE_ORGANISATION_COMPANY = "TYPE_ORGANISATION_COMPANY";
 
     public static final String EXCEPTION_TASK_CREATION = "EXCEPTION_TASK_CREATION";
+    public static final String EXCEPTION_TASK_DATE_PARSE = "EXCEPTION_TASK_DATE_PARSE";
 
     public static final String ERROR_TASK_ADD = "ERROR_TASK_ADD";
     public static final String ERROR_TASK_EXIST = "ERROR_TASK_EXIST";
 
+    public static final String ERROR_PAREMETER_NAME_EMPTY = "ERROR_PAREMETER_NAME_EMPTY";
+
+    public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
     public static final String INFO_TASK_EXIST = "INFO_TASK_EXIST";
     public static final String INFO_TASK_CREATED = "INFO_TASK_CREATED";
     public static final String INFO_TASK_MODIFIED = "INFO_TASK_MODIFIED";
+    public static final String INFO_TASK_DELETING = "INFO_TASK_DELETING";
 
     public static final String FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL = "FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL";
     public static final String FORM_TASK_VALIDATION_URGENT_NOT_NULL = "FORM_TASK_VALIDATION_URGENT_NOT_NULL";
@@ -53,5 +58,7 @@ public class Messages {
     public static final String FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY = "FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY";
 
     public static final String REPOSITORY_TASK_NOT_FOUND = "REPOSITORY_TASK_NOT_FOUND";
+
+    public static final String SERVICE_RESPONSE_404_TASK = "SERVICE_RESPONSE_404_TASK";
 
 }

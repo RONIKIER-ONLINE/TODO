@@ -10,7 +10,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+//@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @RequiredArgsConstructor
 @NodeEntity
 public class Task extends AbstractEntity {
