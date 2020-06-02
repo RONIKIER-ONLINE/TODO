@@ -1,3 +1,20 @@
-# TODO
-Task tracking system
-For analysis and documentation please check  .doc/TODO.eap - Sparx Systems Enterprise Architect 
+<h1>TODO</h1>
+<b>Task tracking system</b><br/><br/>
+<blockquote>.doc/TODO.eap</blockquote>Sparx Systems Enterprise Architect model
+
+<h3>neo4j BACKUP (Win)</h3>
+<h6>
+>cd c:\Users\Admin\.Neo4jDesktop\neo4jDatabases\database-<i>xxxxxx</i>\installation-4.0.3\bin<br/><br/>
+>neo4j-admin backup --from=localhost:6362 --backup-dir=c:/magazyn/archive/200602 --database=neo4j --pagecache=4G
+</h6>
+
+<h3>neo4j RESTORE (Win)</h3>
+<h6>
+>cd c:\Users\Admin\.Neo4jDesktop\neo4jDatabases\database-<i>xxxxxx</i>\installation-4.0.3\bin<br/><br/>
+>neo4j stop<br/><br/>
+>neo4j-admin restore --from=c:/magazyn/archive/200602/neo4j --database=neo4j --force<br/><br/>
+>neo4j start
+</h6>
+
+<h3>neo4j CLEAR (Terminal)</h3>
+<code>MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r</code><br>

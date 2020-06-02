@@ -36,7 +36,12 @@
         var taskName = document.getElementById("taskName").value;
         document.getElementById("taskName").value = '';
         document.getElementById("taskName").value = taskName;
+        document.getElementById("taskName").onchange = function() {
+            document.getElementById("taskDescription").value = '';
+        };
     };
+
+
 
     // Get the modal
     var modal = document.getElementById("taskInfoDialog");
@@ -86,15 +91,14 @@
                     <tr>
                         <input th:field="*{id}" type="hidden"/>
                         <td class="rightLabel" width="100">Name:</td>
-                        <td class="left" width="*"><input class="textShort" id="taskName" th:field="*{name}"
-                                                          type="text"/></td>
+                        <td class="left" width="*"><input class="textShort" id="taskName" th:field="*{name}" type="text"/></td>
                         <td class="error" th:errors="*{name}" th:if="${#fields.hasErrors('name')}" width="300">Name
                             Error
                         </td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Description:</td>
-                        <td class="left"><textarea class="description" cols="40" rows="5" th:field="*{description}"/>
+                        <td class="left"><textarea id="taskDescription" class="description" cols="40" rows="5" th:field="*{description}"/>
                         </td>
                         <td class="error" th:errors="*{description}" th:if="${#fields.hasErrors('description')}">
                             Description Error
