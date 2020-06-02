@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Messages {
 
+    //TODO: Remove development message
+    public static final String DEV_IMLEMENT_ME = "DEV_IMLEMENT_ME";
+
     public static final String SEPARATOR = " - ";
 
     public static final String TYPE_RESOURCE_PERSON = "TYPE_RESOURCE_PERSON";
@@ -40,6 +43,9 @@ public class Messages {
     public static final String ERROR_TASK_EXIST = "ERROR_TASK_EXIST";
 
     public static final String ERROR_PAREMETER_NAME_EMPTY = "ERROR_PAREMETER_NAME_EMPTY";
+
+    public static final String ERROR_TASK_DOES_NOT_EXIST = "ERROR_TASK_DOES_NOT_EXIST";
+    public static final String ERROR_UBER_TASK_DOES_NOT_EXIST = "ERROR_UBER_TASK_DOES_NOT_EXIST";
 
     public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
     public static final String INFO_TASK_EXIST = "INFO_TASK_EXIST";

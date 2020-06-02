@@ -3,27 +3,27 @@
 <html>
 <head>
     <title>Task tracking system - <h1 th:text="#{task}"></h1></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
     <meta charset="utf-8">
 </head>
 <body>
 
 <center>
-    <button id="taskButton" class="buttonShort">TASK INFO</button>
+    <button class="buttonShort" id="taskButton">TASK INFO</button>
 </center>
 
 <!-- The Modal -->
-<div id="taskInfoDialog" class="modal">
+<div class="modal" id="taskInfoDialog">
 
     <div class="taskInfoDialog">
         <span class="close">&times;</span>
-            <table>
-                <tr>
-                    <td class="rightLabel">Number of tasks:</td>
-                    <td class="leftValue" th:text="*{taskCount}"></td>
-                </tr>
-            </table>
+        <table>
+            <tr>
+                <td class="rightLabel">Number of tasks:</td>
+                <td class="leftValue" th:text="*{taskCount}"></td>
+            </tr>
+        </table>
     </div>
 
 </div>
@@ -63,29 +63,32 @@
         modal.style.display = "none";
       }
     }
+
 </script>
 
 <br/>
 <br/>
 
-<table class="task" align="center">
+<table align="center" class="task">
     <tr>
         <td>
-            <form action="#" th:action="@{/task}" th:object="${taskForm}" method="post">
-                <table align="center" width="800" cellspacing="5">
+            <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">
+                <table align="center" cellspacing="5" width="800">
                     <tr>
                         <td class="rightLabel">Übertask:</td>
                         <td class="left" colspan="2">
-                            <select class="selectMedium" th:field="*{uberTaskId}" style="width: 131px; height=18px;">
-                                <option th:value="${task.id}" th:text="${task.name}" th:each="task : *{uberTasks}"></option>
+                            <select class="selectMedium" style="width: 131px; height=18px;" th:field="*{uberTaskId}">
+                                <option th:each="task : *{uberTasks}" th:text="${task.name}"
+                                        th:value="${task.id}"></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <input type="hidden" th:field="*{id}"/>
+                        <input th:field="*{id}" type="hidden"/>
                         <td class="rightLabel" width="100">Name:</td>
-                        <td class="left" width="*"><input id="taskName" type="text" class="textShort" th:field="*{name}"/></td>
-                        <td class="error" width="300" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name
+                        <td class="left" width="*"><input class="textShort" id="taskName" th:field="*{name}"
+                                                          type="text"/></td>
+                        <td class="error" th:errors="*{name}" th:if="${#fields.hasErrors('name')}" width="300">Name
                             Error
                         </td>
                     </tr>
@@ -93,42 +96,43 @@
                         <td class="rightLabel">Description:</td>
                         <td class="left"><textarea class="description" cols="40" rows="5" th:field="*{description}"/>
                         </td>
-                        <td class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                        <td class="error" th:errors="*{description}" th:if="${#fields.hasErrors('description')}">
                             Description Error
                         </td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Urgent:</td>
-                        <td class="left"><input type="checkbox" th:field="*{urgent}"/></td>
-                        <td th:if="${#fields.hasErrors('urgent')}" th:errors="*{urgent}">Urgent Error</td>
+                        <td class="left"><input th:field="*{urgent}" type="checkbox"/></td>
+                        <td th:errors="*{urgent}" th:if="${#fields.hasErrors('urgent')}">Urgent Error</td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Important:</td>
-                        <td class="left"><input type="checkbox" th:field="*{important}"/></td>
-                        <td th:if="${#fields.hasErrors('important')}" th:errors="*{important}">Important Error</td>
+                        <td class="left"><input th:field="*{important}" type="checkbox"/></td>
+                        <td th:errors="*{important}" th:if="${#fields.hasErrors('important')}">Important Error</td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Created:</td>
-                        <td class="left"><input class="dateShort" type="date" th:field="*{created}"/></td>
-                        <td class="error" th:if="${#fields.hasErrors('created')}" th:errors="*{created}">Created Error
+                        <td class="left"><input class="dateShort" th:field="*{created}" type="date"/></td>
+                        <td class="error" th:errors="*{created}" th:if="${#fields.hasErrors('created')}">Created Error
                         </td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Start:</td>
-                        <td class="left"><input class="dateShort" type="date" th:field="*{start}"/></td>
-                        <td class="error" th:if="${#fields.hasErrors('start')}" th:errors="*{start}">Start Error</td>
+                        <td class="left"><input class="dateShort" th:field="*{start}" type="date"/></td>
+                        <td class="error" th:errors="*{start}" th:if="${#fields.hasErrors('start')}">Start Error</td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Due:</td>
-                        <td class="left"><input class="dateShort" type="date" th:field="*{due}"/></td>
-                        <td class="error" th:if="${#fields.hasErrors('due')}" th:errors="*{due}">Due Error</td>
+                        <td class="left"><input class="dateShort" th:field="*{due}" type="date"/></td>
+                        <td class="error" th:errors="*{due}" th:if="${#fields.hasErrors('due')}">Due Error</td>
                     </tr>
                     <tr>
                     </tr>
-                        <td class="rightLabel"></td>
-                        <td class="left" colspan="2">
-                            <button type="submit" class="buttonShort" name="action" value="save" accesskey="t">SAVE TASK</button>
-                        </td>
+                    <td class="rightLabel"></td>
+                    <td class="left" colspan="2">
+                        <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE TASK
+                        </button>
+                    </td>
                     </tr>
                 </table>
             </form>
@@ -138,10 +142,10 @@
     <div th:if="${not #lists.isEmpty(allTasks)}">
         <tr>
             <td>
-                <table align="center" width="100%" th:each="task : *{allTasks}">
+                <table align="center" th:each="task : *{allTasks}" width="100%">
                     <tr>
                         <td class="taskListTaskName">
-                        &nbsp;<a th:href="@{'/task/' + ${task.id}}">
+                            &nbsp;<a th:href="@{'/task/' + ${task.id}}">
                             <label th:text="${task.name}"></label>
                         </a>
                         </td>
