@@ -42,7 +42,7 @@ public class Application {
             if (setupInitializeDatabase) {
                 log.info(Messages.INFO_INITIALISING_DATABASE);
                 taskRepository.deleteAll();
-                Task millionDollarTask = new Task(true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars");
+                Task millionDollarTask = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars");
                 taskRepository.save(millionDollarTask);
 
             }

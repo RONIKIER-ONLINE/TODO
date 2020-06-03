@@ -26,6 +26,7 @@ public class Utilities {
     }
 
     public static Date dateFromString(String dateString) throws ParseException {
+        if (dateString == null) return null;
         return getDateFormat().parse(dateString);
     }
 
@@ -34,6 +35,7 @@ public class Utilities {
     }
 
     public static String stringFromDate(Date date) {
+        if (date == null) return null;
         return getDateFormat().format(date);
     }
 }

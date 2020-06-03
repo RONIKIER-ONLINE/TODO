@@ -1,9 +1,6 @@
 package online.ronikier.todo.domain;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import online.ronikier.todo.domain.base.AbstractEntity;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -18,22 +15,23 @@ import java.util.stream.Collectors;
 //@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
 @NodeEntity
 public class Task extends AbstractEntity {
 
-    @Relationship(type = "SUBTASK", direction = Relationship.INCOMING)
-    public Set<Task> subTasks;
+    @Relationship(type = "REQUIRES", direction = Relationship.OUTGOING)
+    public Set<Task> requiredTasks;
     @NonNull
     private Boolean important;
     @NonNull
     private Boolean urgent;
-    @NonNull
-    @Past
+//    @NonNull
+//    @Past
     private Date created;
-    @NonNull
+//    @NonNull
     private Date start;
-    @NonNull
-    @Future
+//    @NonNull
+//    @Future
     private Date due;
     @NonNull
     @Size(max = 20)
@@ -43,15 +41,15 @@ public class Task extends AbstractEntity {
     private String description;
 
     public void requires(Task task) {
-        if (subTasks == null) {
-            subTasks = new HashSet<>();
+        if (requiredTasks == null) {
+            requiredTasks = new HashSet<>();
         }
-        subTasks.add(task);
+        requiredTasks.add(task);
     }
 
     public String toString() {
-        return "'" + this.name + "' subtasks: " +
-                Optional.ofNullable(this.subTasks).orElse(Collections.emptySet())
+        return "'" + this.name + "' requires: " +
+                Optional.ofNullable(this.requiredTasks).orElse(Collections.emptySet())
                         .stream()
                         .map(Task::getName)
                         .collect(Collectors.toList());

@@ -213,7 +213,7 @@ public class TaskController extends AbstractController {
      * @throws ParseException
      */
     private Task initializeTask(TaskForm taskForm) throws ParseException {
-        return new Task(
+        return new Task(null,
                 taskForm.getImportant(),
                 taskForm.getUrgent(),
                 Utilities.dateFromString(taskForm.getCreated()),
