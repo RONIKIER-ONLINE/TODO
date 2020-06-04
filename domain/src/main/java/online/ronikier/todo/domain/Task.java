@@ -5,8 +5,6 @@ import online.ronikier.todo.domain.base.AbstractEntity;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,8 +17,8 @@ import java.util.stream.Collectors;
 @NodeEntity
 public class Task extends AbstractEntity {
 
-    @Relationship(type = "REQUIRES", direction = Relationship.OUTGOING)
-    public Set<Task> requiredTasks;
+    @Relationship(type = "REQUIRES")
+    private Set<Task> requiredTasks;
     @NonNull
     private Boolean important;
     @NonNull
@@ -34,25 +32,36 @@ public class Task extends AbstractEntity {
 //    @Future
     private Date due;
     @NonNull
-    @Size(max = 20)
+    @Size(max = 30)
     private String name;
     @NonNull
     @Size(max = 200)
     private String description;
 
     public void requires(Task task) {
-        if (requiredTasks == null) {
-            requiredTasks = new HashSet<>();
+        if (getRequiredTasks() == null) {
+            setRequiredTasks(new HashSet<>());
         }
-        requiredTasks.add(task);
+        getRequiredTasks().add(task);
     }
+
 
     public String toString() {
         return "'" + this.name + "' requires: " +
-                Optional.ofNullable(this.requiredTasks).orElse(Collections.emptySet())
+                Optional.ofNullable(this.getRequiredTasks()).orElse(Collections.emptySet())
                         .stream()
                         .map(Task::getName)
                         .collect(Collectors.toList());
     }
 
+    public Set<Task> getRequiredTasks() {
+        if (requiredTasks == null) {
+            setRequiredTasks(new HashSet<>());
+        }
+        return requiredTasks;
+    }
+
+    public void setRequiredTasks(Set<Task> requiredTasks) {
+        this.requiredTasks = requiredTasks;
+    }
 }

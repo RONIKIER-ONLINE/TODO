@@ -74,26 +74,31 @@
 <br/>
 <br/>
 
-<table align="center" class="task">
+<table border="0" class="task" align="center">
     <tr>
         <td>
             <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">
-                <table align="center" cellspacing="5" width="800">
+                <table border="0" align="center" cellspacing="5">
                     <tr>
-                        <td class="rightLabel">Übertask:</td>
-                        <td class="left" colspan="2">
-                            <select class="selectMedium" style="width: 131px; height=18px;" th:field="*{uberTaskId}">
-                                <option th:each="task : *{uberTasks}" th:text="${task.name}"
-                                        th:value="${task.id}"></option>
-                            </select>
+                        <td class="rightLabel" width="80">&nbsp;</td>
+                        <td class="left" width="143">&nbsp;</td>
+                        <td class="error" width="275">&nbsp;
                         </td>
                     </tr>
                     <tr>
-                        <input th:field="*{id}" type="hidden"/>
-                        <td class="rightLabel" width="100">Name:</td>
-                        <td class="left" width="*"><input class="textShort" id="taskName" th:field="*{name}" type="text"/></td>
-                        <td class="error" th:errors="*{name}" th:if="${#fields.hasErrors('name')}" width="300">Name
+                        <td class="rightLabel">Name:</td>
+                        <td class="left"><input class="textShort" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
+                        <td class="error" th:errors="*{name}" th:if="${#fields.hasErrors('name')}">Name
                             Error
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel">Required by:</td>
+                        <td class="left">
+                            <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{requiredByTaskId}">
+                                <option th:each="task : *{tasks}" th:text="${task.name}"
+                                        th:value="${task.id}"></option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -116,24 +121,24 @@
                     </tr>
                     <tr>
                         <td class="rightLabel">Created:</td>
-                        <td class="left"><input class="dateShort" th:field="*{created}" type="date"/></td>
+                        <td class="left"><input class="dateShort" style="width: 138px;" th:field="*{created}" type="date"/></td>
                         <td class="error" th:errors="*{created}" th:if="${#fields.hasErrors('created')}">Created Error
                         </td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Start:</td>
-                        <td class="left"><input class="dateShort" th:field="*{start}" type="date"/></td>
+                        <td class="left"><input class="dateShort" style="width: 138px;" th:field="*{start}" type="date"/></td>
                         <td class="error" th:errors="*{start}" th:if="${#fields.hasErrors('start')}">Start Error</td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Due:</td>
-                        <td class="left"><input class="dateShort" th:field="*{due}" type="date"/></td>
+                        <td class="left"><input class="dateShort" style="width: 138px;" th:field="*{due}" type="date"/></td>
                         <td class="error" th:errors="*{due}" th:if="${#fields.hasErrors('due')}">Due Error</td>
                     </tr>
                     <tr>
                     </tr>
                     <td class="rightLabel"></td>
-                    <td class="left" colspan="2">
+                    <td class="left">
                         <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE TASK
                         </button>
                     </td>
@@ -143,30 +148,52 @@
         </td>
     </tr>
 
-    <div th:if="${not #lists.isEmpty(allTasks)}">
+    <div th:if="${not #lists.isEmpty(taskList)}">
         <tr>
             <td>
-                <table align="center" th:each="task : *{allTasks}" width="100%">
+                <table border="0" align="center" th:each="task : *{taskList}" width="100%">
                     <tr>
-                        <td class="taskListTaskName">
+                        <td>
+                            <hr width="97%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             &nbsp;<a th:href="@{'/task/' + ${task.id}}">
-                            <label th:text="${task.name}"></label>
-                        </a>
+                                <label th:text="${task.name}"></label>
+                            </a>
                         </td>
                     </tr>
                     <tr>
                         <td class="taskListTaskDescription" th:text="${task.description}"></td>
                     </tr>
+                    <div th:if="${not #lists.isEmpty(task.requiredTasks)}">
                     <tr>
                         <td>
-                            <a th:href="@{'/task_delete/' + ${task.id}}">
+                            <table border="0" align="center" th:each="requiredTask : *{task.requiredTasks}" width="100%">
+                                <tr>
+                                    <td>
+                                        <li>
+                                            <a th:href="@{'/task/' + ${requiredTask.id}}"/>
+                                            <label th:text="${requiredTask.name}"></label>
+                                        </li>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                    </div>
+                    <tr>
+                        <td>
+                            &nbsp;<a th:href="@{'/task_delete/' + ${task.id}}">
                                 DELETE
                             </a>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <hr width="*"/>
+                            <hr width="97%"/>
                         </td>
                     </tr>
                 </table>

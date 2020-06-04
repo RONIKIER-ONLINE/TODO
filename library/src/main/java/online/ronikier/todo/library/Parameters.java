@@ -13,4 +13,5 @@ public class Parameters {
     public static final String WEB_CONTROLLER_OPERATION_SAVE = "_save";
     public static final String WEB_CONTROLLER_OPERATION_DELETE = "_delete";
 
+    public static final boolean SYSTEM_SKIP_MAINTENANCE_TASKS = true;
 }

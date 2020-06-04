@@ -46,9 +46,9 @@ public class TaskForm extends AbstractForm {
 
     private String action;
 
-    private String uberTaskId;
+    private String requiredByTaskId;
 
-    private Iterable<Task> uberTasks;
+    private Iterable<Task> tasks;
 
     @NotNull(message = Messages.FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL)
     public Boolean getImportant() {
@@ -135,28 +135,20 @@ public class TaskForm extends AbstractForm {
         this.action = action;
     }
 
-    public String getUberTaskId() {
-        return uberTaskId;
+    public String getRequiredByTaskId() {
+        return requiredByTaskId;
     }
 
-    public void setUberTaskId(String uberTaskId) {
-        this.uberTaskId = uberTaskId;
+    public void setRequiredByTaskId(String requiredByTaskId) {
+        this.requiredByTaskId = requiredByTaskId;
     }
 
-    public Iterable<Task> getUberTasks() {
-        return uberTasks;
+    public Iterable<Task> getTasks() {
+        return tasks;
     }
 
-    public void setUberTasks(Iterable<Task> uberTasks) {
-        this.uberTasks = uberTasks;
-    }
-
-    public Long getId() {
-        return getTask().getId();
-    }
-
-    public void setId(Long id) {
-        getTask().setId(id);
+    public void setTasks(Iterable<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public Task getTask() {

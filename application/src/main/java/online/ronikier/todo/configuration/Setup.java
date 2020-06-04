@@ -19,54 +19,56 @@ import java.util.*;
 @Configuration
 public class Setup {
 
+    @Bean
     public static Set<Task> dafaultTasks() {
+        //TODO: Identify tasks by name to have single references (currently duplicates after restsrt)
         Task initializationTask = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task");
         Task completionTask = new Task(null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task");
         List<Task> dafaultTasks = Arrays.asList(initializationTask, completionTask);
         return new HashSet<>(dafaultTasks);
     }
 
-//    @Bean
-//    public LocaleResolver localeResolver() {
-//        SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-//        sessionLocaleResolver.setDefaultLocale(Locale.US);
-//        return sessionLocaleResolver;
-//    }
-//
-//    @Bean
-//    public AuditEventRepository auditEventRepository() {
-//        //return customAuditEventRepository();
-//        return new InMemoryAuditEventRepository();
-//    }
-//
-//    @Bean
-//    public HttpTraceRepository httpTraceRepository() {
-//        return new HttpTraceRepository() {
-//            private List<HttpTrace> traceList = new ArrayList<>();
-//            @Override
-//            public List<HttpTrace> findAll() {
-//                return traceList;
-//            }
-//
-//            @Override
-//            public void add(HttpTrace trace) {
-//                traceList.add(trace);
-//            }
-//        };
-//    }
-//
-//    private AuditEventRepository customAuditEventRepository() {
-//        return new AuditEventRepository() {
-//
-//            @Override
-//            public void add(AuditEvent event) {
-//                throw new UnsupportedOperationException(Messages.DEV_IMLEMENT_ME);
-//            }
-//
-//            @Override
-//            public List<AuditEvent> find(String principal, Instant after, String type) {
-//                throw new UnsupportedOperationException(Messages.DEV_IMLEMENT_ME);
-//            }
-//        };
-//    }
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+        sessionLocaleResolver.setDefaultLocale(Locale.US);
+        return sessionLocaleResolver;
+    }
+
+    @Bean
+    public AuditEventRepository auditEventRepository() {
+        //return customAuditEventRepository();
+        return new InMemoryAuditEventRepository();
+    }
+
+    @Bean
+    public HttpTraceRepository httpTraceRepository() {
+        return new HttpTraceRepository() {
+            private List<HttpTrace> traceList = new ArrayList<>();
+            @Override
+            public List<HttpTrace> findAll() {
+                return traceList;
+            }
+
+            @Override
+            public void add(HttpTrace trace) {
+                traceList.add(trace);
+            }
+        };
+    }
+
+    private AuditEventRepository customAuditEventRepository() {
+        return new AuditEventRepository() {
+
+            @Override
+            public void add(AuditEvent event) {
+                throw new UnsupportedOperationException(Messages.DEV_IMLEMENT_ME);
+            }
+
+            @Override
+            public List<AuditEvent> find(String principal, Instant after, String type) {
+                throw new UnsupportedOperationException(Messages.DEV_IMLEMENT_ME);
+            }
+        };
+    }
 }

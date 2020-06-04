@@ -12,9 +12,11 @@ import online.ronikier.todo.interfaces.mappers.TaskMapper;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
 import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +26,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.util.Optional;
+import java.util.*;
 
 /**
  *
@@ -34,6 +36,9 @@ import java.util.Optional;
 @PropertySource("classpath:controller.properties")
 @RequiredArgsConstructor
 public class TaskController extends AbstractController {
+
+    @Autowired
+    private Set<Task> dafaultTasks;
 
     private final TaskRepository taskRepository;
 
@@ -102,60 +107,54 @@ public class TaskController extends AbstractController {
             initializeForm(taskForm, model);
             return Parameters.WEB_CONTROLLER_TASK;
         }
+
         try {
 
-            if (taskForm.getId() != null) {
+            Task processedTask = taskRepository.findByName(taskForm.getName());
 
-                Optional<Task> processedTaskOptional = taskRepository.findById(Long.valueOf(taskForm.getId()));
-
-                if (processedTaskOptional.isPresent()) {
-                    log.info(Messages.INFO_TASK_EXIST);
-
-                    Task processedTask = processedTaskOptional.get();
-
-                    taskMapper.form2Domain(taskForm, processedTask);
-
-                    Optional<Task> uberTaskOptional = taskRepository.findById(Long.valueOf(taskForm.getUberTaskId()));
-
-                    if (!uberTaskOptional.isPresent()) {
-                        log.error(Messages.ERROR_UBER_TASK_DOES_NOT_EXIST);
-                    } else {
-                        uberTaskOptional.get().requires(processedTask);
-                        taskRepository.save(uberTaskOptional.get());
-                    }
-
-                    taskRepository.save(processedTask);
-
-                    initializeForm(taskForm, model);
-
-                    return Parameters.WEB_CONTROLLER_TASK;
-                }
-
+            if (processedTask != null) {
+                log.info((Messages.INFO_TASK_EXISTS));
+                log.debug(processedTask.toString());
+            } else {
+                processedTask = initializeTask(taskForm);
             }
 
-            Task newTask = initializeTask(taskForm);
-            taskRepository.save(newTask);
-
-            Optional<Task> uberTaskOptional = taskRepository.findById(Long.valueOf(taskForm.getUberTaskId()));
-
-            if (!uberTaskOptional.isPresent()) {
-                throw new DataException(Messages.ERROR_UBER_TASK_DOES_NOT_EXIST);
-            }
-
-            uberTaskOptional.get().requires(newTask);
-            taskRepository.save(uberTaskOptional.get());
+            saveTask(taskForm, processedTask);
 
             log.info(Messages.INFO_TASK_CREATED);
+            log.debug(processedTask.toString());
 
-        } catch (Exception | DataException e) {
+        } catch (Exception e) {
             log.error(Messages.EXCEPTION_TASK_CREATION + Messages.SEPARATOR + e.getMessage());
         }
 
-        initializeForm(taskForm, model);
+        refreshForm(taskForm, model);
 
         return Parameters.WEB_CONTROLLER_TASK;
 
     }
+
+    @Transactional
+    private void saveTask(TaskForm taskForm, Task task) {
+
+        log.info(Messages.INFO_TASK_MODIFIED);
+
+        taskMapper.form2Domain(taskForm, task);
+        Optional<Task> requiredByTaskOptional = taskRepository.findById(Long.valueOf(taskForm.getRequiredByTaskId()));
+
+        if (!requiredByTaskOptional.isPresent()) {
+            log.error(Messages.ERROR_TASK_DOES_NOT_EXIST);
+        } else {
+            Task requiredByTask = requiredByTaskOptional.get();
+            requiredByTask.requires(task);
+            taskRepository.save(requiredByTask);
+        }
+        taskRepository.save(task);
+
+        log.info(Messages.INFO_TASK_MODIFIED);
+        log.debug(task.toString());
+    }
+
 
     /**
      * @param taskId
@@ -173,47 +172,16 @@ public class TaskController extends AbstractController {
 
     /**
      * @param taskForm
-     * @param bindingResult
-     * @param model
-     * @return
-     */
-    @PostMapping(Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_SAVE)
-    public String taskSave(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            log.error(Messages.ERROR_TASK_ADD);
-            bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
-            return Parameters.WEB_CONTROLLER_TASK;
-        }
-
-        try {
-
-            Optional<Task> modifiedTaskOptional = taskRepository.findById(Long.valueOf(taskForm.getId()));
-
-            if (!modifiedTaskOptional.isPresent()) {
-                log.error(Messages.REPOSITORY_TASK_NOT_FOUND + Messages.SEPARATOR + Long.valueOf(taskForm.getId()));
-                return Parameters.WEB_CONTROLLER_TASK;
-            }
-
-            Task modifiedTask = modifiedTaskOptional.get();
-            taskMapper.form2Domain(taskForm,modifiedTask);
-            taskRepository.save(modifiedTask);
-
-            log.info(Messages.INFO_TASK_MODIFIED);
-
-        } catch (Exception e) {
-            log.error(Messages.EXCEPTION_TASK_CREATION + Messages.SEPARATOR + e.getMessage());
-        }
-        return Parameters.WEB_CONTROLLER_TASK;
-    }
-
-    /**
-     * @param taskForm
      * @return
      * @throws ParseException
      */
     private Task initializeTask(TaskForm taskForm) throws ParseException {
-        return new Task(null,
+
+
+        //TODO: Implement system common tasks
+        //return new Task(dafaultTasks,
+
+        return new Task(getMaintanceTasks(taskForm.getName()),
                 taskForm.getImportant(),
                 taskForm.getUrgent(),
                 Utilities.dateFromString(taskForm.getCreated()),
@@ -223,22 +191,36 @@ public class TaskController extends AbstractController {
                 taskForm.getDescription());
     }
 
+    private Set<Task> getMaintanceTasks(String taskName) {
+        if (Parameters.SYSTEM_SKIP_MAINTENANCE_TASKS) {
+            log.info(Messages.INFO_SKIPPING_MAINTENANCE_TASKS);
+            return new HashSet<>();
+        }
+        //TODO: Implement individual task level tasks
+        Task maintanceTaskA = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName);
+        Task maintanceTaskB = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName);
+        List<Task> maintanceTasks = Arrays.asList(maintanceTaskA, maintanceTaskB);
+        return new HashSet<>(maintanceTasks);
+    }
+
     /**
      * @param taskForm
      * @param model
      */
     private void initializeForm(TaskForm taskForm, Model model) {
 
-        model.addAttribute("allTasks", taskRepository.findAll());
-
-        taskForm.setUberTasks(taskRepository.findAll());
-
-        model.addAttribute("taskCount", taskRepository.count());
-
         taskForm.setCreated(Utilities.stringFromDate(Utilities.dateCurrent()));
-
         taskForm.setStart(Utilities.stringFromDate(Utilities.dateCurrent()));
         taskForm.setDue(Utilities.stringFromDate(Utilities.dateFuture(taskCompletionTimeDays)));
+        refreshForm(taskForm,model);
+
+    }
+
+    private void refreshForm(TaskForm taskForm, Model model) {
+
+        model.addAttribute("taskList", getTaskList());
+        taskForm.setTasks(getRequiredTaskList());
+        model.addAttribute("taskCount", taskRepository.count());
 
     }
 
@@ -250,7 +232,6 @@ public class TaskController extends AbstractController {
 
         // TODO: Date convertion - See TaskMapper - TaskMapper.INSTANCE.domain2Form(task, taskForm);
 
-        targetTaskForm.setId(sourceTask.getId());
         targetTaskForm.setName(sourceTask.getName());
         targetTaskForm.setDescription(sourceTask.getDescription());
         targetTaskForm.setUrgent(sourceTask.getUrgent());
@@ -260,4 +241,15 @@ public class TaskController extends AbstractController {
         targetTaskForm.setDue(Utilities.stringFromDate(sourceTask.getDue()));
 
     }
+
+    private Iterable<Task> getRequiredTaskList() {
+        log.error(Messages.DEV_IMLEMENT_ME + Messages.SEPARATOR + "Required task filtering");
+        return getTaskList();
+    }
+
+    private Iterable<Task> getTaskList() {
+        log.error(Messages.DEV_IMLEMENT_ME + Messages.SEPARATOR + "Form task filtering");
+        return taskRepository.findAll();
+    }
+
 }
