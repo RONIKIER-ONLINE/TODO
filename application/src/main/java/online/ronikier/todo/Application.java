@@ -7,22 +7,10 @@ import online.ronikier.todo.library.Utilities;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.audit.AuditEvent;
-import org.springframework.boot.actuate.audit.AuditEventRepository;
-import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
-import org.springframework.boot.actuate.trace.http.HttpTrace;
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 @Slf4j
 @SpringBootApplication

@@ -16,10 +16,13 @@
     <description>Task tracking system</description>
     <packaging>pom</packaging>
     <properties>
-            <java.version>11</java.version>
-            <maven.compiler.source>11</maven.compiler.source>
-            <maven.compiler.target>11</maven.compiler.target>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>4.0.2.RELEASE</spring.version>
+        <org.projectlombok.version>1.18.12</org.projectlombok.version>
+        <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
     </properties>
     <modules>
         <module>library</module>

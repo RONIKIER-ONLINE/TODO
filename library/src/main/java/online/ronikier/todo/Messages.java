@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 public class Messages {
 
     //TODO: Remove development message
-    public static final String DEV_IMLEMENT_ME = "DEV_IMLEMENT_ME";
+    public static final String DEV_IMPLEMENT_ME = "DEV_IMPLEMENT_ME";
 
     public static final String SEPARATOR = " - ";
 
@@ -46,8 +46,9 @@ public class Messages {
     public static final String ERROR_TASK_DOES_NOT_EXIST = "ERROR_TASK_DOES_NOT_EXIST";
 
     public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
-    public static final String INFO_TASK_EXISTS = "INFO_TASK_EXISTS";
+    public static final String INFO_TASK_NOT_FOUND = "INFO_TASK_NOT_FOUND";
     public static final String INFO_TASK_CREATED = "INFO_TASK_CREATED";
+    public static final String INFO_TASK_EXISTS = "INFO_TASK_EXISTS";
     public static final String INFO_TASK_MODIFIED = "INFO_TASK_MODIFIED";
     public static final String INFO_TASK_DELETING = "INFO_TASK_DELETING";
     public static final String INFO_SKIPPING_MAINTENANCE_TASKS = "INFO_SKIPPING_MAINTENANCE_TASKS";
@@ -66,4 +67,5 @@ public class Messages {
 
     public static final String SERVICE_RESPONSE_404_TASK = "SERVICE_RESPONSE_404_TASK";
 
+    public static final String DEBUG_MESSAGE_PREFIX = "DEBUG_MESSAGE_PREFIX";
 }

@@ -1,7 +1,7 @@
 package online.ronikier.todo.domain;
 
 import lombok.*;
-import online.ronikier.todo.domain.base.AbstractEntity;
+import online.ronikier.todo.templete.SuperEntity;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @NodeEntity
-public class Task extends AbstractEntity {
+public class Task extends SuperEntity {
 
     @Relationship(type = "REQUIRES")
     protected Set<Task> requiredTasks;
@@ -45,7 +45,7 @@ public class Task extends AbstractEntity {
         getRequiredTasks().add(task);
     }
 
-
+    @Override
     public String toString() {
         return "'" + this.name + "' requires: " +
                 Optional.ofNullable(this.getRequiredTasks()).orElse(Collections.emptySet())

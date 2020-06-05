@@ -1,5 +1,9 @@
 package online.ronikier.todo.library;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Parameters {
 
     public static final int SYSTEM_VERSION_MAJOR = 0;

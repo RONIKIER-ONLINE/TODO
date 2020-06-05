@@ -39,4 +39,9 @@ public class Utilities {
         return getDateFormat().format(date);
     }
 
+    public static String wrapString(String string) {
+        if (string == null) return null;
+        return "'" + string + "'";
+    }
+
 }
