@@ -138,11 +138,30 @@
                     <tr>
                     </tr>
                     <td class="rightLabel"></td>
-                    <td class="left">
-                        <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE TASK
-                        </button>
-                    </td>
+                        <td class="left">
+                            <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE TASK
+                            </button>
+                        </td>
                     </tr>
+                    <div th:if="${not #lists.isEmpty(tasksRequiredTasks)}">
+                        </tr>
+                            <td class="rightLabel">
+                                &nbsp;
+                            </td>
+                            <td class="left">
+                                <table border="0" align="center" th:each="tasksRequiredTask : *{tasksRequiredTasks}" width="100%">
+                                    <tr>
+                                        <td>
+                                            <li>
+                                                <a th:href="@{'/task/' + ${tasksRequiredTask.id}}"/>
+                                                <label th:text="${tasksRequiredTask.name}"></label>
+                                            </li>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </div>
                 </table>
             </form>
         </td>
@@ -180,7 +199,6 @@
                                     </td>
                                 </tr>
                             </table>
-
                         </td>
                     </tr>
                     </div>

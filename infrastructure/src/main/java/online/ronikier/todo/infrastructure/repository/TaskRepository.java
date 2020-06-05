@@ -1,4 +1,4 @@
-package online.ronikier.todo.infrastructure;
+package online.ronikier.todo.infrastructure.repository;
 
 import online.ronikier.todo.domain.Task;
 import org.springframework.data.repository.CrudRepository;

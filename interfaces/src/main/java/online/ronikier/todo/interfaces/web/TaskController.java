@@ -3,10 +3,11 @@ package online.ronikier.todo.interfaces.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.ImportantTask;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.exception.DataException;
 import online.ronikier.todo.domain.forms.TaskForm;
-import online.ronikier.todo.infrastructure.TaskRepository;
+import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.interfaces.base.AbstractController;
 import online.ronikier.todo.interfaces.mappers.TaskMapper;
 import online.ronikier.todo.library.Parameters;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -40,6 +42,9 @@ public class TaskController extends AbstractController {
     @Autowired
     private Set<Task> dafaultTasks;
 
+    @Autowired
+    private Task devTask;
+
     private final TaskRepository taskRepository;
 
     private final TaskMapper taskMapper;
@@ -55,6 +60,20 @@ public class TaskController extends AbstractController {
         registry.addViewController("/" + Parameters.WEB_CONTROLLER_TASK).setViewName(Parameters.WEB_CONTROLLER_TASK);
         registry.addViewController("/" + Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE).setViewName(Parameters.WEB_CONTROLLER_TASK);
     }
+
+    @PostMapping(Parameters.DEV_WEB_CONTROLLER_PATH)
+    public String devPost(@ModelAttribute Task task, Model model) {
+        model.addAttribute("task", task);
+        return "dev";
+
+    }
+
+    @GetMapping(Parameters.DEV_WEB_CONTROLLER_PATH)
+    public String devGet(Model model) {
+        model.addAttribute("task", devTask);
+        return "dev";
+    }
+
 
     /**
      * @param taskForm
@@ -88,6 +107,10 @@ public class TaskController extends AbstractController {
         initializeForm(taskForm, model);
 
         updateForm(taskForm, selectedTask);
+
+        model.addAttribute("tasksRequiredTasks", getRequiredTaskList(selectedTask.getId()));
+
+        refreshForm(taskForm, model);
 
         return Parameters.WEB_CONTROLLER_TASK;
     }
@@ -197,9 +220,10 @@ public class TaskController extends AbstractController {
             return new HashSet<>();
         }
         //TODO: Implement individual task level tasks
-        Task maintanceTaskA = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName);
-        Task maintanceTaskB = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName);
-        List<Task> maintanceTasks = Arrays.asList(maintanceTaskA, maintanceTaskB);
+        ImportantTask maintanceTaskA = new ImportantTask();
+        //ImportantTask maintanceTaskA = new ImportantTask(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName);
+        //ImportantTask maintanceTaskB = new ImportantTask(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName);
+        List<Task> maintanceTasks = Arrays.asList(maintanceTaskA);
         return new HashSet<>(maintanceTasks);
     }
 
@@ -219,9 +243,8 @@ public class TaskController extends AbstractController {
     private void refreshForm(TaskForm taskForm, Model model) {
 
         model.addAttribute("taskList", getTaskList());
-        taskForm.setTasks(getRequiredTaskList());
+        taskForm.setTasks(getTaskList());
         model.addAttribute("taskCount", taskRepository.count());
-
     }
 
     /**
@@ -242,9 +265,10 @@ public class TaskController extends AbstractController {
 
     }
 
-    private Iterable<Task> getRequiredTaskList() {
+    private Iterable<Task> getRequiredTaskList(Long taskId) {
         log.error(Messages.DEV_IMLEMENT_ME + Messages.SEPARATOR + "Required task filtering");
-        return getTaskList();
+        if (taskId == null) return null;
+        return taskRepository.findById(taskId).get().getRequiredTasks();
     }
 
     private Iterable<Task> getTaskList() {

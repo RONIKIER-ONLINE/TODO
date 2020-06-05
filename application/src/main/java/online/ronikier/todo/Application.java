@@ -2,7 +2,7 @@ package online.ronikier.todo;
 
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.domain.Task;
-import online.ronikier.todo.infrastructure.TaskRepository;
+import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +14,7 @@ import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -35,6 +36,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    @Profile("dev,google")
     @Bean
     CommandLineRunner initialize(TaskRepository taskRepository) {
         return args -> {
@@ -42,10 +44,11 @@ public class Application {
             if (setupInitializeDatabase) {
                 log.info(Messages.INFO_INITIALISING_DATABASE);
                 taskRepository.deleteAll();
-                Task millionDollarTask = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars");
-                taskRepository.save(millionDollarTask);
-
             }
+
+            Task millionDollarTask = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars");
+            taskRepository.save(millionDollarTask);
+
         };
     }
 }

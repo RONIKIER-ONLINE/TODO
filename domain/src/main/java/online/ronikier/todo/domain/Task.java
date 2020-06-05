@@ -18,25 +18,25 @@ import java.util.stream.Collectors;
 public class Task extends AbstractEntity {
 
     @Relationship(type = "REQUIRES")
-    private Set<Task> requiredTasks;
+    protected Set<Task> requiredTasks;
     @NonNull
-    private Boolean important;
+    protected Boolean important;
     @NonNull
-    private Boolean urgent;
+    protected Boolean urgent;
 //    @NonNull
 //    @Past
-    private Date created;
+    protected Date created;
 //    @NonNull
-    private Date start;
+    protected Date start;
 //    @NonNull
 //    @Future
-    private Date due;
+    protected Date due;
     @NonNull
     @Size(max = 30)
-    private String name;
-    @NonNull
+    protected String name;
+    //@NonNull
     @Size(max = 200)
-    private String description;
+    protected String description;
 
     public void requires(Task task) {
         if (getRequiredTasks() == null) {

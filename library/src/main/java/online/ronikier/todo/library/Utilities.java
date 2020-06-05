@@ -38,4 +38,5 @@ public class Utilities {
         if (date == null) return null;
         return getDateFormat().format(date);
     }
+
 }

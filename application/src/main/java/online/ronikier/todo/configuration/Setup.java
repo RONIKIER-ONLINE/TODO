@@ -24,8 +24,14 @@ public class Setup {
         //TODO: Identify tasks by name to have single references (currently duplicates after restsrt)
         Task initializationTask = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task");
         Task completionTask = new Task(null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task");
+        Task completionTask2 = new Task(null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task");
         List<Task> dafaultTasks = Arrays.asList(initializationTask, completionTask);
         return new HashSet<>(dafaultTasks);
+    }
+
+    @Bean
+    public static Task devTask() {
+        return new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task");
     }
 
     @Bean

@@ -117,7 +117,7 @@ public class TaskForm extends AbstractForm {
         getTask().setName(name);
     }
 
-    @NotEmpty(message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY)
+    //@NotEmpty(message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY)
     @Size(max = Parameters.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX, message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX)
     public String getDescription() {
         return getTask().getDescription();
@@ -159,4 +159,5 @@ public class TaskForm extends AbstractForm {
     public void setTask(Task task) {
         this.task = task;
     }
+
 }
