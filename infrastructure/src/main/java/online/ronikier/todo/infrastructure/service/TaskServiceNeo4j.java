@@ -26,6 +26,7 @@ public class TaskServiceNeo4j implements TaskService {
     }
 
     @Cacheable("TASKS_BY_ID")
+    @Override
     public Optional<Task> findTaskById(Long taskId) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING TASK " + taskId);
         Optional<Task> taskOptional = taskRepository.findById(taskId);
@@ -35,16 +36,19 @@ public class TaskServiceNeo4j implements TaskService {
     }
 
     @Cacheable("TASKS_BY_NAME")
+    @Override
     public Task findTaskByName(String taskName) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING TASK " + Utilities.wrapString(taskName));
         return taskRepository.findByName(taskName);
     }
 
+    @Override
     public void saveTask(Task task) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "SAVING TASK " + Utilities.wrapString(task.toString()));
         taskRepository.save(task);
     }
 
+    @Override
     public void deleteTaskById(Long taskId) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "BUSTIN' TASK " + taskId);
         taskRepository.deleteById(taskId);
@@ -52,10 +56,12 @@ public class TaskServiceNeo4j implements TaskService {
 
     }
 
+    @Override
     public Long countTasks() {
         return taskRepository.count();
     }
 
+    @Override
     public Iterable<Task> allTasks() {
         return taskRepository.findAll();
     }
@@ -63,8 +69,8 @@ public class TaskServiceNeo4j implements TaskService {
     @Override
     public Set<Task> getMaintanceTasks(String taskName) {
         //TODO: Implement individual task level tasks
-        Task maintanceTaskA = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName);
-        Task maintanceTaskB = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName);
+        Task maintanceTaskA = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName, null);
+        Task maintanceTaskB = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName, null);
         List<Task> maintanceTasks = Arrays.asList(maintanceTaskA,maintanceTaskB);
         return new HashSet<>(maintanceTasks);
     }

@@ -5,7 +5,6 @@ A {
 	text-align:left;
 	vertical-align: top;
 	font-weight: bold;
-	height=10px;
 	color: #666666;
 	text-decoration:none;
 }
@@ -14,7 +13,6 @@ A:hover {
 	text-align:left;
 	vertical-align: top;
 	font-weight: bold;
-	height=10px;
 	color: red;
 	text-decoration:underline;
 }
@@ -118,6 +116,23 @@ TD.tableFieldDarkRight {
 	background-color: #eef5ff;
 	verical-align: top;
 }
+
+TD.knowsSomething {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    text-align:left;
+    vertical-align: top;
+    font-style : italic;
+    color: blue;
+}
+
+A.knowsSomething {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    text-align:left;
+    vertical-align: top;
+    font-style : italic;
+    color: blue;
+}
+
 /* =========================================================== */
 
 /* ===================== Form fields ===================== */

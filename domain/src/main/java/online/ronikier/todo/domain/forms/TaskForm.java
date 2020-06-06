@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
+import online.ronikier.todo.templete.SuperForm;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -16,15 +18,17 @@ import java.text.ParseException;
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskForm {
+public class TaskForm extends SuperForm {
 
     private Task task;
-
-    private String action;
 
     private String requiredByTaskId;
 
     private Iterable<Task> tasks;
+
+    private String personId;
+
+    private Iterable<Person> persons;
 
     @NotNull(message = Messages.FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL)
     public Boolean getImportant() {
@@ -119,6 +123,15 @@ public class TaskForm {
         this.requiredByTaskId = requiredByTaskId;
     }
 
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+
     public Iterable<Task> getTasks() {
         return tasks;
     }
@@ -136,4 +149,11 @@ public class TaskForm {
         this.task = task;
     }
 
+    public Iterable<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(Iterable<Person> persons) {
+        this.persons = persons;
+    }
 }

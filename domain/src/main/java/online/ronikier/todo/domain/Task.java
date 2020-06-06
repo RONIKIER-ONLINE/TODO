@@ -38,6 +38,8 @@ public class Task extends SuperEntity {
     @Size(max = 200)
     protected String description;
 
+    protected Person person;
+
     public void requires(Task task) {
         if (getRequiredTasks() == null) {
             setRequiredTasks(new HashSet<>());

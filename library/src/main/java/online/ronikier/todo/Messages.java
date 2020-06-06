@@ -37,13 +37,17 @@ public class Messages {
     public static final String TYPE_ORGANISATION_COMPANY = "TYPE_ORGANISATION_COMPANY";
 
     public static final String EXCEPTION_TASK_CREATION = "EXCEPTION_TASK_CREATION";
+    public static final String EXCEPTION_PERSON_CREATION = "EXCEPTION_PERSON_CREATION";
+
     public static final String EXCEPTION_TASK_DATE_PARSE = "EXCEPTION_TASK_DATE_PARSE";
 
     public static final String ERROR_TASK_ADD = "ERROR_TASK_ADD";
-
-    public static final String ERROR_PAREMETER_NAME_EMPTY = "ERROR_PAREMETER_NAME_EMPTY";
-
+    public static final String ERROR_PARAMETER_NAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
     public static final String ERROR_TASK_DOES_NOT_EXIST = "ERROR_TASK_DOES_NOT_EXIST";
+
+    public static final String ERROR_PERSON_ADD = "ERROR_PERSON_ADD";
+    public static final String ERROR_PARAMETER_USERNAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
+    public static final String ERROR_PERSON_DOES_NOT_EXIST = "ERROR_PERSON_DOES_NOT_EXIST";
 
     public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
     public static final String INFO_TASK_NOT_FOUND = "INFO_TASK_NOT_FOUND";
@@ -63,7 +67,17 @@ public class Messages {
     public static final String FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX = "FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX";
     public static final String FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY = "FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY";
 
+    public static final String FORM_PERSON_VALIDATION_USERNAME_NOT_EMPTY = "FORM_PERSON_VALIDATION_NAME_NOT_EMPTY";
+    public static final String FORM_PERSON_VALIDATION_USERNAME_SIZE_MAX = "FORM_PERSON_VALIDATION_NAME_SIZE_MAX";
+
+    public static final String INFO_PERSON_NOT_FOUND = "INFO_PERSON_NOT_FOUND";
+    public static final String INFO_PERSON_CREATED = "INFO_PERSON_CREATED";
+    public static final String INFO_PERSON_EXISTS = "INFO_PERSON_EXISTS";
+    public static final String INFO_PERSON_MODIFIED = "INFO_PERSON_MODIFIED";
+    public static final String INFO_PERSON_DELETING = "INFO_PERSON_DELETING";
+
     public static final String REPOSITORY_TASK_NOT_FOUND = "REPOSITORY_TASK_NOT_FOUND";
+    public static final String REPOSITORY_PERSON_NOT_FOUND = "REPOSITORY_PERSON_NOT_FOUND";
 
     public static final String SERVICE_RESPONSE_404_TASK = "SERVICE_RESPONSE_404_TASK";
 

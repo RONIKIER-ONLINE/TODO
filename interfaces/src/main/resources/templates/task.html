@@ -9,13 +9,8 @@
 </head>
 <body>
 
-<center>
-    <button class="buttonShort" id="taskButton">TASK INFO</button>
-</center>
-
 <!-- The Modal -->
 <div class="modal" id="taskInfoDialog">
-
     <div class="taskInfoDialog">
         <span class="close">&times;</span>
         <table>
@@ -25,7 +20,6 @@
             </tr>
         </table>
     </div>
-
 </div>
 
 <script>
@@ -38,24 +32,16 @@
         document.getElementById("taskName").value = taskName;
         document.getElementById("taskName").onchange = function() {
             document.getElementById("taskDescription").value = '';
+            document.getElementById("taskInfoDialog").style.display = "none";
         };
+        document.getElementById("taskInfoDialog").style.display = "block";
     };
-
-
 
     // Get the modal
     var modal = document.getElementById("taskInfoDialog");
 
-    // Get the button that opens the modal
-    var taskButton = document.getElementById("taskButton");
-
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the button, open the modal
-    taskButton.onclick = function() {
-      modal.style.display = "block";
-    }
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
@@ -96,6 +82,7 @@
                         <td class="rightLabel">Required by:</td>
                         <td class="left">
                             <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{requiredByTaskId}">
+                                <option value="none">none</option>
                                 <option th:each="task : *{tasks}" th:text="${task.name}"
                                         th:value="${task.id}"></option>
                             </select>
@@ -136,15 +123,24 @@
                         <td class="error" th:errors="*{due}" th:if="${#fields.hasErrors('due')}">Due Error</td>
                     </tr>
                     <tr>
+                        <td class="rightLabel">Responsible:</td>
+                        <td class="left">
+                            <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{personId}">
+                                <option value="none">none</option>
+                                <option th:each="person : *{persons}" th:text="${person.username}"
+                                        th:value="${person.id}"></option>
+                            </select>
+                        </td>
+                        <td><a href="/person">Personnel</a></td>
                     </tr>
+                    <tr>
                     <td class="rightLabel"></td>
                         <td class="left">
-                            <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE TASK
-                            </button>
+                            <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE TASK</button>
                         </td>
                     </tr>
                     <div th:if="${not #lists.isEmpty(tasksRequiredTasks)}">
-                        </tr>
+                        <tr>
                             <td class="rightLabel">
                                 &nbsp;
                             </td>

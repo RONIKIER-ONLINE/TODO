@@ -22,15 +22,15 @@ public class Setup {
     @Bean
     public static Set<Task> dafaultTasks() {
         //TODO: Identify tasks by name to have single references (currently duplicates after restsrt)
-        Task initializationTask = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task");
-        Task completionTask = new Task(null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task");
+        Task initializationTask = new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task",null);
+        Task completionTask = new Task(null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task",null);
         List<Task> dafaultTasks = Arrays.asList(initializationTask, completionTask);
         return new HashSet<>(dafaultTasks);
     }
 
     @Bean
     public static Task devTask() {
-        return new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task");
+        return new Task(null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task",null);
     }
 
     @Bean
@@ -76,4 +76,5 @@ public class Setup {
             }
         };
     }
+
 }

@@ -1,6 +1,7 @@
 package online.ronikier.todo.infrastructure.service;
 
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.templete.SuperService;
 
 import java.util.Optional;
 import java.util.Set;
@@ -8,12 +9,7 @@ import java.util.Set;
 /**
  *
  */
-public interface TaskService {
-    /**
-     *
-     * @return
-     */
-    public String kill();
+public interface TaskService extends SuperService {
 
     /**
      *

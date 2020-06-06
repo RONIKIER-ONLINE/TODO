@@ -3,8 +3,10 @@ package online.ronikier.todo.interfaces.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.forms.TaskForm;
+import online.ronikier.todo.infrastructure.service.PersonService;
 import online.ronikier.todo.infrastructure.service.TaskService;
 import online.ronikier.todo.interfaces.mappers.TaskMapper;
 import online.ronikier.todo.library.Parameters;
@@ -42,6 +44,8 @@ public class TaskController extends SuperController {
     private final TaskService taskService;
 
     private final TaskMapper taskMapper;
+
+    private final PersonService personService;
 
     @Value("${task.completion.time.days:7}")
     private Integer taskCompletionTimeDays;
@@ -136,14 +140,16 @@ public class TaskController extends SuperController {
     private void saveTask(TaskForm taskForm, Task task) {
         log.info(Messages.INFO_TASK_MODIFIED);
         taskMapper.form2Domain(taskForm, task);
-        Optional<Task> requiredByTaskOptional = taskService.findTaskById(Long.valueOf(taskForm.getRequiredByTaskId()));
-        if (!requiredByTaskOptional.isPresent()) {
-            log.error(Messages.ERROR_TASK_DOES_NOT_EXIST);
-        } else {
-            Task requiredByTask = requiredByTaskOptional.get();
-            requiredByTask.requires(task);
-            taskService.saveTask(task);
-            taskService.saveTask(requiredByTask);
+        taskService.saveTask(task);
+        if (taskForm.getRequiredByTaskId() != null && !taskForm.getRequiredByTaskId().equals("none")) {
+            Optional<Task> requiredByTaskOptional = taskService.findTaskById(Long.valueOf(taskForm.getRequiredByTaskId()));
+            if (!requiredByTaskOptional.isPresent()) {
+                log.error(Messages.ERROR_TASK_DOES_NOT_EXIST);
+            } else {
+                Task requiredByTask = requiredByTaskOptional.get();
+                requiredByTask.requires(task);
+                taskService.saveTask(requiredByTask);
+            }
         }
         log.info(Messages.INFO_TASK_MODIFIED);
         log.debug(task.toString());
@@ -161,6 +167,7 @@ public class TaskController extends SuperController {
         log.info(Messages.INFO_TASK_DELETING);
         taskService.deleteTaskById(taskId);
         initializeForm(taskForm, model);
+        model.addAttribute("tasksRequiredTasks", null);
         return Parameters.WEB_CONTROLLER_TASK;
     }
 
@@ -181,7 +188,8 @@ public class TaskController extends SuperController {
                 Utilities.dateFromString(taskForm.getStart()),
                 Utilities.dateFromString(taskForm.getDue()),
                 taskForm.getName(),
-                taskForm.getDescription());
+                taskForm.getDescription(),
+                null);
     }
 
     private Set<Task> appendMaintanceTasks(String taskName) {
@@ -231,7 +239,12 @@ public class TaskController extends SuperController {
     private void refreshForm(TaskForm taskForm, Model model) {
         model.addAttribute("taskList", getTaskList());
         taskForm.setTasks(getTaskList());
+        taskForm.setPersons(getPersonList());
         model.addAttribute("taskCount", taskService.countTasks());
+    }
+
+    private Iterable<Person> getPersonList() {
+        return personService.allPersons();
     }
 
     /**
@@ -240,15 +253,15 @@ public class TaskController extends SuperController {
      */
     private void updateForm(TaskForm targetTaskForm, Task sourceTask) {
 
-        // TODO: Date convertion - See TaskMapper - TaskMapper.INSTANCE.domain2Form(task, taskForm);
+        taskMapper.domain2Form(sourceTask, targetTaskForm);
 
-        targetTaskForm.setName(sourceTask.getName());
-        targetTaskForm.setDescription(sourceTask.getDescription());
-        targetTaskForm.setUrgent(sourceTask.getUrgent());
-        targetTaskForm.setImportant(sourceTask.getImportant());
-        targetTaskForm.setCreated(Utilities.stringFromDate(sourceTask.getCreated()));
-        targetTaskForm.setStart(Utilities.stringFromDate(sourceTask.getStart()));
-        targetTaskForm.setDue(Utilities.stringFromDate(sourceTask.getDue()));
+//        targetTaskForm.setName(sourceTask.getName());
+//        targetTaskForm.setDescription(sourceTask.getDescription());
+//        targetTaskForm.setUrgent(sourceTask.getUrgent());
+//        targetTaskForm.setImportant(sourceTask.getImportant());
+//        targetTaskForm.setCreated(Utilities.stringFromDate(sourceTask.getCreated()));
+//        targetTaskForm.setStart(Utilities.stringFromDate(sourceTask.getStart()));
+//        targetTaskForm.setDue(Utilities.stringFromDate(sourceTask.getDue()));
 
     }
 }
