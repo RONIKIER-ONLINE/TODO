@@ -56,4 +56,5 @@ public interface PersonService extends SuperService {
      */
     Iterable<Person> personsKnownPersons(Long personId);
 
+    Person getSuperPerson();
 }

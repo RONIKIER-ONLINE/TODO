@@ -1,5 +1,6 @@
 package online.ronikier.todo.configuration;
 
+import online.ronikier.todo.domain.Person;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,8 @@ public class Neo4JConfiguration {
         return new org.neo4j.ogm.config.Configuration.Builder()
                 .uri("bolt://"+ setupNeo4jHost + ":7687")
                 .credentials(setupNeo4jUsername, setupNeo4jPassword)
+                //.database("TODO_PROD")
                 .build();
     }
+
 }

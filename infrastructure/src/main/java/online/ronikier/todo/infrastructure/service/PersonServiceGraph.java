@@ -6,7 +6,9 @@ import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.infrastructure.repository.PersonRepository;
 import online.ronikier.todo.library.Utilities;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,7 +16,7 @@ import java.util.*;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PersonServiceNeo4j implements PersonService {
+public class PersonServiceGraph implements PersonService {
 
     private final PersonRepository personRepository;
 
@@ -56,21 +58,35 @@ public class PersonServiceNeo4j implements PersonService {
 
     @Override
     public Long countPersons() {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "COUNTING PERSONS");
         return personRepository.count();
     }
 
     @Override
     public Iterable<Person> allPersons() {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "GETTING PERSONS");
         return personRepository.findAll();
     }
 
     @Override
     public Iterable<Person> personsKnownPersons(Long personId) {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "GETTING KNOWN PERSONS");
         Optional<Person> personsKnownPersons = findPersonById(personId);
         if (personsKnownPersons.isPresent()) {
             return personsKnownPersons.get().getKnownPersons();
         }
         return null;
+    }
+
+
+    public static final String SUPER_HERO = "Supper Lukanio";
+
+    @Override
+    public Person getSuperPerson() {
+        if (personRepository.findByUsername(SUPER_HERO) != null) {
+            return personRepository.findByUsername(SUPER_HERO);
+        }
+        return new Person(SUPER_HERO);
     }
 
 }

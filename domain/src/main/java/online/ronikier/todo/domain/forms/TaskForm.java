@@ -1,6 +1,7 @@
 package online.ronikier.todo.domain.forms;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
@@ -15,10 +16,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.ParseException;
 
+@Data
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskForm extends SuperForm {
+
+    private Boolean showDialog;
+
+    private Boolean showTasks;
+
+    private Boolean clearDescription;
 
     private Task task;
 
@@ -107,53 +115,9 @@ public class TaskForm extends SuperForm {
         getTask().setDescription(description);
     }
 
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getRequiredByTaskId() {
-        return requiredByTaskId;
-    }
-
-    public void setRequiredByTaskId(String requiredByTaskId) {
-        this.requiredByTaskId = requiredByTaskId;
-    }
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-
-    public Iterable<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Iterable<Task> tasks) {
-        this.tasks = tasks;
-    }
-
     public Task getTask() {
         if (task == null) task = new Task();
         return task;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
-    public Iterable<Person> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(Iterable<Person> persons) {
-        this.persons = persons;
-    }
 }

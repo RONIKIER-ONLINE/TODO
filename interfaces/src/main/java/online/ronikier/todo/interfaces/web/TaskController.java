@@ -14,6 +14,7 @@ import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,7 +67,7 @@ public class TaskController extends SuperController {
 
     }
 
-    @GetMapping(Parameters.DEV_WEB_CONTROLLER_PATH)
+    @GetMapping(value = Parameters.DEV_WEB_CONTROLLER_PATH, produces = "text/html")
     public String devGet(Model model) {
         model.addAttribute("task", devTask);
         return "dev";
@@ -78,7 +79,7 @@ public class TaskController extends SuperController {
      * @param model
      * @return
      */
-    @GetMapping(Parameters.WEB_CONTROLLER_TASK)
+    @GetMapping(value = Parameters.WEB_CONTROLLER_TASK, produces = "text/html")
     public String task(TaskForm taskForm, Model model) {
         initializeForm(taskForm, model);
         return Parameters.WEB_CONTROLLER_TASK;
@@ -90,7 +91,7 @@ public class TaskController extends SuperController {
      * @param model
      * @return
      */
-    @GetMapping(Parameters.WEB_CONTROLLER_TASK + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}")
+    @GetMapping(value = Parameters.WEB_CONTROLLER_TASK + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}", produces = "text/html")
     public String taskShow(@PathVariable(name = Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID, required = false) Long taskId, TaskForm taskForm, Model model) {
         Optional<Task> optionalTask = taskService.findTaskById(taskId);
         if (!optionalTask.isPresent()) {
@@ -137,32 +138,13 @@ public class TaskController extends SuperController {
         return Parameters.WEB_CONTROLLER_TASK;
     }
 
-    private void saveTask(TaskForm taskForm, Task task) {
-        log.info(Messages.INFO_TASK_MODIFIED);
-        taskMapper.form2Domain(taskForm, task);
-        taskService.saveTask(task);
-        if (taskForm.getRequiredByTaskId() != null && !taskForm.getRequiredByTaskId().equals("none")) {
-            Optional<Task> requiredByTaskOptional = taskService.findTaskById(Long.valueOf(taskForm.getRequiredByTaskId()));
-            if (!requiredByTaskOptional.isPresent()) {
-                log.error(Messages.ERROR_TASK_DOES_NOT_EXIST);
-            } else {
-                Task requiredByTask = requiredByTaskOptional.get();
-                requiredByTask.requires(task);
-                taskService.saveTask(requiredByTask);
-            }
-        }
-        log.info(Messages.INFO_TASK_MODIFIED);
-        log.debug(task.toString());
-    }
-
-
     /**
      * @param taskId
      * @param taskForm
      * @param model
      * @return
      */
-    @GetMapping(Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}")
+    @GetMapping(value = Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}", produces = "text/html")
     public String taskDelete(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
         log.info(Messages.INFO_TASK_DELETING);
         taskService.deleteTaskById(taskId);
@@ -172,6 +154,48 @@ public class TaskController extends SuperController {
     }
 
     /**
+     *
+     * @param taskForm
+     * @param task
+     */
+    private void saveTask(TaskForm taskForm, Task task) {
+        log.info(Messages.INFO_TASK_MODIFIED);
+        taskMapper.form2Domain(taskForm, task);
+
+        assignResponsible(taskForm, task);
+
+        taskService.saveTask(task);
+        if (taskForm.getRequiredByTaskId() != null && !taskForm.getRequiredByTaskId().equals("none")) {
+            Optional<Task> requiredByTaskOptional = taskService.findTaskById(Long.valueOf(taskForm.getRequiredByTaskId()));
+            if (!requiredByTaskOptional.isPresent()) {
+                log.error(Messages.ERROR_TASK_DOES_NOT_EXIST);
+            } else {
+                Task requiredByTask = requiredByTaskOptional.get();
+                requiredByTask.requires(task);
+                taskService.saveTask(requiredByTask);
+
+            }
+        }
+        log.info(Messages.INFO_TASK_MODIFIED);
+        log.debug(task.toString());
+    }
+
+    /**
+     *
+     * @param taskForm
+     * @param task
+     */
+    private void assignResponsible(TaskForm taskForm, Task task) {
+        Optional<Person> responsibleOptional = personService.findPersonById(Long.valueOf(taskForm.getPersonId()));
+        if (responsibleOptional.isPresent()) {
+            task.isDoneBy(responsibleOptional.get());
+            log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + task + Messages.SEPARATOR + responsibleOptional.get());
+        }
+    }
+
+
+    /**
+     *
      * @param taskForm
      * @return
      * @throws ParseException
@@ -182,6 +206,7 @@ public class TaskController extends SuperController {
         //return new Task(dafaultTasks,
 
         return new Task(appendMaintanceTasks(taskForm.getName()),
+                null,
                 taskForm.getImportant(),
                 taskForm.getUrgent(),
                 Utilities.dateFromString(taskForm.getCreated()),
@@ -192,6 +217,11 @@ public class TaskController extends SuperController {
                 null);
     }
 
+    /**
+     *
+     * @param taskName
+     * @return
+     */
     private Set<Task> appendMaintanceTasks(String taskName) {
         if (Parameters.SYSTEM_SKIP_MAINTENANCE_TASKS) {
             log.info(Messages.INFO_SKIPPING_MAINTENANCE_TASKS);
@@ -241,13 +271,17 @@ public class TaskController extends SuperController {
         taskForm.setTasks(getTaskList());
         taskForm.setPersons(getPersonList());
         model.addAttribute("taskCount", taskService.countTasks());
+        model.addAttribute("showFcknDialog", taskForm.getShowDialog());
+
     }
 
     private Iterable<Person> getPersonList() {
+
         return personService.allPersons();
     }
 
     /**
+     *
      * @param targetTaskForm
      * @param sourceTask
      */
@@ -264,4 +298,5 @@ public class TaskController extends SuperController {
 //        targetTaskForm.setDue(Utilities.stringFromDate(sourceTask.getDue()));
 
     }
+
 }

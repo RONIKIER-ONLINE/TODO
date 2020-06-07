@@ -31,23 +31,7 @@ TD.rightTop {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:right;vertical-align: top;
 	height=10px;
 }
-TD.rightLabel {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:right;vertical-align: top;
-	font-color: red;
-	font-weight: bold;
-	height=10px;
-	border-top: 4px solid #FFFFFF;
 
-}
-
-TD.leftValue {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;vertical-align: top;
-	font-color: silver;
-	font-weight: bold;
-	height=10px;
-	border-top: 4px solid #FFFFFF;
-
-}
 
 TD.taskListTaskName {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
@@ -75,6 +59,54 @@ TD.error {
 	color: red;
 	vertical-align: top;
 }
+
+TD.Personnel {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	vertical-align: middle;
+	font-weight: bold;
+	height=10px;
+	color: #666666;
+	padding: 5pt 5pt 5pt 7pt;
+}
+
+TD.rightLabel {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: middle;
+	font-weight: bold;
+	height=10px;
+	color: #666666;
+	padding: 0pt 0pt 0pt 0pt;
+}
+
+TD.rightLabelDescription {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: top;
+	font-weight: bold;
+	height=10px;
+	color: #666666;
+	padding: 3pt 0pt 0pt 0pt;
+}
+
+TD.rightCheckbox {
+   text-align:right;
+   vertical-align: middle;
+   padding: 0pt 0pt 0pt 0pt;
+}
+
+TD.leftValue {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	//vertical-align: top;
+  	vertical-align: middle;
+   	font-weight: bold;
+   	height=10px;
+    color: #666666;
+    padding: 0pt 0pt 0pt 5pt;
+}
+
 TD.center {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:center;
 	height=10px;

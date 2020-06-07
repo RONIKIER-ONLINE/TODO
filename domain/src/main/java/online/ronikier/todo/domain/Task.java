@@ -9,8 +9,8 @@ import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//@ToString // 500 java.lang.StackOverflowError: null - requiredTasks processing ???
 @Data
-//@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -19,6 +19,8 @@ public class Task extends SuperEntity {
 
     @Relationship(type = "REQUIRES")
     protected Set<Task> requiredTasks;
+    @Relationship(type = "IS DONE BY")
+    protected Set<Person> responsible;
     @NonNull
     protected Boolean important;
     @NonNull
@@ -47,6 +49,13 @@ public class Task extends SuperEntity {
         getRequiredTasks().add(task);
     }
 
+    public void isDoneBy(Person person) {
+        if (getResponsible() == null) {
+            setResponsible(new HashSet<>());
+        }
+        getResponsible().add(person);
+    }
+
     @Override
     public String toString() {
         return "'" + this.name + "' requires: " +
@@ -63,7 +72,11 @@ public class Task extends SuperEntity {
         return requiredTasks;
     }
 
-    public void setRequiredTasks(Set<Task> requiredTasks) {
-        this.requiredTasks = requiredTasks;
+    public Set<Person> getResponsible() {
+        if (responsible == null) {
+            setResponsible(new HashSet<>());
+        }
+        return responsible;
     }
+
 }
