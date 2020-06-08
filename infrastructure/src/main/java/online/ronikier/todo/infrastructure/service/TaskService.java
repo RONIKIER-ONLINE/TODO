@@ -51,6 +51,12 @@ public interface TaskService extends SuperService {
 
     /**
      *
+     * @return
+     */
+    public Iterable<Task> filteredTasks(Task filterValues);
+
+    /**
+     *
      * @param taskName
      * @return
      */

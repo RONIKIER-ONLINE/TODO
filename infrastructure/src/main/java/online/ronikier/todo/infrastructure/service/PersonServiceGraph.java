@@ -6,9 +6,7 @@ import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.infrastructure.repository.PersonRepository;
 import online.ronikier.todo.library.Utilities;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

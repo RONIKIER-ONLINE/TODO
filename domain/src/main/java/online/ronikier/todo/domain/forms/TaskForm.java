@@ -30,9 +30,13 @@ public class TaskForm extends SuperForm {
 
     private Task task;
 
+    private Task filterTask;
+
     private String requiredByTaskId;
 
     private Iterable<Task> tasks;
+
+    private Iterable<Task> requiredTasks;
 
     private String personId;
 
@@ -120,4 +124,15 @@ public class TaskForm extends SuperForm {
         return task;
     }
 
+    public Iterable<Task> getTasksRequiredTasks() {
+        return task.getRequiredTasks();
+    }
+
+    public Iterable<Task> getRequiredTasks() {
+        return task.getRequiredTasks();
+    }
+
+//    public void setRequiredTasks(Iterable<Task> requiredTasks) {
+//        this.requiredTasks = requiredTasks;
+//    }
 }

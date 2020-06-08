@@ -251,6 +251,17 @@ public class TaskController extends SuperController {
     }
 
     /**
+     *
+     * @return
+     */
+    private Iterable<Task> getFilteredTaskList(Task filterValues) {
+        log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form task filtering");
+        return taskService.filteredTasks(filterValues);
+    }
+
+
+
+    /**
      * @param taskForm
      * @param model
      */
@@ -267,12 +278,11 @@ public class TaskController extends SuperController {
      * @param model
      */
     private void refreshForm(TaskForm taskForm, Model model) {
-        model.addAttribute("taskList", getTaskList());
+        model.addAttribute("taskList", getFilteredTaskList(taskForm.getFilterTask()));
         taskForm.setTasks(getTaskList());
         taskForm.setPersons(getPersonList());
         model.addAttribute("taskCount", taskService.countTasks());
         model.addAttribute("showFcknDialog", taskForm.getShowDialog());
-
     }
 
     private Iterable<Person> getPersonList() {
@@ -288,6 +298,8 @@ public class TaskController extends SuperController {
     private void updateForm(TaskForm targetTaskForm, Task sourceTask) {
 
         taskMapper.domain2Form(sourceTask, targetTaskForm);
+
+        targetTaskForm.setTask(sourceTask);
 
 //        targetTaskForm.setName(sourceTask.getName());
 //        targetTaskForm.setDescription(sourceTask.getDescription());

@@ -1,12 +1,11 @@
-package online.ronikier.todo.configuration;
+package online.ronikier.todo.infrastructure.configuration;
 
-import online.ronikier.todo.domain.Person;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class Neo4JConfiguration {
+public class Infrastructure {
 
     @Value("${todo.setup.neo4j.host:localhost}")
     private String setupNeo4jHost;
@@ -19,10 +18,12 @@ public class Neo4JConfiguration {
 
     @Bean
     public org.neo4j.ogm.config.Configuration configuration() {
+
+        org.neo4j.ogm.config.Configuration configuration;
+
         return new org.neo4j.ogm.config.Configuration.Builder()
                 .uri("bolt://"+ setupNeo4jHost + ":7687")
                 .credentials(setupNeo4jUsername, setupNeo4jPassword)
-                //.database("TODO_PROD")
                 .build();
     }
 

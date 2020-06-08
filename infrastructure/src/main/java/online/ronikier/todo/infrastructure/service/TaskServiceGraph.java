@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  *
@@ -68,12 +69,27 @@ public class TaskServiceGraph implements TaskService {
     }
 
     @Override
+    public Iterable<Task> filteredTasks(Task filterValues) {
+
+        //TODO: Implement filtering
+        return allTasks();
+    }
+
+    @Override
     public Iterable<Task> allTasks() {
 
         TEST_DEV();
-        return taskRepository.findAll();
-    }
 
+        Comparator<Task> taskRequiredTasksComparator = (Task tasksA, Task tasksB) -> {
+            return tasksB.getRequiredTasks().size() - tasksA.getRequiredTasks().size();
+        };
+
+        // NOTE: sorting cannot be done parallel
+        boolean PARAllEL = false;
+        return StreamSupport.stream(taskRepository.findAll().spliterator(), false).sorted(taskRequiredTasksComparator).collect(Collectors.toList());
+        // otherwise use parallel for efficiency
+
+    }
 
     @Override
     public Set<Task> getMaintanceTasks(String taskName) {
@@ -87,7 +103,7 @@ public class TaskServiceGraph implements TaskService {
     @Override
     public Iterable<Task> tasksRequiredTasks(Long taskId) {
 
-        Optional<Task> tasksRequiredTasks = findTaskById(taskId).filter(task -> task.getName().contains("A"));
+        Optional<Task> tasksRequiredTasks = findTaskById(taskId);
         if (tasksRequiredTasks.isPresent()) {
             return tasksRequiredTasks.get().getRequiredTasks();
         }
@@ -95,15 +111,38 @@ public class TaskServiceGraph implements TaskService {
     }
 
 
+    private void logMessage(String message) {
+        log.info(message);
+    }
+
 
     private void TEST_DEV() {
 
-        Comparator<Task> taskComparator = new Comparator<>() {
-            @Override
-            public int compare(Task taskA, Task taskB) {
-                return taskA.getDue().after(taskB.getDue()) ? 1 : 0;
-            }
+        Iterable<Task> tasks = taskRepository.findAll();
+
+        Stream.of(tasks).forEach(task -> log.info(task.toString()));
+        Stream.of(tasks).forEach(task -> log.info(task.toString()));
+
+
+        Comparator<Task> taskComparator = (Task tasksA, Task tasksB) -> {
+            return tasksB.getRequiredTasks().size() - tasksA.getRequiredTasks().size();
         };
+
+
+        log.info("=========================================================");
+        log.info("UNSORTER ================================================");
+        log.info("=========================================================");
+
+        StreamSupport.stream(tasks.spliterator(), true).forEach(task -> log.info(task.toString()));
+        log.info("=========================================================");
+        log.info("SORTED ==================================================");
+        log.info("=========================================================");
+
+        StreamSupport.stream(tasks.spliterator(), false).sorted(taskComparator).forEach(task -> log.info(task.toString()));
+
+        if(true) return;
+
+
 
         Stream.of(taskRepository.findAll()).sorted().forEach(System.out::println);
 
