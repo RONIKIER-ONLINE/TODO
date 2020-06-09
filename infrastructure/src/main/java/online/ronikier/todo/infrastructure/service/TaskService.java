@@ -47,7 +47,7 @@ public interface TaskService extends SuperService {
      *
      * @return
      */
-    public Iterable<Task> allTasks();
+    public Set<Task> allTasks();
 
     /**
      *

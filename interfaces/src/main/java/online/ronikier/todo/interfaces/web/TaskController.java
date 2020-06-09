@@ -245,7 +245,7 @@ public class TaskController extends SuperController {
      *
      * @return
      */
-    private Iterable<Task> getTaskList() {
+    private Set<Task> getTaskList() {
         log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form task filtering");
         return taskService.allTasks();
     }
@@ -285,7 +285,7 @@ public class TaskController extends SuperController {
         model.addAttribute("showFcknDialog", taskForm.getShowDialog());
     }
 
-    private Iterable<Person> getPersonList() {
+    private Set<Person> getPersonList() {
 
         return personService.allPersons();
     }

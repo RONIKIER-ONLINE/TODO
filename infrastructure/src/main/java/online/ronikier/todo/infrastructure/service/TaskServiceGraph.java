@@ -76,7 +76,7 @@ public class TaskServiceGraph implements TaskService {
     }
 
     @Override
-    public Iterable<Task> allTasks() {
+    public Set<Task> allTasks() {
 
         TEST_DEV();
 
@@ -86,7 +86,7 @@ public class TaskServiceGraph implements TaskService {
 
         // NOTE: sorting cannot be done parallel
         boolean PARAllEL = false;
-        return StreamSupport.stream(taskRepository.findAll().spliterator(), false).sorted(taskRequiredTasksComparator).collect(Collectors.toList());
+        return StreamSupport.stream(taskRepository.findAll().spliterator(), false).sorted(taskRequiredTasksComparator).collect(Collectors.toSet());
         // otherwise use parallel for efficiency
 
     }

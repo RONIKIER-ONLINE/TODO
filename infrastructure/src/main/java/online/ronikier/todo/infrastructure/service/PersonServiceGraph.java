@@ -8,8 +8,11 @@ import online.ronikier.todo.infrastructure.repository.PersonRepository;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -61,9 +64,9 @@ public class PersonServiceGraph implements PersonService {
     }
 
     @Override
-    public Iterable<Person> allPersons() {
+    public Set<Person> allPersons() {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "GETTING PERSONS");
-        return personRepository.findAll();
+        return StreamSupport.stream(personRepository.findAll().spliterator(), false).collect(Collectors.toSet());
     }
 
     @Override

@@ -5,6 +5,7 @@ import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.templete.SuperService;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  *
@@ -47,7 +48,7 @@ public interface PersonService extends SuperService {
      *
      * @return
      */
-    Iterable<Person> allPersons();
+    Set<Person> allPersons();
 
     /**
      *

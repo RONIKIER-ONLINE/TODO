@@ -15,6 +15,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.ParseException;
+import java.util.Set;
 
 @Data
 @Slf4j
@@ -34,13 +35,13 @@ public class TaskForm extends SuperForm {
 
     private String requiredByTaskId;
 
-    private Iterable<Task> tasks;
+    private Set<Task> tasks;
 
-    private Iterable<Task> requiredTasks;
+    private Set<Task> requiredTasks;
 
     private String personId;
 
-    private Iterable<Person> persons;
+    private Set<Person> persons;
 
     @NotNull(message = Messages.FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL)
     public Boolean getImportant() {
@@ -124,11 +125,11 @@ public class TaskForm extends SuperForm {
         return task;
     }
 
-    public Iterable<Task> getTasksRequiredTasks() {
+    public Set<Task> getTasksRequiredTasks() {
         return task.getRequiredTasks();
     }
 
-    public Iterable<Task> getRequiredTasks() {
+    public Set<Task> getRequiredTasks() {
         return task.getRequiredTasks();
     }
 
