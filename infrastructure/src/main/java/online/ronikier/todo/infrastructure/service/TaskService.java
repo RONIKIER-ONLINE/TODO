@@ -3,8 +3,10 @@ package online.ronikier.todo.infrastructure.service;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.templete.SuperService;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -47,25 +49,25 @@ public interface TaskService extends SuperService {
      *
      * @return
      */
-    public Set<Task> allTasks();
+    public List<Task> allTasks();
 
     /**
      *
      * @return
      */
-    public Iterable<Task> filteredTasks(Task filterValues);
+    public List<Task> filteredTasks(Task filterValues);
 
     /**
      *
      * @param taskName
      * @return
      */
-    Set<Task> getMaintanceTasks(String taskName);
+    List<Task> getMaintanceTasks(String taskName);
 
     /**
      *
      * @param taskId
      * @return
      */
-    Iterable<Task> tasksRequiredTasks(Long taskId);
+    List<Task> tasksRequiredTasks(Long taskId);
 }

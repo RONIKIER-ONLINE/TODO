@@ -69,14 +69,14 @@ public class TaskServiceGraph implements TaskService {
     }
 
     @Override
-    public Iterable<Task> filteredTasks(Task filterValues) {
+    public List<Task> filteredTasks(Task filterValues) {
 
         //TODO: Implement filtering
         return allTasks();
     }
 
     @Override
-    public Set<Task> allTasks() {
+    public List<Task> allTasks() {
 
         TEST_DEV();
 
@@ -86,22 +86,24 @@ public class TaskServiceGraph implements TaskService {
 
         // NOTE: sorting cannot be done parallel
         boolean PARAllEL = false;
-        return StreamSupport.stream(taskRepository.findAll().spliterator(), false).sorted(taskRequiredTasksComparator).collect(Collectors.toSet());
+
+
+
+        return StreamSupport.stream(taskRepository.findAll().spliterator(), false).sorted(taskRequiredTasksComparator).collect(Collectors.toList());
         // otherwise use parallel for efficiency
 
     }
 
     @Override
-    public Set<Task> getMaintanceTasks(String taskName) {
+    public List<Task> getMaintanceTasks(String taskName) {
         //TODO: Implement individual task level tasks
-        Task maintanceTaskA = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName, null);
-        Task maintanceTaskB = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName, null);
-        List<Task> maintanceTasks = Arrays.asList(maintanceTaskA,maintanceTaskB);
-        return new HashSet<>(maintanceTasks);
+        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName, null);
+        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName, null);
+        return Arrays.asList(maintanceTaskA, maintanceTaskB);
     }
 
     @Override
-    public Iterable<Task> tasksRequiredTasks(Long taskId) {
+    public List<Task> tasksRequiredTasks(Long taskId) {
 
         Optional<Task> tasksRequiredTasks = findTaskById(taskId);
         if (tasksRequiredTasks.isPresent()) {

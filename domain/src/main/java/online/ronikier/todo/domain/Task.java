@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 public class Task extends SuperEntity {
 
     @Relationship(type = "REQUIRES")
-    protected Set<Task> requiredTasks;
+    protected List<Task> requiredTasks;
     @Relationship(type = "IS DONE BY")
-    protected Set<Person> responsible;
+    protected List<Person> responsible;
     @NonNull
     protected Boolean important;
     @NonNull
@@ -44,14 +44,14 @@ public class Task extends SuperEntity {
 
     public void requires(Task task) {
         if (getRequiredTasks() == null) {
-            setRequiredTasks(new HashSet<>());
+            setRequiredTasks(new ArrayList<>());
         }
         getRequiredTasks().add(task);
     }
 
     public void isDoneBy(Person person) {
         if (getResponsible() == null) {
-            setResponsible(new HashSet<>());
+            setResponsible(new ArrayList<>());
         }
         getResponsible().add(person);
     }
@@ -59,22 +59,22 @@ public class Task extends SuperEntity {
     @Override
     public String toString() {
         return "'" + this.name + "' requires: " +
-                Optional.ofNullable(this.getRequiredTasks()).orElse(Collections.emptySet())
+                Optional.ofNullable(this.getRequiredTasks()).orElse(Collections.emptyList())
                         .stream()
                         .map(Task::getName)
                         .collect(Collectors.toList());
     }
 
-    public Set<Task> getRequiredTasks() {
+    public List<Task> getRequiredTasks() {
         if (requiredTasks == null) {
-            setRequiredTasks(new HashSet<>());
+            setRequiredTasks(new ArrayList<>());
         }
         return requiredTasks;
     }
 
-    public Set<Person> getResponsible() {
+    public List<Person> getResponsible() {
         if (responsible == null) {
-            setResponsible(new HashSet<>());
+            setResponsible(new ArrayList<>());
         }
         return responsible;
     }

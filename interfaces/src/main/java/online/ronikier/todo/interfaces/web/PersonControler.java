@@ -159,11 +159,10 @@ public class PersonControler extends SuperController {
                 personForm.getUsername());
     }
 
-    private Set<Person> ilPadre() {
-        return null;
-        //return new HashSet<>(Arrays.asList(new Person("Dziadek Olek")));
-
+    private List<Person> ilPadre() {
+        return new ArrayList<>();
     }
+
 
     /**
      *

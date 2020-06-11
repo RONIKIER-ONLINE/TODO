@@ -222,10 +222,10 @@ public class TaskController extends SuperController {
      * @param taskName
      * @return
      */
-    private Set<Task> appendMaintanceTasks(String taskName) {
+    private List<Task> appendMaintanceTasks(String taskName) {
         if (Parameters.SYSTEM_SKIP_MAINTENANCE_TASKS) {
             log.info(Messages.INFO_SKIPPING_MAINTENANCE_TASKS);
-            return new HashSet<>();
+            return new ArrayList<>();
         }
         return taskService.getMaintanceTasks(taskName);
     }
@@ -245,7 +245,7 @@ public class TaskController extends SuperController {
      *
      * @return
      */
-    private Set<Task> getTaskList() {
+    private List<Task> getTaskList() {
         log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form task filtering");
         return taskService.allTasks();
     }
@@ -254,7 +254,7 @@ public class TaskController extends SuperController {
      *
      * @return
      */
-    private Iterable<Task> getFilteredTaskList(Task filterValues) {
+    private List<Task> getFilteredTaskList(Task filterValues) {
         log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form task filtering");
         return taskService.filteredTasks(filterValues);
     }
@@ -285,7 +285,7 @@ public class TaskController extends SuperController {
         model.addAttribute("showFcknDialog", taskForm.getShowDialog());
     }
 
-    private Set<Person> getPersonList() {
+    private List<Person> getPersonList() {
 
         return personService.allPersons();
     }

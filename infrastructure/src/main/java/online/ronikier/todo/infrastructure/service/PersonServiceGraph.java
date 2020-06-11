@@ -64,13 +64,13 @@ public class PersonServiceGraph implements PersonService {
     }
 
     @Override
-    public Set<Person> allPersons() {
+    public List<Person> allPersons() {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "GETTING PERSONS");
-        return StreamSupport.stream(personRepository.findAll().spliterator(), false).collect(Collectors.toSet());
+        return StreamSupport.stream(personRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
     @Override
-    public Iterable<Person> personsKnownPersons(Long personId) {
+    public List<Person> personsKnownPersons(Long personId) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "GETTING KNOWN PERSONS");
         Optional<Person> personsKnownPersons = findPersonById(personId);
         if (personsKnownPersons.isPresent()) {

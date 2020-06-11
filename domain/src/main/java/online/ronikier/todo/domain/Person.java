@@ -6,10 +6,7 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import javax.validation.constraints.Size;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ToString
@@ -21,7 +18,7 @@ import java.util.stream.Collectors;
 public class Person extends SuperEntity {
 
     @Relationship(type = "KNOWS")
-    protected Set<Person> knownPersons;
+    protected List<Person> knownPersons;
 
     @NonNull
     @Size(min = 6, max = 10)
@@ -29,7 +26,7 @@ public class Person extends SuperEntity {
 
     public void knows(Person person) {
         if (getKnownPersons() == null) {
-            setKnownPersons(new HashSet<>());
+            setKnownPersons(new ArrayList<>());
         }
         getKnownPersons().add(person);
     }
@@ -37,15 +34,15 @@ public class Person extends SuperEntity {
     @Override
     public String toString() {
         return "'" + this.username + "' requires: " +
-                Optional.ofNullable(this.getKnownPersons()).orElse(Collections.emptySet())
+                Optional.ofNullable(this.getKnownPersons()).orElse(Collections.emptyList())
                         .stream()
                         .map(Person::getUsername)
                         .collect(Collectors.toList());
     }
 
-    public Set<Person> getKnownPersons() {
+    public List<Person> getKnownPersons() {
         if (knownPersons == null) {
-            setKnownPersons(new HashSet<>());
+            setKnownPersons(new ArrayList<>());
         }
         return knownPersons;
     }
