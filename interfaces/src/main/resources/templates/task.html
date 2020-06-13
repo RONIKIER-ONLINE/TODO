@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <title>Task tracking system - <h1 th:text="#{task}"></h1></title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+    <meta charset="utf-8">
+</head>
+<body>
+
+<div th:if="*{showFcknDialog}">
+<!-- The Modal -->
+    <div class="modal" id="taskInfoDialog">
+        <div class="taskInfoDialog">
+            <span class="close">&times;</span>
+            <table border="0">
+                <tr>
+                    <td class="rightLabel">Number of tasks:</td>
+                    <td class="leftValue" th:text="*{taskCount}"></td>
+                </tr>
+            </table>
+            <table border="0" align="center" th:each="task : *{taskList}" width="100%">
+                <tr>
+                    <td>
+                        &nbsp;<a th:href="@{'/task/' + ${task.id}}">
+                        <label th:text="${task.name}"></label>
+                    </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // Focus on task name
+    window.onload = function() {
+        document.getElementById("taskName").focus();
+        var taskName = document.getElementById("taskName").value;
+        document.getElementById("taskName").value = '';
+        document.getElementById("taskName").value = taskName;
+        document.getElementById("taskName").onchange = function() {
+            document.getElementById("taskDescription").value = '';
+            document.getElementById("taskInfoDialog").style.display = "none";
+        };
+        document.getElementById("taskInfoDialog").style.display = "block";
+    };
+
+    // Get the modal
+    var modal = document.getElementById("taskInfoDialog");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+</script>
+
+<table border="0" class="task" align="center">
+    <tr>
+        <td>
+            <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">
+                <table border="0" align="center" cellspacing="5">
+                    <tr>
+                        <td class="rightLabel" width="80">&nbsp;</td>
+                        <td class="left" width="143">&nbsp;</td>
+                        <td class="error" width="275">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel">Name</td>
+                        <td class="left"><input class="textShort" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
+                        <td class="error" th:errors="*{name}" th:if="${#fields.hasErrors('name')}">Name
+                            Error
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel">Required by</td>
+                        <td class="left">
+                            <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{requiredByTaskId}">
+                                <option value="none">none</option>
+                                <option th:each="task : *{tasks}" th:text="${task.name}"
+                                        th:value="${task.id}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabelDescription">Description</td>
+                        <td class="left"><textarea id="taskDescription" class="description" cols="40" rows="5" th:field="*{description}"/>
+                        </td>
+                        <td class="error" th:errors="*{description}" th:if="${#fields.hasErrors('description')}">
+                            Description Error
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rightCheckbox"><input th:field="*{urgent}" type="checkbox"/></td>
+                        <td class="leftValue">Urgent</td>
+                        <td th:errors="*{urgent}" th:if="${#fields.hasErrors('urgent')}">Urgent Error</td>
+                    </tr>
+                    <tr>
+                        <td class="rightCheckbox"><input th:field="*{important}" type="checkbox"/></td>
+                        <td class="leftValue">Important</td>
+                        <td th:errors="*{important}" th:if="${#fields.hasErrors('important')}">Important Error</td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel">Created</td>
+                        <td class="left"><input class="dateShort" style="width: 138px;" th:field="*{created}" type="date"/></td>
+                        <td class="error" th:errors="*{created}" th:if="${#fields.hasErrors('created')}">Created Error
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel">Start</td>
+                        <td class="left"><input class="dateShort" style="width: 138px;" th:field="*{start}" type="date"/></td>
+                        <td class="error" th:errors="*{start}" th:if="${#fields.hasErrors('start')}">Start Error</td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel">Due</td>
+                        <td class="left"><input class="dateShort" style="width: 138px;" th:field="*{due}" type="date"/></td>
+                        <td class="error" th:errors="*{due}" th:if="${#fields.hasErrors('due')}">Due Error</td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel">Responsible</td>
+                        <td class="left">
+                            <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{personId}">
+                                <option value="none">none</option>
+                                <option th:each="person : *{persons}" th:text="${person.username}" th:value="${person.id}" th:selected="${person.id == personId}"></option>
+                            </select>
+                        </td>
+                        <td class="Personnel"><a href="/person">Personnel</a></td>
+                    </tr>
+
+                    <div th:if="${(taskForm.typeTask ne null)}">
+                    <tr>
+                        <td class="rightLabel">Type</td>
+                        <td class="typeTask" th:text="*{typeTask.label}">
+                        </td>
+                        <td></td>
+                    </tr>
+                    </div>
+
+                    <div th:if="${(taskForm.stateTask ne null)}">
+                    <tr>
+                        <td class="rightLabel">State</td>
+                        <td class="stateTask" th:text="*{stateTask.label}">
+                        </td>
+                        <td></td>
+                    </tr>
+                    </div>
+
+                    <tr>
+                        <td class="rightLabel"></td>
+                        <td class="left">
+                            <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE TASK</button>
+                        </td>
+                        <td>
+
+                            <table border="0">
+                                <tr>
+                                    <td>
+                                        <input th:field="*{showDialog}" type="checkbox"/>
+                                    </td>
+                                    <td>
+                                        Show dialog
+                                    </td>
+                                    <td>
+                                        <input th:field="*{showTasks}" type="checkbox"/>
+                                    </td>
+                                    <td>
+                                        Show tasks
+                                    </td>
+                                    <td>
+                                        <input th:field="*{clearDescription}" type="checkbox"/>
+                                    </td>
+                                    <td>
+                                        Clear desc
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <div th:if="${not #lists.isEmpty(tasksRequiredTasks)}">
+                        <tr>
+                            <td class="rightLabel">
+
+                            </td>
+                            <td class="left">
+                                <table border="0" align="center" th:each="tasksRequiredTask : *{tasksRequiredTasks}" width="100%">
+                                    <tr>
+                                        <td>
+                                            <li>
+                                                <a th:href="@{'/task/' + ${tasksRequiredTask.id}}"/>
+                                                <label th:text="${tasksRequiredTask.name}"></label>
+                                            </li>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+            </form>
+        </td>
+    </tr>
+
+    <div th:if="${not #lists.isEmpty(taskList)}">
+        <tr>
+            <td>
+                <table border="0" align="center" th:each="task : *{taskList}" width="100%">
+                    <tr>
+                        <td>
+                            <hr width="97%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a th:href="@{'/task/' + ${task.id}}"><label th:text="${task.name}"/></a></td>
+                    </tr>
+                    <tr>
+                        <td class="taskListTaskDescription" th:text="${task.description}"></td>
+                    </tr>
+                    <div th:if="${not #lists.isEmpty(task.requiredTasks)}">
+                    <tr>
+                        <td>
+                            <table border="0" align="center" th:each="requiredTask : *{task.requiredTasks}" width="100%">
+                                <tr>
+                                    <td>
+                                        <li>
+                                            <a th:href="@{'/task/' + ${requiredTask.id}}"/>
+                                            <label th:text="${requiredTask.name}"></label>
+                                        </li>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    </div>
+                    <tr>
+                        <td>
+                            &nbsp;<a th:href="@{'/task_delete/' + ${task.id}}">
+                                DELETE
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <hr width="97%"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </div>
+</table>
+
+</body>
+</html>

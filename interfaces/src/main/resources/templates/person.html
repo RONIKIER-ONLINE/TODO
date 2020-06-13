@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <title>Person tracking system - <h1 th:text="#{person}"></h1></title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+    <meta charset="utf-8">
+</head>
+<body>
+
+<script>
+
+    // Focus on person username
+    window.onload = function() {
+        document.getElementById("personUsername").focus();
+        var personUsername = document.getElementById("personUsername").value;
+        document.getElementById("personUsername").value = '';
+        document.getElementById("personUsername").value = personUsername;
+    };
+
+</script>
+
+<table border="0" class="person" align="center">
+    <tr>
+        <td>
+            <form action="#" method="post" th:action="@{/person}" th:object="${personForm}">
+                <table border="0" align="center" cellspacing="5">
+                    <tr>
+                        <td class="rightLabel" width="80">&nbsp;</td>
+                        <td class="left" width="143">&nbsp;</td>
+                        <td class="error" width="275">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel">Username:</td>
+                        <td class="left"><input class="textShort" id="personUsername" th:field="*{username}" type="text" maxlength="30"/></td>
+                        <td class="error" th:errors="*{username}" th:if="${#fields.hasErrors('username')}">Username
+                            Error
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel">Is known by:</td>
+                        <td class="left">
+                            <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{knownByPersonId}">
+                                <option value="none">none</option>
+                                <option th:each="person : *{persons}" th:text="${person.username}"
+                                        th:value="${person.id}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                    <td class="rightLabel"></td>
+                    <td class="left">
+                        <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE PERSON
+                        </button>
+                    </td>
+                    </tr>
+                    <div th:if="${not #lists.isEmpty(personsKnownPersons)}">
+                        </tr>
+                        <td class="rightLabel">
+                            &nbsp;
+                        </td>
+                        <td class="left">
+                            <table border="0" align="center" th:each="personsKnownPerson : *{personsKnownPersons}" width="100%">
+                                <tr>
+                                    <td>
+                                        <li>
+                                            <a th:href="@{'/person/' + ${personsKnownPerson.id}}"/>
+                                            <label th:text="${personsKnownPerson.username}"></label>
+                                        </li>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        </tr>
+                    </div>
+                </table>
+            </form>
+        </td>
+    </tr>
+
+    <div th:if="${not #lists.isEmpty(personList)}">
+        <tr>
+            <td>
+                <table border="0" align="center" th:each="person : *{personList}" width="100%">
+                    <tr>
+                        <td>
+                            <hr width="97%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;<a th:href="@{'/person/' + ${person.id}}">
+                            <label th:text="${person.username}"></label>
+                        </a>
+                        </td>
+                    </tr>
+                    <div th:if="${not #lists.isEmpty(person.knownPersons)}">
+                        <tr>
+                            <td>
+                                <table border="0" th:each="knownPerson : *{person.knownPersons}">
+                                    <tr>
+                                        <td class="knowsSomething" width="10">
+
+                                        </td>
+                                        <td class="knowsSomething">
+                                            knows
+                                        </td>
+                                        <td class="knowsSomething">
+                                            <a class="knowsSomething" th:href="@{'/person/' + ${knownPerson.id}}"/>
+                                                <label th:text="${knownPerson.username}"></label>
+                                        </td>
+                                        <td class="knowsSomething">
+                                            ...
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </div>
+                    <tr>
+                        <td><a th:href="@{'/person_delete/' + ${person.id}}">BANG !!!</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <hr width="97%"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </div>
+</table>
+
+</body>
+</html>

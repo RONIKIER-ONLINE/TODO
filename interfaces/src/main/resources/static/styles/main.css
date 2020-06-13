@@ -1,0 +1,340 @@
+/* ================= General parameters ================= */
+
+A {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	vertical-align: top;
+	font-weight: bold;
+	color: #666666;
+	text-decoration:none;
+}
+A:hover {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	vertical-align: top;
+	font-weight: bold;
+	color: red;
+	text-decoration:underline;
+}
+
+/* =========================================================== */
+
+/* =================== Table formatting =================== */
+
+TABLE.task {
+	/*
+	border: 1px solid red;
+	*/
+}
+
+TD.rightTop {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:right;vertical-align: top;
+	height=10px;
+}
+
+
+TD.taskListTaskName {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
+	font-color: red;
+	font-weight: bold;
+	vertical-align: top;
+	height=10px;
+}
+
+td.taskListTaskDescription {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
+	font-color: silver;
+	font-style : italic;
+	vertical-align: top;
+	height=10px;
+}
+
+TD.leftTop {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;vertical-align: top;
+	height=10px;
+}
+TD.error {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
+	height=10px;
+	color: red;
+	vertical-align: top;
+}
+
+TD.Personnel {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	vertical-align: middle;
+	font-weight: bold;
+	height=10px;
+	color: #666666;
+	padding: 5pt 5pt 5pt 7pt;
+}
+
+TD.rightLabel {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: middle;
+	font-weight: bold;
+	height=10px;
+	color: #666666;
+	padding: 0pt 0pt 0pt 0pt;
+}
+
+TD.rightLabelDescription {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: top;
+	font-weight: bold;
+	height=10px;
+	color: #666666;
+	padding: 3pt 0pt 0pt 0pt;
+}
+
+TD.rightCheckbox {
+   text-align:right;
+   vertical-align: middle;
+   padding: 0pt 0pt 0pt 0pt;
+}
+
+TD.leftValue {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	//vertical-align: top;
+  	vertical-align: middle;
+   	font-weight: bold;
+   	height=10px;
+    color: #666666;
+    padding: 0pt 0pt 0pt 5pt;
+}
+
+TD.typeTask {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	//vertical-align: top;
+  	vertical-align: middle;
+   	font-weight: italic;
+   	height=10px;
+    color: #00AA00;
+    padding: 0pt 0pt 0pt 5pt;
+}
+
+TD.stateTask {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	//vertical-align: top;
+  	vertical-align: middle;
+   	font-weight: italic;
+   	height=10px;
+    color: #AA0000;
+    padding: 0pt 0pt 0pt 5pt;
+}
+
+TD.center {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:center;
+	height=10px;
+}
+TD.centerMiddle {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:center;vertical-align: absmiddle;
+	height=10px;
+}
+
+TD.tableHeader {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:center;
+	font-weight: bold;
+	background-color: #AAAAFF;
+	color: ffffff;
+}
+TD.tableFieldLight {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	background-color: #ffffff;
+	verical-align: top;
+}
+TD.tableFieldLightRight {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	background-color: #ffffff;
+	verical-align: top;
+}
+TD.tableFieldDark {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	background-color: #eef5ff;
+	verical-align: top;
+}
+
+TD.tableFieldDarkRight {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	background-color: #eef5ff;
+	verical-align: top;
+}
+
+TD.knowsSomething {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    text-align:left;
+    vertical-align: top;
+    font-style : italic;
+    color: blue;
+}
+
+A.knowsSomething {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    text-align:left;
+    vertical-align: top;
+    font-style : italic;
+    color: blue;
+}
+
+/* =========================================================== */
+
+/* ===================== Form fields ===================== */
+.buttonShort {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	height=18px;
+	width=60px;
+	color: silver;
+	border-right: 1px solid silver;
+	border-bottom: 1px solid silver;
+	border-top: 1px solid silver;
+	border-left: 1px solid silver;
+	background-color: #ffffff;
+}
+INPUT.textShort {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=155px;height=18px;
+}
+INPUT.textMedium {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=70px;height=18px;
+}
+INPUT.textLong {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=200px;height=18px;
+}
+INPUT.textVeryLong {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=470px;height=18px;
+}
+INPUT.textLogin {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=60px;height=18px;
+}
+INPUT.dateShort {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=160px;height=18px;
+}
+
+TEXTAREA.description {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	height: 60px;
+	width: 137px;
+	resize: none;
+
+}
+SELECT.selectStandard
+{
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=136px;
+}
+SELECT.selectMedium
+{
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 200px;
+	height: 18px;
+}
+SELECT.selectList
+{
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=350px;
+	size:5;
+	height:100px;
+}
+SELECT.listMedium
+{
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=350px;
+	size:5;
+	height:70px;
+}
+SELECT.listLong
+{
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=350px;
+	size:5;
+	height:120px;
+}
+INPUT.file {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=200px;
+}
+/* =========================================================== */
+
+/* =====================  Form styles  =================== */
+
+TD.fieldLabel {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: top;
+	font-weight: bold;
+	height=10px;
+	font-color: red;
+	padding: 5pt 5pt 5pt 10pt;
+}
+
+TD.fieldDescription {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align: justify;
+	vertical-align: top;
+	font-weight: normal;
+	font-style : italic;
+	height=10px;
+	font-color: blue;
+	padding: 0pt 10pt 0pt 5pt;
+}
+
+TD.fieldContent {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align: justify;
+	vertical-align: top;
+	font-weight: normal;
+	font-style : italic;
+	height=10px;
+	color: #996666;
+	padding: 2pt 10pt 3pt 5pt;
+}
+
+
+/* =========================================================== */
+
+body {font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.taskInfoDialog {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 16px;
+  font-weight: bold;
+  vertical-align: top;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
