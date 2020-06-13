@@ -1,6 +1,8 @@
 package online.ronikier.todo.domain;
 
 import lombok.*;
+import online.ronikier.todo.domain.dictionary.StateTask;
+import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.templete.SuperEntity;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -20,7 +22,7 @@ public class Task extends SuperEntity {
     @Relationship(type = "REQUIRES")
     protected List<Task> requiredTasks;
     @Relationship(type = "IS DONE BY")
-    protected List<Person> responsible;
+    protected Person responsible;
     @NonNull
     protected Boolean important;
     @NonNull
@@ -40,6 +42,10 @@ public class Task extends SuperEntity {
     @Size(max = 200)
     protected String description;
 
+    protected StateTask stateTask;
+
+    protected TypeTask typeTask;
+
     protected Person person;
 
     public void requires(Task task) {
@@ -50,10 +56,7 @@ public class Task extends SuperEntity {
     }
 
     public void isDoneBy(Person person) {
-        if (getResponsible() == null) {
-            setResponsible(new ArrayList<>());
-        }
-        getResponsible().add(person);
+        setResponsible(person);
     }
 
     @Override
@@ -72,10 +75,7 @@ public class Task extends SuperEntity {
         return requiredTasks;
     }
 
-    public List<Person> getResponsible() {
-        if (responsible == null) {
-            setResponsible(new ArrayList<>());
-        }
+    public Person getResponsible() {
         return responsible;
     }
 

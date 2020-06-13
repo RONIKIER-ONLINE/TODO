@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.dictionary.StateTask;
+import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperForm;
@@ -40,8 +42,6 @@ public class TaskForm extends SuperForm {
 
     private List<Task> requiredTasks;
 
-    private String personId;
-
     private List<Person> persons;
 
     @NotNull(message = Messages.FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL)
@@ -69,7 +69,7 @@ public class TaskForm extends SuperForm {
 
     public void setCreated(String created) {
         try {
-            getTask().setDue(Utilities.dateFromString(created));
+            getTask().setCreated(Utilities.dateFromString(created));
         } catch (ParseException e) {
             log.error(Messages.EXCEPTION_TASK_DATE_PARSE + Messages.SEPARATOR + e.getMessage());
         }
@@ -82,7 +82,7 @@ public class TaskForm extends SuperForm {
 
     public void setStart(String start) {
         try {
-            getTask().setDue(Utilities.dateFromString(start));
+            getTask().setStart(Utilities.dateFromString(start));
         } catch (ParseException e) {
             log.error(Messages.EXCEPTION_TASK_DATE_PARSE + Messages.SEPARATOR + e.getMessage());
         }
@@ -90,8 +90,8 @@ public class TaskForm extends SuperForm {
 
 //    @NotNull(message = Messages.FORM_TASK_VALIDATION_DUE_NOT_NULL)
     public String getDue() {
-        return Utilities.stringFromDate(getTask().getStart());
-    }
+    return Utilities.stringFromDate(getTask().getDue());
+}
 
     public void setDue(String due) {
         try {
@@ -121,6 +121,7 @@ public class TaskForm extends SuperForm {
         getTask().setDescription(description);
     }
 
+    //TODO: Bust this ...
     public Task getTask() {
         if (task == null) task = new Task();
         return task;
@@ -132,6 +133,34 @@ public class TaskForm extends SuperForm {
 
     public List<Task> getRequiredTasks() {
         return task.getRequiredTasks();
+    }
+
+    public StateTask getStateTask() {
+        return getTask().getStateTask();
+    }
+
+    public void setStateTask(StateTask stateTask) {
+        getTask().setStateTask(stateTask);
+    }
+
+    public TypeTask getTypeTask() {
+        return getTask().getTypeTask();
+    }
+
+    public void setTypeTask(TypeTask typeTask) {
+        getTask().setTypeTask(typeTask);
+    }
+
+    public String getPersonId() {
+        if (getTask().getPerson() == null) {
+            log.debug(Messages.DEBUG_MESSAGE_PREFIX + "=== Null person in form task ===");
+            return null;
+        }
+        return String.valueOf(getTask().getPerson().getId());
+    }
+
+    public void setPersonId(String personId) {
+        getTask().setPerson(new Person(personId));
     }
 
 //    public void setRequiredTasks(Iterable<Task> requiredTasks) {

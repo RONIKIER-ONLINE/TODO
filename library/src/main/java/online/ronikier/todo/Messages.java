@@ -19,12 +19,14 @@ public class Messages {
     public static final String TYPE_RESOURCE_PHONE_NO = "TYPE_RESOURCE_PHONE_NO";
     public static final String TYPE_RESOURCE_EMAIL = "TYPE_RESOURCE_EMAIL";
 
-    public static final String TYPE_TASK_PERSONAL = "TYPE_TASK_PERSONAL";
-    public static final String TYPE_TASK_MONEY = "TYPE_TASK_MONEY";
+    public static final String TYPE_TASK_GENERAL = "General";
+    public static final String TYPE_TASK_PERSONAL = "Personal";
+    public static final String TYPE_TASK_MONEY = "Money";
 
-    public static final String STATE_TASK_STARTED = "STATE_TASK_STARTED";
-    public static final String STATE_TASK_ON_HOLD = "STATE_TASK_ON_HOLD";
-    public static final String STATE_TASK_COMPLETED = "STATE_TASK_COMPLETED";
+    public static final String STATE_TASK_INITIALIZED = "Initialized";
+    public static final String STATE_TASK_STARTED = "Started";
+    public static final String STATE_TASK_ON_HOLD = "On hold";
+    public static final String STATE_TASK_COMPLETED = "Completed";
 
     public static final String TYPE_PLACE_CITY = "TYPE_PLACE_CITY";
     public static final String TYPE_PLACE_BUILDING = "TYPE_PLACE_BUILDING";

@@ -107,6 +107,28 @@ TD.leftValue {
     padding: 0pt 0pt 0pt 5pt;
 }
 
+TD.typeTask {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	//vertical-align: top;
+  	vertical-align: middle;
+   	font-weight: italic;
+   	height=10px;
+    color: #00AA00;
+    padding: 0pt 0pt 0pt 5pt;
+}
+
+TD.stateTask {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	//vertical-align: top;
+  	vertical-align: middle;
+   	font-weight: italic;
+   	height=10px;
+    color: #AA0000;
+    padding: 0pt 0pt 0pt 5pt;
+}
+
 TD.center {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:center;
 	height=10px;

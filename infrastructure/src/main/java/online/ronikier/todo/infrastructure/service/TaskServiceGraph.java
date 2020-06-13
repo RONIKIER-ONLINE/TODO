@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.dictionary.StateTask;
+import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.cache.annotation.Cacheable;
@@ -97,8 +99,8 @@ public class TaskServiceGraph implements TaskService {
     @Override
     public List<Task> getMaintanceTasks(String taskName) {
         //TODO: Implement individual task level tasks
-        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName, null);
-        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName, null);
+        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName, StateTask.INITIALIZED ,TypeTask.GENERAL, null);
+        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName, StateTask.INITIALIZED ,TypeTask.GENERAL, null);
         return Arrays.asList(maintanceTaskA, maintanceTaskB);
     }
 
@@ -170,13 +172,13 @@ public class TaskServiceGraph implements TaskService {
         //System.out.print(
 
         Stream.of(
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A1","Opisik",null),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task B2","Opisik",null),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C3","Opisik",null),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A4","Opisik",null),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik",null),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik",null),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C6","Opisik",null)
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A1","Opisik", StateTask.INITIALIZED ,TypeTask.GENERAL,null),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task B2","Opisik", StateTask.INITIALIZED ,TypeTask.GENERAL,null),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C3","Opisik", StateTask.INITIALIZED ,TypeTask.GENERAL,null),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A4","Opisik", StateTask.INITIALIZED ,TypeTask.GENERAL,null),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", StateTask.INITIALIZED ,TypeTask.GENERAL,null),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", StateTask.INITIALIZED ,TypeTask.GENERAL,null),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C6","Opisik", StateTask.INITIALIZED ,TypeTask.GENERAL,null)
         )
                 //.count();
 

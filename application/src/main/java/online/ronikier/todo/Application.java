@@ -2,6 +2,8 @@ package online.ronikier.todo;
 
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.dictionary.StateTask;
+import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +36,7 @@ public class Application {
                 taskRepository.deleteAll();
             }
 
-            Task millionDollarTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars", null);
+            Task millionDollarTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars", StateTask.STARTED , TypeTask.MONEY, null);
             taskRepository.save(millionDollarTask);
 
         };

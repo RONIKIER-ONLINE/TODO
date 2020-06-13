@@ -12,10 +12,14 @@ import java.util.stream.Collectors;
 @ToString
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
 @NodeEntity
 public class Person extends SuperEntity {
+
+    public Person(String personId) {
+        super();
+        setId(Long.valueOf(personId));
+    }
 
     @Relationship(type = "KNOWS")
     protected List<Person> knownPersons;

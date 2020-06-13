@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.dictionary.StateTask;
+import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.domain.forms.TaskForm;
 import online.ronikier.todo.infrastructure.service.PersonService;
 import online.ronikier.todo.infrastructure.service.TaskService;
@@ -214,7 +216,10 @@ public class TaskController extends SuperController {
                 Utilities.dateFromString(taskForm.getDue()),
                 taskForm.getName(),
                 taskForm.getDescription(),
-                null);
+                StateTask.INITIALIZED ,
+                TypeTask.GENERAL,
+                personService.findPersonById(Long.valueOf(taskForm.getPersonId())).orElse(null)
+        );
     }
 
     /**

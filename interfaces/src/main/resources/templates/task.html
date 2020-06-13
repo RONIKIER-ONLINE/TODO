@@ -135,12 +135,30 @@
                         <td class="left">
                             <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{personId}">
                                 <option value="none">none</option>
-                                <option th:each="person : *{persons}" th:text="${person.username}"
-                                        th:value="${person.id}"></option>
+                                <option th:each="person : *{persons}" th:text="${person.username}" th:value="${person.id}" th:selected="${person.id == personId}"></option>
                             </select>
                         </td>
                         <td class="Personnel"><a href="/person">Personnel</a></td>
                     </tr>
+
+                    <div th:if="${(taskForm.typeTask ne null)}">
+                    <tr>
+                        <td class="rightLabel">Type</td>
+                        <td class="typeTask" th:text="*{typeTask.label}">
+                        </td>
+                        <td></td>
+                    </tr>
+                    </div>
+
+                    <div th:if="${(taskForm.stateTask ne null)}">
+                    <tr>
+                        <td class="rightLabel">State</td>
+                        <td class="stateTask" th:text="*{stateTask.label}">
+                        </td>
+                        <td></td>
+                    </tr>
+                    </div>
+
                     <tr>
                         <td class="rightLabel"></td>
                         <td class="left">
