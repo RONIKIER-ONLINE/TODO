@@ -44,6 +44,8 @@ public class TaskForm extends SuperForm {
 
     private List<Person> persons;
 
+    private Person responsiblePerson;
+
     @NotNull(message = Messages.FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL)
     public Boolean getImportant() {
         return getTask().getImportant();
@@ -151,19 +153,16 @@ public class TaskForm extends SuperForm {
         getTask().setTypeTask(typeTask);
     }
 
-    public String getPersonId() {
-        if (getTask().getPerson() == null) {
+    public String getResponsiblePersonId() {
+        if (getTask().getResponsiblePerson() == null) {
             log.debug(Messages.DEBUG_MESSAGE_PREFIX + "=== Null person in form task ===");
             return null;
         }
-        return String.valueOf(getTask().getPerson().getId());
+        return String.valueOf(getTask().getResponsiblePerson().getId());
     }
 
     public void setPersonId(String personId) {
-        getTask().setPerson(new Person(personId));
+        getTask().setResponsiblePerson(new Person(personId));
     }
 
-//    public void setRequiredTasks(Iterable<Task> requiredTasks) {
-//        this.requiredTasks = requiredTasks;
-//    }
 }

@@ -188,7 +188,7 @@ public class TaskController extends SuperController {
      * @param task
      */
     private void assignResponsible(TaskForm taskForm, Task task) {
-        Optional<Person> responsibleOptional = personService.findPersonById(Long.valueOf(taskForm.getPersonId()));
+        Optional<Person> responsibleOptional = personService.findPersonById(Long.valueOf(taskForm.getRequiredByTaskId()));
         if (responsibleOptional.isPresent()) {
             task.isDoneBy(responsibleOptional.get());
             log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + task + Messages.SEPARATOR + responsibleOptional.get());
@@ -217,8 +217,7 @@ public class TaskController extends SuperController {
                 taskForm.getName(),
                 taskForm.getDescription(),
                 StateTask.INITIALIZED ,
-                TypeTask.GENERAL,
-                personService.findPersonById(Long.valueOf(taskForm.getPersonId())).orElse(null)
+                TypeTask.GENERAL
         );
     }
 

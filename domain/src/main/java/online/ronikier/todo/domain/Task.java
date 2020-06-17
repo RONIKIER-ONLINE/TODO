@@ -22,7 +22,7 @@ public class Task extends SuperEntity {
     @Relationship(type = "REQUIRES")
     protected List<Task> requiredTasks;
     @Relationship(type = "IS DONE BY")
-    protected Person responsible;
+    protected Person responsiblePerson;
     @NonNull
     protected Boolean important;
     @NonNull
@@ -46,8 +46,6 @@ public class Task extends SuperEntity {
 
     protected TypeTask typeTask;
 
-    protected Person person;
-
     public void requires(Task task) {
         if (getRequiredTasks() == null) {
             setRequiredTasks(new ArrayList<>());
@@ -56,7 +54,7 @@ public class Task extends SuperEntity {
     }
 
     public void isDoneBy(Person person) {
-        setResponsible(person);
+        setResponsiblePerson(person);
     }
 
     @Override
@@ -73,10 +71,6 @@ public class Task extends SuperEntity {
             setRequiredTasks(new ArrayList<>());
         }
         return requiredTasks;
-    }
-
-    public Person getResponsible() {
-        return responsible;
     }
 
 }

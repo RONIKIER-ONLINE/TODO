@@ -133,9 +133,9 @@
                     <tr>
                         <td class="rightLabel">Responsible</td>
                         <td class="left">
-                            <select class="selectMedium" th:field="*{personId}">
+                            <select class="selectMedium" th:field="*{responsiblePersonId}">
                                 <option class="selectMediumOption" value="none">none</option>
-                                <option th:each="person : *{persons}" th:text="${person.username}" th:value="${person.id}" th:selected="${person.id == personId}"></option>
+                                <option th:each="person : *{persons}" th:text="${person.username}" th:value="${person.id}" th:selected="${person.id == responsiblePersonId}"></option>
                             </select>
                         </td>
                         <td class="Personnel"><a href="/person">Personnel</a></td>
@@ -217,7 +217,7 @@
     <div th:if="${not #lists.isEmpty(taskList)}">
         <tr>
             <td>
-                <table border="0" align="center" th:each="task : *{taskList}" width="100%">
+                <table border="1" align="center" th:each="task : *{taskList}" width="100%">
                     <tr>
                         <td>
                             <hr width="100%" size="1"/>
@@ -232,7 +232,7 @@
                     <div th:if="${not #lists.isEmpty(task.requiredTasks)}">
                     <tr>
                         <td>
-                            <table border="0" align="center" th:each="requiredTask : *{task.requiredTasks}" width="100%">
+                            <table border="1" align="center" th:each="requiredTask : *{task.requiredTasks}" width="100%">
                                 <tr>
                                     <td>
                                         <li>

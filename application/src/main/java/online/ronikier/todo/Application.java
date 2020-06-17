@@ -36,7 +36,7 @@ public class Application {
                 taskRepository.deleteAll();
             }
 
-            Task millionDollarTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars", StateTask.STARTED , TypeTask.MONEY, null);
+            Task millionDollarTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars", StateTask.STARTED , TypeTask.MONEY);
             taskRepository.save(millionDollarTask);
 
         };
