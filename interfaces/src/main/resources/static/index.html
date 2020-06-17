@@ -2,12 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
-    <title>Task tracking system - <h1 th:text="#{task}"></h1></title>
+    <title>Brain Support</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+    <meta charset="utf-8">
 </head>
 <body>
-    <p>Add your job <a href="/task">here</a></p>
-    <p>Add your dude <a href="/person">here</a></p>
+    <table border="0" align="center" width="500">
+        <tr>
+            <td>
+                <hr width="100%" size="1"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="leftValue">
+                Add your jobs <a href="/task">here</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="leftValue">
+                Add your dudes <a href="/person">here</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <hr width="100%" size="1"/>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
-    <title>Task tracking system - <h1 th:text="#{task}"></h1></title>
+    <title>Brain Support - Tasks</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link rel="stylesheet" th:href="@{/styles/main.css}"/>
     <meta charset="utf-8">
@@ -81,7 +81,7 @@
                     </tr>
                     <tr>
                         <td class="rightLabel">Name</td>
-                        <td class="left"><input class="textShort" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
+                        <td class="left"><input class="textShortName" id="textShort" th:field="*{name}" type="text" maxlength="30"/></td>
                         <td class="error" th:errors="*{name}" th:if="${#fields.hasErrors('name')}">Name
                             Error
                         </td>
@@ -89,9 +89,9 @@
                     <tr>
                         <td class="rightLabel">Required by</td>
                         <td class="left">
-                            <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{requiredByTaskId}">
-                                <option value="none">none</option>
-                                <option th:each="task : *{tasks}" th:text="${task.name}"
+                            <select class="selectMedium" th:field="*{requiredByTaskId}">
+                                <option class="selectMediumOption" value="none">none</option>
+                                <option class="selectMediumOption" th:each="task : *{tasks}" th:text="${task.name}"
                                         th:value="${task.id}"></option>
                             </select>
                         </td>
@@ -116,25 +116,25 @@
                     </tr>
                     <tr>
                         <td class="rightLabel">Created</td>
-                        <td class="left"><input class="dateShort" style="width: 138px;" th:field="*{created}" type="date"/></td>
+                        <td class="left"><input class="dateShort" th:field="*{created}" type="date"/></td>
                         <td class="error" th:errors="*{created}" th:if="${#fields.hasErrors('created')}">Created Error
                         </td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Start</td>
-                        <td class="left"><input class="dateShort" style="width: 138px;" th:field="*{start}" type="date"/></td>
+                        <td class="left"><input class="dateShort" th:field="*{start}" type="date"/></td>
                         <td class="error" th:errors="*{start}" th:if="${#fields.hasErrors('start')}">Start Error</td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Due</td>
-                        <td class="left"><input class="dateShort" style="width: 138px;" th:field="*{due}" type="date"/></td>
+                        <td class="left"><input class="dateShort" th:field="*{due}" type="date"/></td>
                         <td class="error" th:errors="*{due}" th:if="${#fields.hasErrors('due')}">Due Error</td>
                     </tr>
                     <tr>
                         <td class="rightLabel">Responsible</td>
                         <td class="left">
-                            <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{personId}">
-                                <option value="none">none</option>
+                            <select class="selectMedium" th:field="*{personId}">
+                                <option class="selectMediumOption" value="none">none</option>
                                 <option th:each="person : *{persons}" th:text="${person.username}" th:value="${person.id}" th:selected="${person.id == personId}"></option>
                             </select>
                         </td>
@@ -162,7 +162,7 @@
                     <tr>
                         <td class="rightLabel"></td>
                         <td class="left">
-                            <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE TASK</button>
+                            <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE</button>
                         </td>
                         <td>
 
@@ -220,7 +220,7 @@
                 <table border="0" align="center" th:each="task : *{taskList}" width="100%">
                     <tr>
                         <td>
-                            <hr width="97%"/>
+                            <hr width="100%" size="1"/>
                         </td>
                     </tr>
                     <tr>
@@ -254,7 +254,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <hr width="97%"/>
+                            <hr width="100%" size="1"/>
                         </td>
                     </tr>
                 </table>

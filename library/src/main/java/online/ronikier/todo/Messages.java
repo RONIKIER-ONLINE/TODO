@@ -52,6 +52,7 @@ public class Messages {
     public static final String ERROR_PERSON_DOES_NOT_EXIST = "ERROR_PERSON_DOES_NOT_EXIST";
 
     public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
+    public static final String INFO_NEO4J_CONNECTION_SETUP = "INFO_NEO4J_CONNECTION_SETUP";
     public static final String INFO_TASK_NOT_FOUND = "INFO_TASK_NOT_FOUND";
     public static final String INFO_TASK_CREATED = "INFO_TASK_CREATED";
     public static final String INFO_TASK_EXISTS = "INFO_TASK_EXISTS";

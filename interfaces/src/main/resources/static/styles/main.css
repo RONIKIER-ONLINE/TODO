@@ -87,7 +87,7 @@ TD.rightLabelDescription {
 	font-weight: bold;
 	height=10px;
 	color: #666666;
-	padding: 3pt 0pt 0pt 0pt;
+	padding: 5pt 0pt 0pt 0pt;
 }
 
 TD.rightCheckbox {
@@ -192,8 +192,8 @@ A.knowsSomething {
 /* ===================== Form fields ===================== */
 .buttonShort {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	height=18px;
-	width=60px;
+	height: 23px;
+	width: 80px;
 	color: silver;
 	border-right: 1px solid silver;
 	border-bottom: 1px solid silver;
@@ -202,8 +202,62 @@ A.knowsSomething {
 	background-color: #ffffff;
 }
 INPUT.textShort {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=155px;height=18px;
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 140px;
+	height: 22px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
+    border-top: 1px solid silver;
+    border-left: 1px solid silver;
+    background-color: #ffffff;
+    #background-image: url('some_background.png');
+    #background-position: 10px 10px;
+    #background-repeat: no-repeat;
+    #border-bottom: 2px solid blue;
+    #color: white;
+    transition: width 0.4s ease-in-out;
 }
+
+INPUT.textShortName {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 140px;
+	height: 22px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
+    border-top: 1px solid silver;
+    border-left: 1px solid silver;
+    background-color: #ffffff;
+    #background-image: url('some_background.png');
+    #background-position: 10px 10px;
+    #background-repeat: no-repeat;
+    #border-bottom: 2px solid blue;
+    #color: white;
+    transition: width 0.4s ease-in-out;
+}
+
+INPUT.textShortName:focus {
+  width: 200%;
+}
+
+TEXTAREA.description {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 140px;
+    height: 72px;
+    padding: 3pt 10pt 0pt 5pt;
+    border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
+    border-top: 1px solid silver;
+    border-left: 1px solid silver;
+    background-color: #ffffff;
+	resize: none;
+}
+
+TEXTAREA.description:focus {
+  width: 200%;
+}
+
 INPUT.textMedium {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=70px;height=18px;
 }
@@ -217,26 +271,43 @@ INPUT.textLogin {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=60px;height=18px;
 }
 INPUT.dateShort {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=160px;height=18px;
+		font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    	width: 90px;
+    	height: 18px;
+        padding: 3pt 10pt 0pt 5pt;
+        border-right: 1px solid silver;
+        border-bottom: 1px solid silver;
+        border-top: 1px solid silver;
+        border-left: 1px solid silver;
+        background-color: #ffffff;
 }
 
-TEXTAREA.description {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	height: 60px;
-	width: 137px;
-	resize: none;
 
-}
 SELECT.selectStandard
 {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=136px;
 }
 SELECT.selectMedium
 {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	width: 200px;
-	height: 18px;
+    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    width: 162px;
+    height: 24px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
+    border-top: 1px solid silver;
+    border-left: 1px solid silver;
+    background-color: #ffffff;
+    vertical-align: bottom;
+    text-align: bottom;
 }
+
+option.selectMediumOption
+{
+    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    background-color: #ffffff;
+}
+
 SELECT.selectList
 {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=350px;
