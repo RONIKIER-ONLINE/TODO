@@ -62,27 +62,13 @@ public class TaskController extends SuperController {
         registry.addViewController("/" + Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE).setViewName(Parameters.WEB_CONTROLLER_TASK);
     }
 
-    @PostMapping(Parameters.DEV_WEB_CONTROLLER_PATH)
-    public String devPost(@ModelAttribute Task task, Model model) {
-        model.addAttribute("task", task);
-        return "dev";
-
-    }
-
-    @GetMapping(value = Parameters.DEV_WEB_CONTROLLER_PATH, produces = "text/html")
-    public String devGet(Model model) {
-        model.addAttribute("task", devTask);
-        return "dev";
-    }
-
-
     /**
      * @param taskForm
      * @param model
      * @return
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK, produces = "text/html")
-    public String task(TaskForm taskForm, Model model) {
+    public String getTask(TaskForm taskForm, Model model) {
         initializeForm(taskForm, model);
         return Parameters.WEB_CONTROLLER_TASK;
     }
@@ -94,7 +80,7 @@ public class TaskController extends SuperController {
      * @return
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}", produces = "text/html")
-    public String taskShow(@PathVariable(name = Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID, required = false) Long taskId, TaskForm taskForm, Model model) {
+    public String getTaskById(@PathVariable(name = Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID, required = false) Long taskId, TaskForm taskForm, Model model) {
         Optional<Task> optionalTask = taskService.findTaskById(taskId);
         if (!optionalTask.isPresent()) {
             log.info(Messages.REPOSITORY_TASK_NOT_FOUND + Messages.SEPARATOR + taskId);
@@ -115,7 +101,7 @@ public class TaskController extends SuperController {
      * @return
      */
     @PostMapping(Parameters.WEB_CONTROLLER_TASK)
-    public String taskProcess(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
+    public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             log.error(Messages.ERROR_TASK_ADD);
             bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
@@ -128,7 +114,7 @@ public class TaskController extends SuperController {
                 log.info((Messages.INFO_TASK_EXISTS));
                 log.debug(processedTask.toString());
             } else {
-                processedTask = initializeTask(taskForm);
+                processedTask = initializeTask();
             }
             saveTask(taskForm, processedTask);
             log.info(Messages.INFO_TASK_CREATED);
@@ -147,7 +133,7 @@ public class TaskController extends SuperController {
      * @return
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}", produces = "text/html")
-    public String taskDelete(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
+    public String getTaskDelete(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
         log.info(Messages.INFO_TASK_DELETING);
         taskService.deleteTaskById(taskId);
         initializeForm(taskForm, model);
@@ -188,7 +174,7 @@ public class TaskController extends SuperController {
      * @param task
      */
     private void assignResponsible(TaskForm taskForm, Task task) {
-        Optional<Person> responsibleOptional = personService.findPersonById(Long.valueOf(taskForm.getRequiredByTaskId()));
+        Optional<Person> responsibleOptional = personService.findPersonById(Long.valueOf(taskForm.getResponsiblePersonId()));
         if (responsibleOptional.isPresent()) {
             task.isDoneBy(responsibleOptional.get());
             log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + task + Messages.SEPARATOR + responsibleOptional.get());
@@ -202,23 +188,28 @@ public class TaskController extends SuperController {
      * @return
      * @throws ParseException
      */
-    private Task initializeTask(TaskForm taskForm) throws ParseException {
+    private Task initializeTask() {
 
         //TODO: Implement system common tasks
         //return new Task(dafaultTasks,
 
-        return new Task(appendMaintanceTasks(taskForm.getName()),
+
+        Task newTask = new Task(
+                appendMaintanceTasks(),
                 null,
-                taskForm.getImportant(),
-                taskForm.getUrgent(),
-                Utilities.dateFromString(taskForm.getCreated()),
-                Utilities.dateFromString(taskForm.getStart()),
-                Utilities.dateFromString(taskForm.getDue()),
-                taskForm.getName(),
-                taskForm.getDescription(),
-                StateTask.INITIALIZED ,
-                TypeTask.GENERAL
+                null,
+                null,
+                Utilities.dateCurrent(),
+                Utilities.dateCurrent(),
+                Utilities.dateFuture(taskCompletionTimeDays),
+                null,
+                null,
+                null ,
+                null
         );
+
+        return newTask;
+
     }
 
     /**
@@ -226,12 +217,12 @@ public class TaskController extends SuperController {
      * @param taskName
      * @return
      */
-    private List<Task> appendMaintanceTasks(String taskName) {
+    private List<Task> appendMaintanceTasks() {
         if (Parameters.SYSTEM_SKIP_MAINTENANCE_TASKS) {
             log.info(Messages.INFO_SKIPPING_MAINTENANCE_TASKS);
             return new ArrayList<>();
         }
-        return taskService.getMaintanceTasks(taskName);
+        return taskService.getMaintanceTasks();
     }
 
     /**
@@ -270,9 +261,7 @@ public class TaskController extends SuperController {
      * @param model
      */
     private void initializeForm(TaskForm taskForm, Model model) {
-        taskForm.setCreated(Utilities.stringFromDate(Utilities.dateCurrent()));
-        taskForm.setStart(Utilities.stringFromDate(Utilities.dateCurrent()));
-        taskForm.setDue(Utilities.stringFromDate(Utilities.dateFuture(taskCompletionTimeDays)));
+        taskForm.setTask(initializeTask());
         refreshForm(taskForm,model);
     }
 

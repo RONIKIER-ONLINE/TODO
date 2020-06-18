@@ -201,7 +201,7 @@
                                         <td>
                                             <li>
                                                 <a th:href="@{'/task/' + ${tasksRequiredTask.id}}"/>
-                                                <label th:text="${tasksRequiredTask.name}"></label>
+                                                <label th:text="${tasksRequiredTask.name}"/>
                                             </li>
                                         </td>
                                     </tr>
@@ -217,7 +217,7 @@
     <div th:if="${not #lists.isEmpty(taskList)}">
         <tr>
             <td>
-                <table border="1" align="center" th:each="task : *{taskList}" width="100%">
+                <table border="0" align="center" th:each="task : *{taskList}" width="100%">
                     <tr>
                         <td>
                             <hr width="100%" size="1"/>
@@ -232,7 +232,7 @@
                     <div th:if="${not #lists.isEmpty(task.requiredTasks)}">
                     <tr>
                         <td>
-                            <table border="1" align="center" th:each="requiredTask : *{task.requiredTasks}" width="100%">
+                            <table border="0" align="center" th:each="requiredTask : *{task.requiredTasks}" width="100%">
                                 <tr>
                                     <td>
                                         <li>

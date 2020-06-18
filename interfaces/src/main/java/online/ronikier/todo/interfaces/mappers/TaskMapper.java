@@ -27,12 +27,16 @@ public interface TaskMapper {
     @Mapping(source = "start", target = "task.start", dateFormat = "yyyy-MM-dd")
     @Mapping(source = "due", target = "task.due", dateFormat = "yyyy-MM-dd")
     @Mapping(source = "id", target = "task.id")
+    @Mapping(source = "stateTask", target = "task.stateTask")
+    @Mapping(source = "typeTask", target = "task.typeTask")
     void domain2Form(Task task, @MappingTarget TaskForm taskForm);
 
     @Mapping(source = "task.created", target = "created", dateFormat = "yyyy-MM-dd")
     @Mapping(source = "task.start", target = "start", dateFormat = "yyyy-MM-dd")
     @Mapping(source = "task.due", target = "due", dateFormat = "yyyy-MM-dd")
     @Mapping(source = "task.id", target = "id")
+    @Mapping(source = "task.stateTask", target = "stateTask")
+    @Mapping(source = "task.typeTask", target = "typeTask")
     void form2Domain(TaskForm taskForm, @MappingTarget Task task);
 
 }

@@ -54,6 +54,8 @@ public class TaskServiceGraph implements TaskService {
     @Override
     public void saveTask(Task task) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "SAVING TASK " + Utilities.wrapString(task.toString()));
+        task.setTypeTask(TypeTask.GENERAL);
+        task.setStateTask(StateTask.INITIALIZED);
         taskRepository.save(task);
     }
 
@@ -97,10 +99,11 @@ public class TaskServiceGraph implements TaskService {
     }
 
     @Override
-    public List<Task> getMaintanceTasks(String taskName) {
+    public List<Task> getMaintanceTasks() {
         //TODO: Implement individual task level tasks
-        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " A Maintance", "Maintance task A for " + taskName, StateTask.INITIALIZED ,TypeTask.GENERAL);
-        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), taskName + " B Maintance", "Maintance task B for " + taskName, StateTask.INITIALIZED ,TypeTask.GENERAL);
+        //TODO: One task set for alla ore task set each
+        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", StateTask.INITIALIZED ,TypeTask.GENERAL);
+        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", StateTask.INITIALIZED ,TypeTask.GENERAL);
         return Arrays.asList(maintanceTaskA, maintanceTaskB);
     }
 

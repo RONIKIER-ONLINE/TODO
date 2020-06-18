@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 //@ToString // 500 java.lang.StackOverflowError: null - requiredTasks processing ???
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @AllArgsConstructor
 @NodeEntity
 public class Task extends SuperEntity {
@@ -23,9 +23,9 @@ public class Task extends SuperEntity {
     protected List<Task> requiredTasks;
     @Relationship(type = "IS DONE BY")
     protected Person responsiblePerson;
-    @NonNull
+//    @NonNull
     protected Boolean important;
-    @NonNull
+//    @NonNull
     protected Boolean urgent;
 //    @NonNull
 //    @Past
@@ -35,7 +35,7 @@ public class Task extends SuperEntity {
 //    @NonNull
 //    @Future
     protected Date due;
-    @NonNull
+//    @NonNull
     @Size(max = 30)
     protected String name;
     //@NonNull
@@ -46,15 +46,18 @@ public class Task extends SuperEntity {
 
     protected TypeTask typeTask;
 
-    public void requires(Task task) {
-        if (getRequiredTasks() == null) {
-            setRequiredTasks(new ArrayList<>());
-        }
-        getRequiredTasks().add(task);
+    public void requires(Task task) { getRequiredTasks().add(task);
     }
 
     public void isDoneBy(Person person) {
         setResponsiblePerson(person);
+    }
+
+    public List<Task> getRequiredTasks() {
+        if (requiredTasks == null) {
+            setRequiredTasks(new ArrayList<>());
+        }
+        return requiredTasks;
     }
 
     @Override
@@ -64,13 +67,6 @@ public class Task extends SuperEntity {
                         .stream()
                         .map(Task::getName)
                         .collect(Collectors.toList());
-    }
-
-    public List<Task> getRequiredTasks() {
-        if (requiredTasks == null) {
-            setRequiredTasks(new ArrayList<>());
-        }
-        return requiredTasks;
     }
 
 }

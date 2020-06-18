@@ -59,10 +59,9 @@ public interface TaskService extends SuperService {
 
     /**
      *
-     * @param taskName
      * @return
      */
-    List<Task> getMaintanceTasks(String taskName);
+    List<Task> getMaintanceTasks();
 
     /**
      *
