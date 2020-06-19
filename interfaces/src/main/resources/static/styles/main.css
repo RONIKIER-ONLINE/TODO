@@ -5,7 +5,7 @@ A {
 	text-align:left;
 	vertical-align: top;
 	font-weight: bold;
-	color: #666666;
+	color: Gray;
 	text-decoration:none;
 }
 A:hover {
@@ -42,11 +42,11 @@ TD.taskListTaskName {
 }
 
 td.taskListTaskDescription {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
-	font-color: silver;
+	font: 11px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
 	font-style : italic;
 	vertical-align: top;
 	height=10px;
+	color: blue;
 }
 
 TD.leftTop {
@@ -66,7 +66,7 @@ TD.Personnel {
 	vertical-align: middle;
 	font-weight: bold;
 	height=10px;
-	color: #666666;
+	color: Gray;
 	padding: 5pt 5pt 5pt 7pt;
 }
 
@@ -76,7 +76,7 @@ TD.rightLabel {
 	vertical-align: middle;
 	font-weight: bold;
 	height=10px;
-	color: #666666;
+	color: Gray;
 	padding: 0pt 0pt 0pt 0pt;
 }
 
@@ -86,7 +86,7 @@ TD.rightLabelDescription {
 	vertical-align: top;
 	font-weight: bold;
 	height=10px;
-	color: #666666;
+	color: Gray;
 	padding: 5pt 0pt 0pt 0pt;
 }
 
@@ -96,6 +96,16 @@ TD.rightCheckbox {
    padding: 0pt 0pt 0pt 0pt;
 }
 
+TD.centerLabel {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+	height=10px;
+	color: Gray;
+	padding: 0pt 0pt 0pt 0pt;
+}
+
 TD.leftValue {
    	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
   	text-align:left;
@@ -103,7 +113,7 @@ TD.leftValue {
   	vertical-align: middle;
    	font-weight: bold;
    	height=10px;
-    color: #666666;
+    color: Gray;
     padding: 0pt 0pt 0pt 5pt;
 }
 
@@ -194,11 +204,11 @@ A.knowsSomething {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	height: 23px;
 	width: 80px;
-	color: silver;
-	border-right: 1px solid silver;
-	border-bottom: 1px solid silver;
-	border-top: 1px solid silver;
-	border-left: 1px solid silver;
+	color: Gray;
+	border-right: 1px solid Gray;
+	border-bottom: 1px solid Gray;
+	border-top: 1px solid Gray;
+	border-left: 1px solid Gray;
 	background-color: #ffffff;
 }
 INPUT.textShort {
@@ -206,10 +216,10 @@ INPUT.textShort {
 	width: 140px;
 	height: 22px;
     padding: 0pt 10pt 0pt 5pt;
-    border-right: 1px solid silver;
-    border-bottom: 1px solid silver;
-    border-top: 1px solid silver;
-    border-left: 1px solid silver;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
     background-color: #ffffff;
     #background-image: url('some_background.png');
     #background-position: 10px 10px;
@@ -223,10 +233,10 @@ INPUT.textShortName {
 	width: 140px;
 	height: 22px;
     padding: 0pt 10pt 0pt 5pt;
-    border-right: 1px solid silver;
-    border-bottom: 1px solid silver;
-    border-top: 1px solid silver;
-    border-left: 1px solid silver;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
     background-color: #ffffff;
     #background-image: url('some_background.png');
     #background-position: 10px 10px;
@@ -245,10 +255,10 @@ TEXTAREA.description {
 	width: 140px;
     height: 72px;
     padding: 3pt 10pt 0pt 5pt;
-    border-right: 1px solid silver;
-    border-bottom: 1px solid silver;
-    border-top: 1px solid silver;
-    border-left: 1px solid silver;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
     background-color: #ffffff;
 	resize: none;
     transition: width 0.4s ease-in-out;
@@ -256,6 +266,18 @@ TEXTAREA.description {
 
 TEXTAREA.description:focus {
   width: 200%;
+}
+
+INPUT.filterText {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 70px;
+	height: 22px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #ffffff;
 }
 
 INPUT.textMedium {
@@ -275,10 +297,10 @@ INPUT.dateShort {
     	width: 90px;
     	height: 18px;
         padding: 3pt 10pt 0pt 5pt;
-        border-right: 1px solid silver;
-        border-bottom: 1px solid silver;
-        border-top: 1px solid silver;
-        border-left: 1px solid silver;
+        border-right: 1px solid Gray;
+        border-bottom: 1px solid Gray;
+        border-top: 1px solid Gray;
+        border-left: 1px solid Gray;
         background-color: #ffffff;
 }
 
@@ -293,10 +315,10 @@ SELECT.selectMedium
     width: 162px;
     height: 24px;
     padding: 0pt 10pt 0pt 5pt;
-    border-right: 1px solid silver;
-    border-bottom: 1px solid silver;
-    border-top: 1px solid silver;
-    border-left: 1px solid silver;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
     background-color: #ffffff;
     vertical-align: bottom;
     text-align: bottom;

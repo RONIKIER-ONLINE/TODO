@@ -71,10 +71,19 @@ public class TaskServiceGraph implements TaskService {
     }
 
     @Override
-    public List<Task> filteredTasks(Task filterValues) {
+    public List<Task> filteredTasks(Task taskFilter) {
 
-        //TODO: Implement filtering
-        return allTasks();
+        if (taskFilter == null) return allTasks();
+
+        return StreamSupport.stream(
+                allTasks().spliterator(), true)
+                // First large filter
+                //.filter(task -> task.getImportant() == taskFilter.getImportant())
+                //.filter(task -> task.getUrgent() == taskFilter.getUrgent())
+                .filter(task -> task.getName().toUpperCase().contains(taskFilter.getName().toUpperCase()))
+                //.filter(task -> task.getDescription().toUpperCase().contains(taskFilter.getDescription().toUpperCase()))
+                .collect(Collectors.toList());
+
     }
 
     @Override

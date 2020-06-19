@@ -69,9 +69,9 @@
 </script>
 
 <table border="0" class="task" align="center">
+    <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">
     <tr>
         <td>
-            <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">
                 <table border="0" align="center" cellspacing="5">
                     <tr>
                         <td class="rightLabel" width="80">&nbsp;</td>
@@ -81,7 +81,7 @@
                     </tr>
                     <tr>
                         <td class="rightLabel">Name</td>
-                        <td class="left"><input class="textShortName" id="textShort" th:field="*{name}" type="text" maxlength="30"/></td>
+                        <td class="left"><input class="textShortName" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
                         <td class="error" th:errors="*{name}" th:if="${#fields.hasErrors('name')}">Name
                             Error
                         </td>
@@ -171,19 +171,19 @@
                                     <td>
                                         <input th:field="*{showDialog}" type="checkbox"/>
                                     </td>
-                                    <td>
+                                    <td class="rightLabel">
                                         Show dialog
                                     </td>
                                     <td>
                                         <input th:field="*{showTasks}" type="checkbox"/>
                                     </td>
-                                    <td>
+                                    <td class="rightLabel">
                                         Show tasks
                                     </td>
                                     <td>
                                         <input th:field="*{clearDescription}" type="checkbox"/>
                                     </td>
-                                    <td>
+                                    <td class="rightLabel">
                                         Clear desc
                                     </td>
                                 </tr>
@@ -210,10 +210,56 @@
                         </tr>
                     </div>
                 </table>
-            </form>
         </td>
     </tr>
 
+    <tr>
+        <td>
+            <table border="0" align="center" width="100%">
+                <tr>
+                    <td colspan="5">
+                        <hr width="100%" size="1"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="centerLabel" width="20%">
+                        Name
+                    </td>
+                    <td class="centerLabel" width="20%">
+                        Description
+                    </td>
+                    <td class="centerLabel" width="20%">
+                        Important
+                    </td>
+                    <td class="centerLabel" width="20%">
+                        Urgent
+                    </td>
+                    <td class="centerLabel" width="20%">
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="centerLabel" width="20%">
+                        <input class="filterText" th:field="*{taskFilter.name}" type="text" maxlength="10"/>
+                    </td>
+                    <td class="centerLabel" width="20%">
+                        <input class="filterText" th:field="*{taskFilter.description}" type="text" maxlength="10"/>
+                    </td>
+                    <td class="centerLabel" width="20%">
+                        <input th:field="*{taskFilter.important}" type="checkbox"/>
+                    </td>
+                    <td class="centerLabel" width="20%">
+                        <input th:field="*{taskFilter.urgent}" type="checkbox"/>
+                    </td>
+                    <td class="centerLabel" width="20%">
+                        <button accesskey="f" class="buttonShort" name="action" type="submit" value="filter">FILTER</button>
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+    </form>
     <div th:if="${not #lists.isEmpty(taskList)}">
         <tr>
             <td>
@@ -246,11 +292,7 @@
                     </tr>
                     </div>
                     <tr>
-                        <td>
-                            &nbsp;<a th:href="@{'/task_delete/' + ${task.id}}">
-                                DELETE
-                            </a>
-                        </td>
+                        <td><a th:href="@{'/task_delete/' + ${task.id}}">DELETE</a></td>
                     </tr>
                     <tr>
                         <td>
