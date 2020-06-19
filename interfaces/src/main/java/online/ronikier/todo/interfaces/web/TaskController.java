@@ -69,7 +69,7 @@ public class TaskController extends SuperController {
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK, produces = "text/html")
     public String getTask(TaskForm taskForm, Model model) {
-        initializeForm(taskForm, model);
+        refreshForm(taskForm,model);
         return Parameters.WEB_CONTROLLER_TASK;
     }
 
@@ -87,7 +87,7 @@ public class TaskController extends SuperController {
             return Parameters.WEB_CONTROLLER_TASK;
         }
         Task selectedTask = optionalTask.get();
-        initializeForm(taskForm, model);
+        //initializeForm(taskForm, model);
         updateForm(taskForm, selectedTask);
         model.addAttribute("tasksRequiredTasks", getRequiredTaskList(selectedTask.getId()));
         refreshForm(taskForm, model);
@@ -115,6 +115,8 @@ public class TaskController extends SuperController {
                 log.debug(processedTask.toString());
             } else {
                 processedTask = initializeTask();
+                processedTask.setStateTask(StateTask.INITIALIZED);
+                processedTask.setTypeTask(TypeTask.GENERAL);
             }
             saveTask(taskForm, processedTask);
             log.info(Messages.INFO_TASK_CREATED);
@@ -152,7 +154,6 @@ public class TaskController extends SuperController {
 
         assignResponsible(taskForm, task);
 
-        taskService.saveTask(task);
         if (taskForm.getRequiredByTaskId() != null && !taskForm.getRequiredByTaskId().equals("none")) {
             Optional<Task> requiredByTaskOptional = taskService.findTaskById(Long.valueOf(taskForm.getRequiredByTaskId()));
             if (!requiredByTaskOptional.isPresent()) {
@@ -161,9 +162,19 @@ public class TaskController extends SuperController {
                 Task requiredByTask = requiredByTaskOptional.get();
                 requiredByTask.requires(task);
                 taskService.saveTask(requiredByTask);
-
+            }
+        } else {
+            if (Parameters.SYSTEM_SAVE_NOT_REQUIRED) {
+                taskService.saveTask(task);
+            } else {
+                log.info(Messages.INFO_SKIPPING_NOT_REQUIRED);
+                return;
             }
         }
+
+        taskForm.getTask().setTypeTask(task.getTypeTask());
+        taskForm.getTask().setStateTask(task.getStateTask());
+
         log.info(Messages.INFO_TASK_MODIFIED);
         log.debug(task.toString());
     }
@@ -199,13 +210,13 @@ public class TaskController extends SuperController {
                 null,
                 null,
                 null,
-                Utilities.dateCurrent(),
-                Utilities.dateCurrent(),
-                Utilities.dateFuture(taskCompletionTimeDays),
+                null, //Utilities.dateCurrent(),
+                null, //Utilities.dateCurrent(),
+                null, //Utilities.dateFuture(taskCompletionTimeDays),
                 null,
                 null,
-                null ,
-                null
+                null, //StateTask.INITIALIZED ,
+                null //TypeTask.GENERAL
         );
 
         return newTask;
@@ -220,7 +231,7 @@ public class TaskController extends SuperController {
     private List<Task> appendMaintanceTasks() {
         if (Parameters.SYSTEM_SKIP_MAINTENANCE_TASKS) {
             log.info(Messages.INFO_SKIPPING_MAINTENANCE_TASKS);
-            return new ArrayList<>();
+            return null;
         }
         return taskService.getMaintanceTasks();
     }
@@ -274,6 +285,7 @@ public class TaskController extends SuperController {
         model.addAttribute("taskList", getFilteredTaskList(taskForm.getFilterTask()));
         taskForm.setTasks(getTaskList());
         taskForm.setPersons(getPersonList());
+        //taskForm.setTask(null);
         model.addAttribute("taskCount", taskService.countTasks());
         model.addAttribute("showFcknDialog", taskForm.getShowDialog());
     }
@@ -292,7 +304,7 @@ public class TaskController extends SuperController {
 
         taskMapper.domain2Form(sourceTask, targetTaskForm);
 
-        targetTaskForm.setTask(sourceTask);
+        //targetTaskForm.setTask(sourceTask);
 
 //        targetTaskForm.setName(sourceTask.getName());
 //        targetTaskForm.setDescription(sourceTask.getDescription());

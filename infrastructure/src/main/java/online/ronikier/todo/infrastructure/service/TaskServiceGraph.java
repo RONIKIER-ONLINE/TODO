@@ -54,8 +54,6 @@ public class TaskServiceGraph implements TaskService {
     @Override
     public void saveTask(Task task) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "SAVING TASK " + Utilities.wrapString(task.toString()));
-        task.setTypeTask(TypeTask.GENERAL);
-        task.setStateTask(StateTask.INITIALIZED);
         taskRepository.save(task);
     }
 
@@ -82,7 +80,7 @@ public class TaskServiceGraph implements TaskService {
     @Override
     public List<Task> allTasks() {
 
-        TEST_DEV();
+        //TEST_DEV();
 
         Comparator<Task> taskRequiredTasksComparator = (Task tasksA, Task tasksB) -> {
             return tasksB.getRequiredTasks().size() - tasksA.getRequiredTasks().size();
@@ -123,7 +121,7 @@ public class TaskServiceGraph implements TaskService {
     }
 
 
-    private void TEST_DEV() {
+    private void TEST_DEVX() {
 
         Iterable<Task> tasks = taskRepository.findAll();
 

@@ -141,16 +141,8 @@ public class TaskForm extends SuperForm {
         return getTask().getStateTask();
     }
 
-    public void setStateTask(StateTask stateTask) {
-        getTask().setStateTask(stateTask);
-    }
-
     public TypeTask getTypeTask() {
         return getTask().getTypeTask();
-    }
-
-    public void setTypeTask(TypeTask typeTask) {
-        getTask().setTypeTask(typeTask);
     }
 
 }
