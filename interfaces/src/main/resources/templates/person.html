@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
-    <title>Person tracking system - <h1 th:text="#{person}"></h1></title>
+    <title>Brain Support - Persons</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link rel="stylesheet" th:href="@{/styles/main.css}"/>
     <meta charset="utf-8">
@@ -42,7 +42,7 @@
                     <tr>
                         <td class="rightLabel">Is known by:</td>
                         <td class="left">
-                            <select class="selectMedium" style="width: 143px; height: 18px;" th:field="*{knownByPersonId}">
+                            <select class="selectMedium" th:field="*{knownByPersonId}">
                                 <option value="none">none</option>
                                 <option th:each="person : *{persons}" th:text="${person.username}"
                                         th:value="${person.id}"></option>
@@ -52,8 +52,7 @@
                     <tr>
                     <td class="rightLabel"></td>
                     <td class="left">
-                        <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE PERSON
-                        </button>
+                        <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE</button>
                     </td>
                     </tr>
                     <div th:if="${not #lists.isEmpty(personsKnownPersons)}">
@@ -86,7 +85,7 @@
                 <table border="0" align="center" th:each="person : *{personList}" width="100%">
                     <tr>
                         <td>
-                            <hr width="97%"/>
+                            <hr width="100%" size="1"/>
                         </td>
                     </tr>
                     <tr>
@@ -124,7 +123,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <hr width="97%"/>
+                            <hr width="100%" size="1"/>
                         </td>
                     </tr>
                 </table>

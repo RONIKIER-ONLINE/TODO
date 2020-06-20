@@ -22,17 +22,18 @@
             <artifactId>todo-library</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>2.3.0.RELEASE</version>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-neo4j</artifactId>
-            <version>2.2.2.RELEASE</version>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-ogm-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

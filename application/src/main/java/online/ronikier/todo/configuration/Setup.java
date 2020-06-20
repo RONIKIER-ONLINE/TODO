@@ -2,6 +2,7 @@ package online.ronikier.todo.configuration;
 
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.StateTask;
 import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.library.Utilities;
@@ -11,6 +12,7 @@ import org.springframework.boot.actuate.audit.AuditEventRepository;
 import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,15 +27,15 @@ public class Setup {
     @Bean
     public static Set<Task> dafaultTasks() {
         //TODO: Identify tasks by name to have single references (currently duplicates after restsrt)
-        Task initializationTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task", StateTask.INITIALIZED , TypeTask.GENERAL,null);
-        Task completionTask = new Task(null, null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task", StateTask.INITIALIZED ,TypeTask.GENERAL,null);
+        Task initializationTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task", 1d, CostUnit.DAY, StateTask.INITIALIZED , TypeTask.GENERAL);
+        Task completionTask = new Task(null, null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task", 1d, CostUnit.DAY, StateTask.INITIALIZED ,TypeTask.GENERAL);
         List<Task> dafaultTasks = Arrays.asList(initializationTask, completionTask);
         return new HashSet<>(dafaultTasks);
     }
 
     @Bean
     public static Task devTask() {
-        return new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task", StateTask.INITIALIZED ,TypeTask.GENERAL,null);
+        return new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL);
     }
 
     @Bean
@@ -72,5 +74,4 @@ public class Setup {
             }
         };
     }
-
 }

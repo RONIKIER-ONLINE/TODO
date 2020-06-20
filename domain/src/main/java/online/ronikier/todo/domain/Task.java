@@ -1,8 +1,10 @@
 package online.ronikier.todo.domain;
 
 import lombok.*;
+import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.StateTask;
 import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperEntity;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -14,7 +16,7 @@ import java.util.stream.Collectors;
 //@ToString // 500 java.lang.StackOverflowError: null - requiredTasks processing ???
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @AllArgsConstructor
 @NodeEntity
 public class Task extends SuperEntity {
@@ -22,41 +24,46 @@ public class Task extends SuperEntity {
     @Relationship(type = "REQUIRES")
     protected List<Task> requiredTasks;
     @Relationship(type = "IS DONE BY")
-    protected Person responsible;
-    @NonNull
+    protected Person responsiblePerson;
+//    @NonNull
     protected Boolean important;
-    @NonNull
+//    @NonNull
     protected Boolean urgent;
 //    @NonNull
 //    @Past
-    protected Date created;
+private Date created;
 //    @NonNull
-    protected Date start;
+private Date start;
 //    @NonNull
 //    @Future
-    protected Date due;
-    @NonNull
+private Date due;
+//    @NonNull
     @Size(max = 30)
     protected String name;
     //@NonNull
     @Size(max = 200)
     protected String description;
 
+    protected Double costValue;
+
+    protected CostUnit costUnit;
+
     protected StateTask stateTask;
 
     protected TypeTask typeTask;
 
-    protected Person person;
-
-    public void requires(Task task) {
-        if (getRequiredTasks() == null) {
-            setRequiredTasks(new ArrayList<>());
-        }
-        getRequiredTasks().add(task);
+    public void requires(Task task) { getRequiredTasks().add(task);
     }
 
     public void isDoneBy(Person person) {
-        setResponsible(person);
+        setResponsiblePerson(person);
+    }
+
+    public List<Task> getRequiredTasks() {
+        if (requiredTasks == null) {
+            setRequiredTasks(new ArrayList<>());
+        }
+        return requiredTasks;
     }
 
     @Override
@@ -68,15 +75,15 @@ public class Task extends SuperEntity {
                         .collect(Collectors.toList());
     }
 
-    public List<Task> getRequiredTasks() {
-        if (requiredTasks == null) {
-            setRequiredTasks(new ArrayList<>());
-        }
-        return requiredTasks;
+    public String getCreatedFormatted() {
+        return Utilities.stringFromDate(created);
     }
 
-    public Person getResponsible() {
-        return responsible;
+    public String getStartFormatted() {
+        return Utilities.stringFromDate(start);
     }
 
+    public String getDueFormatted() {
+        return Utilities.stringFromDate(due);
+    }
 }

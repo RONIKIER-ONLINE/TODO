@@ -28,6 +28,11 @@ public class Messages {
     public static final String STATE_TASK_ON_HOLD = "On hold";
     public static final String STATE_TASK_COMPLETED = "Completed";
 
+    public static final String COST_UNIT_PLN = "PLN";
+    public static final String COST_UNIT_DAY = "DAYS";
+    public static final String COST_UNIT_SOLDIER = "YARI";
+
+
     public static final String TYPE_PLACE_CITY = "TYPE_PLACE_CITY";
     public static final String TYPE_PLACE_BUILDING = "TYPE_PLACE_BUILDING";
 
@@ -51,13 +56,17 @@ public class Messages {
     public static final String ERROR_PARAMETER_USERNAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
     public static final String ERROR_PERSON_DOES_NOT_EXIST = "ERROR_PERSON_DOES_NOT_EXIST";
 
+    public static final String INFO_DATE_NOT_SET = "N/A";
+
     public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
+    public static final String INFO_NEO4J_CONNECTION_SETUP = "INFO_NEO4J_CONNECTION_SETUP";
     public static final String INFO_TASK_NOT_FOUND = "INFO_TASK_NOT_FOUND";
     public static final String INFO_TASK_CREATED = "INFO_TASK_CREATED";
     public static final String INFO_TASK_EXISTS = "INFO_TASK_EXISTS";
     public static final String INFO_TASK_MODIFIED = "INFO_TASK_MODIFIED";
     public static final String INFO_TASK_DELETING = "INFO_TASK_DELETING";
     public static final String INFO_SKIPPING_MAINTENANCE_TASKS = "INFO_SKIPPING_MAINTENANCE_TASKS";
+    public static final String INFO_SKIPPING_NOT_REQUIRED = "INFO_SKIPPING_NOT_REQUIRED";
 
     public static final String FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL = "FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL";
     public static final String FORM_TASK_VALIDATION_URGENT_NOT_NULL = "FORM_TASK_VALIDATION_URGENT_NOT_NULL";

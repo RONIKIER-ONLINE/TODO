@@ -2,6 +2,7 @@ package online.ronikier.todo.library;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import online.ronikier.todo.Messages;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -35,7 +36,7 @@ public class Utilities {
     }
 
     public static String stringFromDate(Date date) {
-        if (date == null) return null;
+        if (date == null) return Messages.INFO_DATE_NOT_SET;
         return getDateFormat().format(date);
     }
 
@@ -45,4 +46,9 @@ public class Utilities {
     }
 
 
+    public static boolean notEmpty(String value) {
+        if (value == null) return false;
+        if (value.trim().isEmpty()) return false;
+        return true;
+    }
 }

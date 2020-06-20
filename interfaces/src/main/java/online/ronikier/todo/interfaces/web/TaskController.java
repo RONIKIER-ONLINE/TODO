@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.dictionary.CostUnit;
+import online.ronikier.todo.domain.dictionary.SortOrder;
 import online.ronikier.todo.domain.dictionary.StateTask;
 import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.domain.forms.TaskForm;
@@ -62,28 +64,14 @@ public class TaskController extends SuperController {
         registry.addViewController("/" + Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE).setViewName(Parameters.WEB_CONTROLLER_TASK);
     }
 
-    @PostMapping(Parameters.DEV_WEB_CONTROLLER_PATH)
-    public String devPost(@ModelAttribute Task task, Model model) {
-        model.addAttribute("task", task);
-        return "dev";
-
-    }
-
-    @GetMapping(value = Parameters.DEV_WEB_CONTROLLER_PATH, produces = "text/html")
-    public String devGet(Model model) {
-        model.addAttribute("task", devTask);
-        return "dev";
-    }
-
-
     /**
      * @param taskForm
      * @param model
      * @return
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK, produces = "text/html")
-    public String task(TaskForm taskForm, Model model) {
-        initializeForm(taskForm, model);
+    public String getTask(TaskForm taskForm, Model model) {
+        refreshForm(taskForm,model);
         return Parameters.WEB_CONTROLLER_TASK;
     }
 
@@ -94,14 +82,14 @@ public class TaskController extends SuperController {
      * @return
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}", produces = "text/html")
-    public String taskShow(@PathVariable(name = Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID, required = false) Long taskId, TaskForm taskForm, Model model) {
+    public String getTaskById(@PathVariable(name = Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID, required = false) Long taskId, TaskForm taskForm, Model model) {
         Optional<Task> optionalTask = taskService.findTaskById(taskId);
         if (!optionalTask.isPresent()) {
             log.info(Messages.REPOSITORY_TASK_NOT_FOUND + Messages.SEPARATOR + taskId);
             return Parameters.WEB_CONTROLLER_TASK;
         }
         Task selectedTask = optionalTask.get();
-        initializeForm(taskForm, model);
+        //initializeForm(taskForm, model);
         updateForm(taskForm, selectedTask);
         model.addAttribute("tasksRequiredTasks", getRequiredTaskList(selectedTask.getId()));
         refreshForm(taskForm, model);
@@ -115,26 +103,30 @@ public class TaskController extends SuperController {
      * @return
      */
     @PostMapping(Parameters.WEB_CONTROLLER_TASK)
-    public String taskProcess(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            log.error(Messages.ERROR_TASK_ADD);
-            bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
-            initializeForm(taskForm, model);
-            return Parameters.WEB_CONTROLLER_TASK;
-        }
-        try {
-            Task processedTask = taskService.findTaskByName(taskForm.getName());
-            if (processedTask != null) {
-                log.info((Messages.INFO_TASK_EXISTS));
-                log.debug(processedTask.toString());
-            } else {
-                processedTask = initializeTask(taskForm);
+    public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
+        if (!"filter".equals(taskForm.getAction())) {
+            if (bindingResult.hasErrors()) {
+                log.error(Messages.ERROR_TASK_ADD);
+                bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
+                initializeForm(taskForm, model);
+                return Parameters.WEB_CONTROLLER_TASK;
             }
-            saveTask(taskForm, processedTask);
-            log.info(Messages.INFO_TASK_CREATED);
-            log.debug(processedTask.toString());
-        } catch (Exception e) {
-            log.error(Messages.EXCEPTION_TASK_CREATION + Messages.SEPARATOR + e.getMessage());
+            try {
+                Task processedTask = taskService.findTaskByName(taskForm.getName());
+                if (processedTask != null) {
+                    log.info((Messages.INFO_TASK_EXISTS));
+                    log.debug(processedTask.toString());
+                } else {
+                    processedTask = initializeTask();
+                    processedTask.setStateTask(StateTask.INITIALIZED);
+                    processedTask.setTypeTask(TypeTask.GENERAL);
+                }
+                saveTask(taskForm, processedTask);
+                log.info(Messages.INFO_TASK_CREATED);
+                log.debug(processedTask.toString());
+            } catch (Exception e) {
+                log.error(Messages.EXCEPTION_TASK_CREATION + Messages.SEPARATOR + e.getMessage());
+            }
         }
         refreshForm(taskForm, model);
         return Parameters.WEB_CONTROLLER_TASK;
@@ -147,7 +139,7 @@ public class TaskController extends SuperController {
      * @return
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}", produces = "text/html")
-    public String taskDelete(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
+    public String getTaskDelete(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
         log.info(Messages.INFO_TASK_DELETING);
         taskService.deleteTaskById(taskId);
         initializeForm(taskForm, model);
@@ -166,7 +158,6 @@ public class TaskController extends SuperController {
 
         assignResponsible(taskForm, task);
 
-        taskService.saveTask(task);
         if (taskForm.getRequiredByTaskId() != null && !taskForm.getRequiredByTaskId().equals("none")) {
             Optional<Task> requiredByTaskOptional = taskService.findTaskById(Long.valueOf(taskForm.getRequiredByTaskId()));
             if (!requiredByTaskOptional.isPresent()) {
@@ -175,9 +166,19 @@ public class TaskController extends SuperController {
                 Task requiredByTask = requiredByTaskOptional.get();
                 requiredByTask.requires(task);
                 taskService.saveTask(requiredByTask);
-
+            }
+        } else {
+            if (Parameters.SYSTEM_SAVE_NOT_REQUIRED) {
+                taskService.saveTask(task);
+            } else {
+                log.info(Messages.INFO_SKIPPING_NOT_REQUIRED);
+                return;
             }
         }
+
+        taskForm.getTask().setTypeTask(task.getTypeTask());
+        taskForm.getTask().setStateTask(task.getStateTask());
+
         log.info(Messages.INFO_TASK_MODIFIED);
         log.debug(task.toString());
     }
@@ -188,7 +189,7 @@ public class TaskController extends SuperController {
      * @param task
      */
     private void assignResponsible(TaskForm taskForm, Task task) {
-        Optional<Person> responsibleOptional = personService.findPersonById(Long.valueOf(taskForm.getPersonId()));
+        Optional<Person> responsibleOptional = personService.findPersonById(Long.valueOf(taskForm.getResponsiblePersonId()));
         if (responsibleOptional.isPresent()) {
             task.isDoneBy(responsibleOptional.get());
             log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + task + Messages.SEPARATOR + responsibleOptional.get());
@@ -202,24 +203,30 @@ public class TaskController extends SuperController {
      * @return
      * @throws ParseException
      */
-    private Task initializeTask(TaskForm taskForm) throws ParseException {
+    private Task initializeTask() {
 
         //TODO: Implement system common tasks
         //return new Task(dafaultTasks,
 
-        return new Task(appendMaintanceTasks(taskForm.getName()),
+
+        Task newTask = new Task(
+                appendMaintanceTasks(),
                 null,
-                taskForm.getImportant(),
-                taskForm.getUrgent(),
-                Utilities.dateFromString(taskForm.getCreated()),
-                Utilities.dateFromString(taskForm.getStart()),
-                Utilities.dateFromString(taskForm.getDue()),
-                taskForm.getName(),
-                taskForm.getDescription(),
-                StateTask.INITIALIZED ,
-                TypeTask.GENERAL,
-                personService.findPersonById(Long.valueOf(taskForm.getPersonId())).orElse(null)
+                null,
+                null,
+                null,     //Utilities.dateCurrent(),
+                null,       //Utilities.dateCurrent(),
+                null,       //Utilities.dateFuture(taskCompletionTimeDays),
+                null,
+                null,
+                null,    //Double.valueOf(0),
+                null,     //CostUnit.SOLDIERS,
+                null,    //StateTask.INITIALIZED,
+                null     //TypeTask.GENERAL
         );
+
+        return newTask;
+
     }
 
     /**
@@ -227,12 +234,12 @@ public class TaskController extends SuperController {
      * @param taskName
      * @return
      */
-    private List<Task> appendMaintanceTasks(String taskName) {
+    private List<Task> appendMaintanceTasks() {
         if (Parameters.SYSTEM_SKIP_MAINTENANCE_TASKS) {
             log.info(Messages.INFO_SKIPPING_MAINTENANCE_TASKS);
-            return new ArrayList<>();
+            return null;
         }
-        return taskService.getMaintanceTasks(taskName);
+        return taskService.getMaintanceTasks();
     }
 
     /**
@@ -250,18 +257,16 @@ public class TaskController extends SuperController {
      *
      * @return
      */
-    private List<Task> getTaskList() {
-        log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form task filtering");
-        return taskService.allTasks();
+    private List<Task> getTaskList(SortOrder sortOrder) {
+        return taskService.allTasks(sortOrder);
     }
 
     /**
      *
      * @return
      */
-    private List<Task> getFilteredTaskList(Task filterValues) {
-        log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form task filtering");
-        return taskService.filteredTasks(filterValues);
+    private List<Task> getFilteredTaskList(Task taskFilter,SortOrder sortOrder) {
+        return taskService.filteredTasks(taskFilter,sortOrder);
     }
 
 
@@ -271,9 +276,9 @@ public class TaskController extends SuperController {
      * @param model
      */
     private void initializeForm(TaskForm taskForm, Model model) {
-        taskForm.setCreated(Utilities.stringFromDate(Utilities.dateCurrent()));
-        taskForm.setStart(Utilities.stringFromDate(Utilities.dateCurrent()));
-        taskForm.setDue(Utilities.stringFromDate(Utilities.dateFuture(taskCompletionTimeDays)));
+        taskForm.setTask(initializeTask());
+        taskForm.setTaskFilter(initializeTask());
+        taskForm.setShowTaskDetails(true);
         refreshForm(taskForm,model);
     }
 
@@ -283,9 +288,20 @@ public class TaskController extends SuperController {
      * @param model
      */
     private void refreshForm(TaskForm taskForm, Model model) {
-        model.addAttribute("taskList", getFilteredTaskList(taskForm.getFilterTask()));
-        taskForm.setTasks(getTaskList());
+
+        SortOrder taskListSortOrder = SortOrder.DEFAULT;
+
+        if (taskForm.getShowTaskDetails() == null || taskForm.getShowTaskDetails()) {
+            taskForm.setShowTaskDetails(true);
+            model.addAttribute("showTaskDetails", true);
+        } else {
+            taskListSortOrder = SortOrder.NAME;
+        }
+        model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilter(),taskListSortOrder));
+
+        taskForm.setTasks(getTaskList(SortOrder.NAME));
         taskForm.setPersons(getPersonList());
+        //taskForm.setTask(null);
         model.addAttribute("taskCount", taskService.countTasks());
         model.addAttribute("showFcknDialog", taskForm.getShowDialog());
     }
@@ -304,7 +320,7 @@ public class TaskController extends SuperController {
 
         taskMapper.domain2Form(sourceTask, targetTaskForm);
 
-        targetTaskForm.setTask(sourceTask);
+        //targetTaskForm.setTask(sourceTask);
 
 //        targetTaskForm.setName(sourceTask.getName());
 //        targetTaskForm.setDescription(sourceTask.getDescription());
