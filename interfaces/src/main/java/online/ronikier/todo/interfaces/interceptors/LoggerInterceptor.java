@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        log.info("==========================================");
-//        request.getReader().lines().forEach(log::info);
-//        log.info("==========================================");
-//        request.getHeaderNames().asIterator().forEachRemaining(log::info);
-//        log.info("==========================================");
+        log.info("==========================================");
+        request.getReader().lines().forEach(log::info);
+        log.info("==========================================");
+        request.getHeaderNames().asIterator().forEachRemaining(log::info);
+        log.info("==========================================");
         return true;
     }
 

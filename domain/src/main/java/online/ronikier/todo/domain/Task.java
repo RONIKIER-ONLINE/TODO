@@ -1,8 +1,10 @@
 package online.ronikier.todo.domain;
 
 import lombok.*;
+import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.StateTask;
 import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperEntity;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -29,18 +31,22 @@ public class Task extends SuperEntity {
     protected Boolean urgent;
 //    @NonNull
 //    @Past
-    protected Date created;
+private Date created;
 //    @NonNull
-    protected Date start;
+private Date start;
 //    @NonNull
 //    @Future
-    protected Date due;
+private Date due;
 //    @NonNull
     @Size(max = 30)
     protected String name;
     //@NonNull
     @Size(max = 200)
     protected String description;
+
+    protected Double costValue;
+
+    protected CostUnit costUnit;
 
     protected StateTask stateTask;
 
@@ -69,4 +75,15 @@ public class Task extends SuperEntity {
                         .collect(Collectors.toList());
     }
 
+    public String getCreatedFormatted() {
+        return Utilities.stringFromDate(created);
+    }
+
+    public String getStartFormatted() {
+        return Utilities.stringFromDate(start);
+    }
+
+    public String getDueFormatted() {
+        return Utilities.stringFromDate(due);
+    }
 }

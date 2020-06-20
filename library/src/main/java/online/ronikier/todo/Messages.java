@@ -28,6 +28,11 @@ public class Messages {
     public static final String STATE_TASK_ON_HOLD = "On hold";
     public static final String STATE_TASK_COMPLETED = "Completed";
 
+    public static final String COST_UNIT_PLN = "PLN";
+    public static final String COST_UNIT_DAY = "DAYS";
+    public static final String COST_UNIT_SOLDIER = "YARI";
+
+
     public static final String TYPE_PLACE_CITY = "TYPE_PLACE_CITY";
     public static final String TYPE_PLACE_BUILDING = "TYPE_PLACE_BUILDING";
 
@@ -50,6 +55,8 @@ public class Messages {
     public static final String ERROR_PERSON_ADD = "ERROR_PERSON_ADD";
     public static final String ERROR_PARAMETER_USERNAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
     public static final String ERROR_PERSON_DOES_NOT_EXIST = "ERROR_PERSON_DOES_NOT_EXIST";
+
+    public static final String INFO_DATE_NOT_SET = "N/A";
 
     public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
     public static final String INFO_NEO4J_CONNECTION_SETUP = "INFO_NEO4J_CONNECTION_SETUP";

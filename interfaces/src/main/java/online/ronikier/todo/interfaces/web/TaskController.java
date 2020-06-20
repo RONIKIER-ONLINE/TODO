@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.dictionary.CostUnit;
+import online.ronikier.todo.domain.dictionary.SortOrder;
 import online.ronikier.todo.domain.dictionary.StateTask;
 import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.domain.forms.TaskForm;
@@ -212,13 +214,15 @@ public class TaskController extends SuperController {
                 null,
                 null,
                 null,
-                null, //Utilities.dateCurrent(),
-                null, //Utilities.dateCurrent(),
-                null, //Utilities.dateFuture(taskCompletionTimeDays),
+                null,     //Utilities.dateCurrent(),
+                null,       //Utilities.dateCurrent(),
+                null,       //Utilities.dateFuture(taskCompletionTimeDays),
                 null,
                 null,
-                null, //StateTask.INITIALIZED ,
-                null //TypeTask.GENERAL
+                null,    //Double.valueOf(0),
+                null,     //CostUnit.SOLDIERS,
+                null,    //StateTask.INITIALIZED,
+                null     //TypeTask.GENERAL
         );
 
         return newTask;
@@ -253,18 +257,16 @@ public class TaskController extends SuperController {
      *
      * @return
      */
-    private List<Task> getTaskList() {
-        log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form task filtering");
-        return taskService.allTasks();
+    private List<Task> getTaskList(SortOrder sortOrder) {
+        return taskService.allTasks(sortOrder);
     }
 
     /**
      *
      * @return
      */
-    private List<Task> getFilteredTaskList(Task taskFilter) {
-        log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form task filtering");
-        return taskService.filteredTasks(taskFilter);
+    private List<Task> getFilteredTaskList(Task taskFilter,SortOrder sortOrder) {
+        return taskService.filteredTasks(taskFilter,sortOrder);
     }
 
 
@@ -276,7 +278,7 @@ public class TaskController extends SuperController {
     private void initializeForm(TaskForm taskForm, Model model) {
         taskForm.setTask(initializeTask());
         taskForm.setTaskFilter(initializeTask());
-        taskForm.setShowTasks(true);
+        taskForm.setShowTaskDetails(true);
         refreshForm(taskForm,model);
     }
 
@@ -287,12 +289,17 @@ public class TaskController extends SuperController {
      */
     private void refreshForm(TaskForm taskForm, Model model) {
 
-        if (taskForm.getShowTasks() == null || taskForm.getShowTasks()) {
-            model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilter()));
-            taskForm.setShowTasks(true);
-        }
+        SortOrder taskListSortOrder = SortOrder.DEFAULT;
 
-        taskForm.setTasks(getTaskList());
+        if (taskForm.getShowTaskDetails() == null || taskForm.getShowTaskDetails()) {
+            taskForm.setShowTaskDetails(true);
+            model.addAttribute("showTaskDetails", true);
+        } else {
+            taskListSortOrder = SortOrder.NAME;
+        }
+        model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilter(),taskListSortOrder));
+
+        taskForm.setTasks(getTaskList(SortOrder.NAME));
         taskForm.setPersons(getPersonList());
         //taskForm.setTask(null);
         model.addAttribute("taskCount", taskService.countTasks());

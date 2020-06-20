@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.StateTask;
 import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.library.Parameters;
@@ -28,7 +29,7 @@ public class TaskForm extends SuperForm {
 
     private Boolean showDialog;
 
-    private Boolean showTasks;
+    private Boolean showTaskDetails;
 
     private Boolean clearDescription;
 
@@ -115,34 +116,40 @@ public class TaskForm extends SuperForm {
 
     //@NotEmpty(message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY)
     @Size(max = Parameters.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX, message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX)
-    public String getDescription() {
-        return getTask().getDescription();
-    }
-
-    public void setDescription(String description) {
-        getTask().setDescription(description);
-    }
 
     //TODO: Bust this ...
     public Task getTask() {
         if (task == null) task = new Task();
         return task;
     }
-
+    public String getDescription() {
+        return getTask().getDescription();
+    }
+    public void setDescription(String description) {
+        getTask().setDescription(description);
+    }
     public List<Task> getTasksRequiredTasks() {
-        return task.getRequiredTasks();
+        return getTask().getRequiredTasks();
     }
-
     public List<Task> getRequiredTasks() {
-        return task.getRequiredTasks();
+        return getTask().getRequiredTasks();
     }
-
     public StateTask getStateTask() {
         return getTask().getStateTask();
     }
-
     public TypeTask getTypeTask() {
         return getTask().getTypeTask();
     }
-
+    public Double getCostValue() {
+        return getTask().getCostValue();
+    }
+    public void setCostValue(Double costValue) {
+        getTask().setCostValue(costValue);
+    }
+    public CostUnit getCostUnit() {
+        return getTask().getCostUnit();
+    }
+    public void setCostUnit(CostUnit costUnit) {
+        getTask().setCostUnit(costUnit);
+    }
 }
