@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
-import online.ronikier.todo.domain.dictionary.CostUnit;
-import online.ronikier.todo.domain.dictionary.SortOrder;
-import online.ronikier.todo.domain.dictionary.StateTask;
-import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.domain.dictionary.*;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.cache.annotation.Cacheable;
@@ -94,12 +91,10 @@ public class TaskServiceGraph implements TaskService {
     @Override
     public List<Task> allTasks(SortOrder sortOrder) {
 
-        //TEST_DEV();
-
         Comparator<Task> taskComparator = (Task tasksA, Task tasksB) -> tasksA.getName().compareTo(tasksB.getName());
 
         switch (sortOrder) {
-
+            case NONE: return StreamSupport.stream(taskRepository.findAll().spliterator(), true).collect(Collectors.toList());
             case DEFAULT :
             case REQUIRED_TASKS : {
                 taskComparator = (Task tasksA, Task tasksB) -> tasksB.getRequiredTasks().size() - tasksA.getRequiredTasks().size();
@@ -121,8 +116,8 @@ public class TaskServiceGraph implements TaskService {
     public List<Task> getMaintanceTasks() {
         //TODO: Implement individual task level tasks
         //TODO: One task set for alla ore task set each
-        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL);
-        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL);
+        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL, StatusTask.OK);
+        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL, StatusTask.OK);
         return Arrays.asList(maintanceTaskA, maintanceTaskB);
     }
 
@@ -194,13 +189,13 @@ public class TaskServiceGraph implements TaskService {
         //System.out.print(
 
         Stream.of(
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A1","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task B2","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C3","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A4","Opisik", 1000000d, CostUnit.PLN, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 7d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C6","Opisik", 7d, CostUnit.DAY, StateTask.INITIALIZED ,TypeTask.GENERAL)
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A1","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL, StatusTask.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task B2","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL, StatusTask.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C3","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL, StatusTask.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A4","Opisik", 1000000d, CostUnit.PLN, StateTask.INITIALIZED ,TypeTask.GENERAL, StatusTask.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL, StatusTask.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 7d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL, StatusTask.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C6","Opisik", 7d, CostUnit.DAY, StateTask.INITIALIZED ,TypeTask.GENERAL, StatusTask.OK)
         )
                 //.count();
 

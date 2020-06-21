@@ -161,6 +161,14 @@
                                 <td></td>
                             </tr>
                             </div>
+                            <div th:if="${(taskForm.statusTask ne null)}">
+                                <tr>
+                                    <td class="rightLabel">Status</td>
+                                    <td class="statusTask" th:text="*{statusTask.label}">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </div>
 
                             <tr>
                                 <td class="rightLabel"></td>
@@ -274,11 +282,23 @@
                                                 <a th:href="@{'/task/' + ${task.id}}"><label th:text="${task.name}"/></a>
                                             </td>
                                             <td width="55" align="center" class="taskListPosition">
-                                                <label th:text="${task.typeTask.label}"/>
+
+                                                <div th:if="${(task.statusTask ne null)}">
+                                                    <div th:if="${(task.statusTask.label == 'Delayed')}">
+                                                        <label th:text="${task.statusTask.label}" style="color:#AA0000;"/>
+                                                    </div>
+                                                    <div th:if="${(task.statusTask.label == 'Approaching')}">
+                                                        <label th:text="${task.statusTask.label}" style="color:#00AA00;"/>
+                                                    </div>
+                                                    <div th:if="${not ((task.statusTask.label == 'Approaching') or (task.statusTask.label == 'Delayed'))}">
+                                                        <label th:text="${task.statusTask.label}" style="color:#FF9900;"/>
+                                                    </div>
+                                                </div>
+
                                             </td>
 
                                             <div th:if="${task.important}">
-                                                <td width="20" style="color:#00FF00;" align="center" class="taskListPosition">
+                                                <td width="20" style="color:#00AA00;" align="center" class="taskListPosition">
                                                     <b>???</b>
                                                 </td>
                                             </div>
@@ -290,7 +310,7 @@
                                             </div>
 
                                             <div th:if="${task.urgent}">
-                                                <td width="20" style="color:#FF0000;" align="center" class="taskListPosition">
+                                                <td width="20" style="color:#AAW0000;" align="center" class="taskListPosition">
                                                     <b>!!!</b>
                                                 </td>
                                             </div>

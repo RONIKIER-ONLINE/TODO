@@ -223,7 +223,8 @@ public class TaskController extends SuperController {
                 null,    //Double.valueOf(0),
                 null,     //CostUnit.SOLDIERS,
                 null,    //StateTask.INITIALIZED,
-                null     //TypeTask.GENERAL
+                null,     //TypeTask.GENERAL
+                null    //StatusTask.OK
         );
 
         return newTask;

@@ -29,6 +29,10 @@ public class Messages {
     public static final String STATE_TASK_ON_HOLD = "On hold";
     public static final String STATE_TASK_COMPLETED = "Completed";
 
+    public static final String STATUS_TASK_OK = "Unscheduled";
+    public static final String STATUS_TASK_APPROACHING = "Approaching";
+    public static final String STATUS_TASK_DELAYED = "Delayed";
+
     public static final String COST_UNIT_PLN = "PLN";
     public static final String COST_UNIT_DAY = "DAYS";
     public static final String COST_UNIT_SOLDIER = "YARI";

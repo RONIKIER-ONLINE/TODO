@@ -9,6 +9,7 @@ import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.StateTask;
+import online.ronikier.todo.domain.dictionary.StatusTask;
 import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
@@ -151,5 +152,11 @@ public class TaskForm extends SuperForm {
     }
     public void setCostUnit(CostUnit costUnit) {
         getTask().setCostUnit(costUnit);
+    }
+    public StatusTask getStatusTask() {
+        return getTask().getStatusTask();
+    }
+    public void setStatusTask(StatusTask statusTask) {
+        getTask().setStatusTask(statusTask);
     }
 }

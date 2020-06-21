@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.StateTask;
+import online.ronikier.todo.domain.dictionary.StatusTask;
 import online.ronikier.todo.domain.dictionary.TypeTask;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Utilities;
@@ -39,7 +40,7 @@ public class Application {
                 taskRepository.deleteAll();
             }
 
-            Task millionDollarTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars", 1000000d, CostUnit.SOLDIER, StateTask.STARTED , TypeTask.MONEY);
+            Task millionDollarTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars", 1000000d, CostUnit.SOLDIER, StateTask.STARTED , TypeTask.MONEY, StatusTask.OK);
             taskRepository.save(millionDollarTask);
 
         };

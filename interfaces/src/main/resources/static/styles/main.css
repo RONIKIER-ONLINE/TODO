@@ -139,6 +139,17 @@ TD.stateTask {
     padding: 0pt 0pt 0pt 5pt;
 }
 
+TD.statusTask {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	//vertical-align: top;
+  	vertical-align: middle;
+   	font-weight: italic;
+   	height=10px;
+    color: #0000AA;
+    padding: 0pt 0pt 0pt 5pt;
+}
+
 TD.center {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:center;
 	height=10px;
