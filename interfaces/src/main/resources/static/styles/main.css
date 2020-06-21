@@ -392,6 +392,9 @@ TD.taskListPosition {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	padding: 3pt 3pt 3pt 3pt;
 	background-color: #ffffff;
+	vertical-align: middle;
+    font-weight: bold;
+    color: Gray;
 }
 
 

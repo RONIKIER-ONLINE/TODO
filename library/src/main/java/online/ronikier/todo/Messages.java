@@ -24,6 +24,7 @@ public class Messages {
     public static final String TYPE_TASK_MONEY = "Money";
 
     public static final String STATE_TASK_INITIALIZED = "Initialized";
+    public static final String STATE_TASK_MODIFIED = "Modified";
     public static final String STATE_TASK_STARTED = "Started";
     public static final String STATE_TASK_ON_HOLD = "On hold";
     public static final String STATE_TASK_COMPLETED = "Completed";
@@ -89,6 +90,8 @@ public class Messages {
 
     public static final String REPOSITORY_TASK_NOT_FOUND = "REPOSITORY_TASK_NOT_FOUND";
     public static final String REPOSITORY_PERSON_NOT_FOUND = "REPOSITORY_PERSON_NOT_FOUND";
+
+    public static final String SCHEDULER_TASK_PROCESSING = "SCHEDULER_TASK_PROCESSING";
 
     public static final String SERVICE_RESPONSE_404_TASK = "SERVICE_RESPONSE_404_TASK";
 

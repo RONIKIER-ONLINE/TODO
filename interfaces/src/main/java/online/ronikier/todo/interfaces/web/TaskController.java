@@ -115,6 +115,7 @@ public class TaskController extends SuperController {
                 Task processedTask = taskService.findTaskByName(taskForm.getName());
                 if (processedTask != null) {
                     log.info((Messages.INFO_TASK_EXISTS));
+                    processedTask.setStateTask(StateTask.MODIFIED);
                     log.debug(processedTask.toString());
                 } else {
                     processedTask = initializeTask();
@@ -214,7 +215,7 @@ public class TaskController extends SuperController {
                 null,
                 null,
                 null,
-                null,     //Utilities.dateCurrent(),
+                Utilities.dateCurrent(),
                 null,       //Utilities.dateCurrent(),
                 null,       //Utilities.dateFuture(taskCompletionTimeDays),
                 null,
@@ -278,7 +279,7 @@ public class TaskController extends SuperController {
     private void initializeForm(TaskForm taskForm, Model model) {
         taskForm.setTask(initializeTask());
         taskForm.setTaskFilter(initializeTask());
-        taskForm.setShowTaskDetails(true);
+        taskForm.setShowTaskDetails(false);
         refreshForm(taskForm,model);
     }
 
@@ -291,8 +292,7 @@ public class TaskController extends SuperController {
 
         SortOrder taskListSortOrder = SortOrder.DEFAULT;
 
-        if (taskForm.getShowTaskDetails() == null || taskForm.getShowTaskDetails()) {
-            taskForm.setShowTaskDetails(true);
+        if (taskForm.getShowTaskDetails() != null && taskForm.getShowTaskDetails()) {
             model.addAttribute("showTaskDetails", true);
         } else {
             taskListSortOrder = SortOrder.NAME;
