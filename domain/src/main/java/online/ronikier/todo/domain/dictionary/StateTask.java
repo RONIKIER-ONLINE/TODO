@@ -7,6 +7,7 @@ import online.ronikier.todo.Messages;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum StateTask {
+    NEW(Messages.STATE_TASK_NEW),
     INITIALIZED(Messages.STATE_TASK_INITIALIZED),
     MODIFIED(Messages.STATE_TASK_MODIFIED),
     STARTED(Messages.STATE_TASK_STARTED),

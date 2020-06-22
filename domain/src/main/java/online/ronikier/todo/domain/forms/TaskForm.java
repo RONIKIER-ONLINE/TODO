@@ -36,7 +36,7 @@ public class TaskForm extends SuperForm {
 
     private Task task;
 
-    private Task taskFilter;
+    private TaskFilterForm taskFilterForm;
 
     private String requiredByTaskId;
 

@@ -23,6 +23,7 @@ public class Messages {
     public static final String TYPE_TASK_PERSONAL = "Personal";
     public static final String TYPE_TASK_MONEY = "Money";
 
+    public static final String STATE_TASK_NEW = "New";
     public static final String STATE_TASK_INITIALIZED = "Initialized";
     public static final String STATE_TASK_MODIFIED = "Modified";
     public static final String STATE_TASK_STARTED = "Started";
@@ -61,7 +62,7 @@ public class Messages {
     public static final String ERROR_PARAMETER_USERNAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
     public static final String ERROR_PERSON_DOES_NOT_EXIST = "ERROR_PERSON_DOES_NOT_EXIST";
 
-    public static final String INFO_DATE_NOT_SET = "N/A";
+    public static final String INFO_DATE_NOT_SET = "NOT SET";
 
     public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
     public static final String INFO_NEO4J_CONNECTION_SETUP = "INFO_NEO4J_CONNECTION_SETUP";

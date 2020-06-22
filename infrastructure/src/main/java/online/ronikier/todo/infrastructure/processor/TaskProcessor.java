@@ -3,9 +3,7 @@ package online.ronikier.todo.infrastructure.processor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
-import online.ronikier.todo.domain.dictionary.SortOrder;
-import online.ronikier.todo.domain.dictionary.StateTask;
-import online.ronikier.todo.domain.dictionary.StatusTask;
+import online.ronikier.todo.domain.dictionary.*;
 import online.ronikier.todo.infrastructure.service.TaskService;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,8 @@ public class TaskProcessor {
         } else {
             task.setStatusTask(StatusTask.OK);
         }
+        task.setCostUnit(CostUnit.PLN);
+        task.setTypeTask(TypeTask.GENERAL);
         taskService.saveTask(task);
         return task;
     }

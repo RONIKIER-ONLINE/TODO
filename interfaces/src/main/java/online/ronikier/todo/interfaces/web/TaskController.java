@@ -5,10 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
-import online.ronikier.todo.domain.dictionary.CostUnit;
-import online.ronikier.todo.domain.dictionary.SortOrder;
-import online.ronikier.todo.domain.dictionary.StateTask;
-import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.domain.dictionary.*;
+import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.domain.forms.TaskForm;
 import online.ronikier.todo.infrastructure.service.PersonService;
 import online.ronikier.todo.infrastructure.service.TaskService;
@@ -72,6 +70,9 @@ public class TaskController extends SuperController {
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK, produces = "text/html")
     public String getTask(TaskForm taskForm, Model model) {
         refreshForm(taskForm,model);
+        if (taskForm.getTask().getId() == null) {
+            taskForm.setTask(initializeTask());
+        }
         return Parameters.WEB_CONTROLLER_TASK;
     }
 
@@ -119,8 +120,6 @@ public class TaskController extends SuperController {
                     log.debug(processedTask.toString());
                 } else {
                     processedTask = initializeTask();
-                    processedTask.setStateTask(StateTask.INITIALIZED);
-                    processedTask.setTypeTask(TypeTask.GENERAL);
                 }
                 saveTask(taskForm, processedTask);
                 log.info(Messages.INFO_TASK_CREATED);
@@ -130,6 +129,9 @@ public class TaskController extends SuperController {
             }
         }
         refreshForm(taskForm, model);
+        if (taskForm.getTask().getId() == null) {
+            taskForm.setTask(initializeTask());
+        }
         return Parameters.WEB_CONTROLLER_TASK;
     }
 
@@ -220,11 +222,11 @@ public class TaskController extends SuperController {
                 null,       //Utilities.dateFuture(taskCompletionTimeDays),
                 null,
                 null,
-                null,    //Double.valueOf(0),
-                null,     //CostUnit.SOLDIERS,
-                null,    //StateTask.INITIALIZED,
-                null,     //TypeTask.GENERAL
-                null    //StatusTask.OK
+                Double.valueOf(1),
+                CostUnit.SOLDIER,
+                StateTask.NEW,
+                TypeTask.GENERAL,
+                StatusTask.OK
         );
 
         return newTask;
@@ -267,8 +269,8 @@ public class TaskController extends SuperController {
      *
      * @return
      */
-    private List<Task> getFilteredTaskList(Task taskFilter,SortOrder sortOrder) {
-        return taskService.filteredTasks(taskFilter,sortOrder);
+    private List<Task> getFilteredTaskList(TaskFilterForm taskFilterForm,SortOrder sortOrder) {
+        return taskService.filteredTasks(taskFilterForm,sortOrder);
     }
 
 
@@ -279,7 +281,7 @@ public class TaskController extends SuperController {
      */
     private void initializeForm(TaskForm taskForm, Model model) {
         taskForm.setTask(initializeTask());
-        taskForm.setTaskFilter(initializeTask());
+        taskForm.setTaskFilterForm(new TaskFilterForm());
         taskForm.setShowTaskDetails(false);
         refreshForm(taskForm,model);
     }
@@ -298,7 +300,7 @@ public class TaskController extends SuperController {
         } else {
             taskListSortOrder = SortOrder.NAME;
         }
-        model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilter(),taskListSortOrder));
+        model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilterForm(),taskListSortOrder));
 
         taskForm.setTasks(getTaskList(SortOrder.NAME));
         taskForm.setPersons(getPersonList());

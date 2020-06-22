@@ -2,6 +2,7 @@ package online.ronikier.todo.infrastructure.service;
 
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.SortOrder;
+import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.templete.SuperService;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public interface TaskService extends SuperService {
      *
      * @return
      */
-    public List<Task> filteredTasks(Task filterValues, SortOrder sortOrder);
+    public List<Task> filteredTasks(TaskFilterForm taskFilterForm, SortOrder sortOrder);
 
     /**
      *
