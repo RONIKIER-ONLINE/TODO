@@ -20,11 +20,16 @@ public class Utilities {
     }
 
     public static Date dateFuture(int days) {
+        return dateFutureFrom(days,dateCurrent());
+    }
+
+    public static Date dateFutureFrom(int days, Date date) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateCurrent());
+        calendar.setTime(date);
         calendar.add(Calendar.DATE, days);
         return calendar.getTime();
     }
+
 
     public static Date dateFromString(String dateString) throws ParseException {
         if (dateString == null) return null;

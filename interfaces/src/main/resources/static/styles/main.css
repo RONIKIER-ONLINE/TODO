@@ -161,36 +161,6 @@ td.error {
 	padding: 6pt 3pt 3pt 3pt;
 }
 
-td.typeTask {
-   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-  	text-align:left;
-  	//vertical-align: top;
-  	vertical-align: middle;
-   	font-weight: bold;
-    color: Gray;
-	padding: 3pt 3pt 3pt 3pt;
-}
-
-td.stateTask {
-   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-  	text-align:left;
-  	//vertical-align: top;
-  	vertical-align: middle;
-   	font-weight: bold;
-    color: Gray;
-	padding: 3pt 3pt 3pt 3pt;
-}
-
-td.statusTask {
-   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-  	text-align:left;
-  	//vertical-align: top;
-  	vertical-align: middle;
-   	font-weight: bold;
-    color: Gray;
-	padding: 3pt 3pt 3pt 3pt;
-}
-
 td.formInfo {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	text-align:center;

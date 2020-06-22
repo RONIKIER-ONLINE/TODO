@@ -91,17 +91,23 @@
                                 <td class="left" rowspan="3"><textarea id="taskDescription" class="description" cols="40" rows="5" th:field="*{description}"/></td>
                                 <td class="error" rowspan="3"></td>
                                 <td class="rightLabel">Type</td>
-                                <td class="typeTask" th:text="*{typeTask.label}"></td>
+                                <td class="leftValue">
+                                    <label th:text="*{typeTask.label}"/>
+                                </td>
                                 <td class="error"></td>
                             </tr>
                             <tr>
                                 <td class="rightLabel">State</td>
-                                <td class="stateTask" th:text="*{stateTask.label}"></td>
+                                <td class="leftValue">
+                                    <label th:text="*{stateTask.label}" th:style="*{stateTask.style}"/>
+                                </td>
                                 <td class="error"></td>
                             </tr>
                             <tr>
                                 <td class="rightLabel">Status</td>
-                                <td class="statusTask" th:text="*{statusTask.label}"></td>
+                                <td class="leftValue">
+                                    <label th:text="*{statusTask.label}" th:style="*{statusTask.style}"/>
+                                </td>
                                 <td class="error"></td>
                             </tr>
                             <tr>
@@ -121,19 +127,19 @@
                                 <td class="error"></td>
                             </tr>
                             <tr>
-                                <td class="rightLabel">Due</td>
-                                <td class="left"><input class="dateShort" th:field="*{due}" type="date"/></td>
-                                <td class="error"></td>
                                 <td class="rightLabel">Start</td>
                                 <td class="left"><input class="dateShort" th:field="*{start}" type="date"/></td>
                                 <td class="error"></td>
+                                <td class="rightLabel">Due</td>
+                                <td class="left"><input class="dateShort" th:field="*{due}" type="date"/></td>
+                                <td class="error"></td>
                             </tr>
                             <tr>
-                                <td class="rightLabel"></td>
-                                <td class="left" ></td>
-                                <td class="error"></td>
                                 <td class="rightLabel">Created</td>
                                 <td class="leftValue" th:text="*{created}"></td>
+                                <td class="error"></td>
+                                <td class="rightLabel"></td>
+                                <td class="left" ></td>
                                 <td class="error"></td>
                             </tr>
                             <tr>
@@ -248,41 +254,21 @@
                                 <td>
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                             <tr>
-                                                <td width="25" align="center" class="taskListPosition">
+                                                <td width="20" align="center" class="taskListPosition">
                                                     <a th:href="@{'/task/' + ${task.id}}"><label th:text="${task.id}"/></a>
                                                 </td>
                                                 <td width="120" class="taskListPosition">
                                                     <a th:href="@{'/task/' + ${task.id}}"><label th:text="${task.name}"/></a>
                                                 </td>
-
-                                                <td width="80" align="center" class="taskListPosition">
-                                                    <div th:if="${(task.statusTask ne null)}">
-                                                        <label th:text="${task.statusTask.label}" style="color:#AA0000;"/>
-                                                    </div>
+                                                <td width="60" align="center" class="taskListPosition">
+                                                    <label th:text="${task.stateTask.label}" th:style="${task.stateTask.style}"/>
                                                 </td>
-
-                                                <div th:if="${task.important}">
-                                                    <td width="25" style="color:#00AA00;" align="center" class="taskListPosition">
-                                                        <b>???</b>
-                                                    </td>
-                                                </div>
-                                                <div th:if="${not task.important}">
-                                                    <td width="25" align="center" class="taskListPosition">
-
-                                                    </td>
-                                                </div>
-
-                                                <div th:if="${task.urgent}">
-                                                    <td width="25" style="color:#AA0000;" align="center" class="taskListPosition">
-                                                        <b>!!!</b>
-                                                    </td>
-                                                </div>
-                                                <div th:if="${not task.urgent}">
-                                                    <td width="25" align="center" class="taskListPosition">
-
-                                                    </td>
-                                                </div>
-
+                                                <td width="10" align="center" class="taskListPosition" style="color:#008800;font-weight: bold;">
+                                                    <div th:if="${task.important}">?</div>
+                                                </td>
+                                                <td width="10" align="center" class="taskListPosition" style="color:#880000;font-weight: bold;">
+                                                    <div th:if="${task.urgent}">!</div>
+                                                </td>
                                                 <td width="55" align="center" class="taskListPosition">
                                                     <label th:text="${task.createdFormatted}"/>
                                                 </td>
@@ -295,8 +281,13 @@
                                                 <td width="80" align="right" class="taskListPosition">
                                                     <label th:text="${task.costValue}"/>&nbsp;<label th:text="${task.costUnit.label}"/>
                                                 </td>
-                                                <td width="*" align="center" class="taskListPosition" style="color:#FF9900;">
-                                                    <label th:text="${task.stateTask.label}"/>
+                                                <td width="*" align="right" class="taskListPosition">
+
+                                                </td>
+                                                <td width="80" align="center" class="taskListPosition">
+                                                    <div th:if="${(task.statusTask ne null)}">
+                                                        <label th:text="${task.statusTask.label}" th:style="${task.statusTask.style}"/>
+                                                    </div>
                                                 </td>
                                             </tr>
                                     </table>

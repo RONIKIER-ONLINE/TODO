@@ -30,9 +30,10 @@ public class Messages {
     public static final String STATE_TASK_ON_HOLD = "On hold";
     public static final String STATE_TASK_COMPLETED = "Completed";
 
-    public static final String STATUS_TASK_OK = "Unscheduled";
+    public static final String STATUS_TASK_OK = "Processing";
     public static final String STATUS_TASK_APPROACHING = "Approaching";
     public static final String STATUS_TASK_DELAYED = "Delayed";
+    public static final String STATUS_TASK_UNKNOWN = "Not evaluated";
 
     public static final String COST_UNIT_PLN = "PLN";
     public static final String COST_UNIT_DAY = "DAYS";
@@ -54,6 +55,8 @@ public class Messages {
 
     public static final String EXCEPTION_TASK_DATE_PARSE = "EXCEPTION_TASK_DATE_PARSE";
 
+    public static final String WARN_TASK_STATUS_CHANGED = "WARN_TASK_STATUS_CHANGED";
+
     public static final String ERROR_TASK_ADD = "ERROR_TASK_ADD";
     public static final String ERROR_PARAMETER_NAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
     public static final String ERROR_TASK_DOES_NOT_EXIST = "ERROR_TASK_DOES_NOT_EXIST";
@@ -62,7 +65,7 @@ public class Messages {
     public static final String ERROR_PARAMETER_USERNAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
     public static final String ERROR_PERSON_DOES_NOT_EXIST = "ERROR_PERSON_DOES_NOT_EXIST";
 
-    public static final String INFO_DATE_NOT_SET = "NOT SET";
+    public static final String INFO_DATE_NOT_SET = "- - -";
 
     public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
     public static final String INFO_NEO4J_CONNECTION_SETUP = "INFO_NEO4J_CONNECTION_SETUP";
