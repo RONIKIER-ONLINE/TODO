@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,7 +70,7 @@ public class TaskController extends SuperController {
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK, produces = "text/html")
     public String getTask(TaskForm taskForm, Model model) {
-        refreshForm(taskForm,model);
+        refreshForm(taskForm, model);
         if (taskForm.getTask().getId() == null) {
             taskForm.setTask(initializeTask());
         }
@@ -105,31 +106,45 @@ public class TaskController extends SuperController {
      */
     @PostMapping(Parameters.WEB_CONTROLLER_TASK)
     public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
-        if (!"filter".equals(taskForm.getAction())) {
-            if (bindingResult.hasErrors()) {
-                log.error(Messages.ERROR_TASK_ADD);
-                bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
-                initializeForm(taskForm, model);
-                return Parameters.WEB_CONTROLLER_TASK;
-            }
-            try {
+
+        switch (taskForm.getAction()) {
+            case "filter":
+                break;
+            case "complete": {
                 Task processedTask = taskService.findTaskByName(taskForm.getName());
-                if (processedTask != null) {
-                    log.info((Messages.INFO_TASK_EXISTS));
-                    processedTask.setTaskState(TaskState.MODIFIED);
-                    log.debug(processedTask.toString());
-                } else {
-                    processedTask = initializeTask();
+                processedTask.setTaskState(TaskState.COMPLETED);
+                processedTask.setTaskStatus(TaskStatus.OK);
+                taskService.saveTask(processedTask);
+                break;
+            }
+            case "save": {
+                if (bindingResult.hasErrors()) {
+                    log.error(Messages.ERROR_TASK_ADD);
+                    bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
+                    initializeForm(taskForm, model);
+                    break;
                 }
-                saveTask(taskForm, processedTask);
-                log.info(Messages.INFO_TASK_CREATED);
-                log.debug(processedTask.toString());
-            } catch (Exception e) {
-                log.error(Messages.EXCEPTION_TASK_CREATION + Messages.SEPARATOR + e.getMessage());
+                try {
+                    Task processedTask = taskService.findTaskByName(taskForm.getName());
+                    if (processedTask != null) {
+                        log.info((Messages.INFO_TASK_EXISTS));
+                        processedTask.setTaskState(TaskState.MODIFIED);
+                        log.debug(processedTask.toString());
+                    } else {
+                        processedTask = initializeTask();
+                    }
+                    saveTask(taskForm, processedTask);
+                    log.info(Messages.INFO_TASK_CREATED);
+                    log.debug(processedTask.toString());
+                } catch (Exception e) {
+                    taskForm.setShowDialog(true);
+                    model.addAttribute("dialogMessage", e.getMessage());
+                    log.error(Messages.EXCEPTION_TASK_CREATION + Messages.SEPARATOR + e.getMessage());
+                }
             }
         }
         refreshForm(taskForm, model);
-        if (taskForm.getTask().getId() == null) {
+        if (taskForm.getTask() == null) {
             taskForm.setTask(initializeTask());
         }
         return Parameters.WEB_CONTROLLER_TASK;
@@ -151,7 +166,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @param taskForm
      * @param task
      */
@@ -187,7 +201,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @param taskForm
      * @param task
      */
@@ -201,7 +214,6 @@ public class TaskController extends SuperController {
 
 
     /**
-     *
      * @param taskForm
      * @return
      * @throws ParseException
@@ -234,7 +246,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @param taskName
      * @return
      */
@@ -247,7 +258,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @param taskId
      * @return
      */
@@ -258,7 +268,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @return
      */
     private List<Task> getTaskList(SortOrder sortOrder) {
@@ -266,13 +275,11 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @return
      */
-    private List<Task> getFilteredTaskList(TaskFilterForm taskFilterForm,SortOrder sortOrder) {
-        return taskService.filteredTasks(taskFilterForm,sortOrder);
+    private List<Task> getFilteredTaskList(TaskFilterForm taskFilterForm, SortOrder sortOrder) {
+        return taskService.filteredTasks(taskFilterForm, sortOrder);
     }
-
 
 
     /**
@@ -282,12 +289,11 @@ public class TaskController extends SuperController {
     private void initializeForm(TaskForm taskForm, Model model) {
         taskForm.setTask(initializeTask());
         taskForm.setTaskFilterForm(new TaskFilterForm());
-        taskForm.setShowTaskDetails(false);
-        refreshForm(taskForm,model);
+        //taskForm.setShowTaskDetails(false);
+        refreshForm(taskForm, model);
     }
 
     /**
-     *
      * @param taskForm
      * @param model
      */
@@ -300,7 +306,7 @@ public class TaskController extends SuperController {
         } else {
             taskListSortOrder = SortOrder.NAME;
         }
-        model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilterForm(),taskListSortOrder));
+        model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilterForm(), taskListSortOrder));
 
         taskForm.setTasks(getTaskList(SortOrder.NAME));
         taskForm.setPersons(getPersonList());
@@ -315,7 +321,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @param targetTaskForm
      * @param sourceTask
      */

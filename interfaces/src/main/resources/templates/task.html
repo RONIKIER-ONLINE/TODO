@@ -20,6 +20,12 @@
                         <td class="leftValue" th:text="*{taskCount}"></td>
                     </tr>
                 </table>
+                <table border="0">
+                    <tr>
+                        <td class="rightLabel">Message:</td>
+                        <td class="leftValue" th:text="*{dialogMessage}"></td>
+                    </tr>
+                </table>
                 <table border="0" align="center" th:each="task : *{taskList}" width="100%">
                     <tr>
                         <td>
@@ -99,9 +105,9 @@
                                 </td>
                                 <td class="rightLabel">Type</td>
                                 <td class="leftValue">
-<!--                                    <div th:if="${(taskType ne null)}">-->
+                                    <div th:if="${(taskType ne null)}">
                                         <label th:text="*{taskType.label}"/>
-<!--                                    </div>-->
+                                    </div>
                                 </td>
                                 <td class="error">
                                 </td>
@@ -117,7 +123,9 @@
                                 </td>
                                 <td class="rightLabel">State</td>
                                 <td class="leftValue">
+                                    <div th:if="${(taskState ne null)}">
                                     <label th:text="*{taskState.label}" th:style="*{taskState.style}"/>
+                                    </div>
                                 </td>
                                 <td class="error">
                                 </td>
@@ -126,7 +134,9 @@
                                 <td class="error"></td>
                                 <td class="rightLabel">Status</td>
                                 <td class="leftValue">
+                                    <div th:if="${(taskStatus ne null)}">
                                     <label th:text="*{taskStatus.label}" th:style="*{taskStatus.style}"/>
+                                    </div>
                                 </td>
                                 <td class="error"></td>
                             </tr>
@@ -161,7 +171,7 @@
                             </tr>
                             <tr><td colspan="6"><hr width="99%" size="1"/></td></tr>
                             <tr>
-                                <td class="formInfo" colspan="5">
+                                <td class="formInfo" colspan="4">
                                     <table border="0" cellpadding="0" cellspacing="0" align="left">
                                         <tr>
                                             <td width="20" class="rightCheckbox">
@@ -184,6 +194,9 @@
                                             </td>
                                         </tr>
                                     </table>
+                                </td>
+                                <td class="rightButton">
+                                    <button accesskey="c" class="buttonShort" name="action" type="submit" value="complete">COMPLETE</button>
                                 </td>
                                 <td class="rightButton">
                                     <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE</button>

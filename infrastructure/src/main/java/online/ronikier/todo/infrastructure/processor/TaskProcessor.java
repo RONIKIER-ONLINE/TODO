@@ -41,6 +41,8 @@ public class TaskProcessor {
     }
     public Task checkDelayed(Task task) {
 
+        if (task.getTaskState().equals(TaskState.COMPLETED)) return task;
+
         TaskStatus previousStatus = task.getTaskStatus();
 
         if (task.getStart() != null && task.getStart().before(Utilities.dateCurrent())) {

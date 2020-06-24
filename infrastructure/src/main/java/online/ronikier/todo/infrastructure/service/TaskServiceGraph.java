@@ -85,18 +85,18 @@ public class TaskServiceGraph implements TaskService {
             : filteredTasksStream;
 
         filteredTasksStream = filterSelected(taskFilterForm.getTaskState())
-            ? filteredTasksStream.filter(task -> task.getTaskState().equals(taskFilterForm.getTaskState()))
+            ? filteredTasksStream.filter(task -> taskFilterForm.getTaskState().equals(task.getTaskState()))
             : filteredTasksStream;
 
         filteredTasksStream = filterSelected(taskFilterForm.getTaskStatus())
-            ? filteredTasksStream.filter(task -> task.getTaskStatus().equals(taskFilterForm.getTaskStatus()))
+            ? filteredTasksStream.filter(task -> taskFilterForm.getTaskStatus().equals(task.getTaskStatus()))
             : filteredTasksStream;
 
-        filteredTasksStream = taskFilterForm.getImportant()
+        filteredTasksStream = filterFlag(taskFilterForm.getImportant())
             ? filteredTasksStream.filter(task -> task.getImportant())
             : filteredTasksStream;
 
-        filteredTasksStream = taskFilterForm.getUrgent()
+        filteredTasksStream = filterFlag(taskFilterForm.getUrgent())
             ? filteredTasksStream.filter(task -> task.getUrgent())
             : filteredTasksStream;
 
@@ -109,10 +109,6 @@ public class TaskServiceGraph implements TaskService {
 
         return filteredTasksStream.collect(Collectors.toList());
 
-    }
-
-    private boolean filterSelected(Object filter) {
-        return Optional.ofNullable(filter).isPresent();
     }
 
     @Override
@@ -160,12 +156,16 @@ public class TaskServiceGraph implements TaskService {
         return null;
     }
 
-
-    private void logMessage(String message) {
-        log.info(message);
+    private boolean filterSelected(Object filter) {
+        return Optional.ofNullable(filter).isPresent();
     }
 
+    private boolean filterFlag(Boolean flag) {
+        if (filterSelected(flag)) return flag;
+        return false;
+    }
 
+    @Deprecated(forRemoval = true)
     private void TEST_DEVX() {
 
         Iterable<Task> tasks = taskRepository.findAll();
@@ -230,7 +230,7 @@ public class TaskServiceGraph implements TaskService {
 
                 .skip(1)
                 .filter(task -> task.getName().contains("A"))
-                .map(this::chujTask)
+                .map(this::transformTask)
 
                 //.forEach(System.out::println);
 
@@ -249,8 +249,8 @@ public class TaskServiceGraph implements TaskService {
 
     }
 
-    public Task chujTask(online.ronikier.todo.domain.Task task) {
-        task.setName("chuj");
+    public Task transformTask(online.ronikier.todo.domain.Task task) {
+        task.setName(task.getName() + " has been transformed ...");
         return task;
     }
 
