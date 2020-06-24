@@ -80,10 +80,39 @@ public class TaskServiceGraph implements TaskService {
 
         Stream<Task> filteredTasksStream = allTasks(sortOrder).parallelStream();
 
-        filteredTasksStream = taskFilterForm.getImportant() ? filteredTasksStream.filter(task -> task.getImportant() == taskFilterForm.getImportant()) : taskFilterForm.getUrgent() ? filteredTasksStream.filter(task -> task.getUrgent() == taskFilterForm.getUrgent()) : Utilities.notEmpty(taskFilterForm.getPhrase()) ? filteredTasksStream.filter(task -> task.getName().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())) : Utilities.notEmpty(taskFilterForm.getPhrase()) ? filteredTasksStream.filter(task -> task.getDescription().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())) : filteredTasksStream;
+        filteredTasksStream = filterSelected(taskFilterForm.getTaskType())
+            ? filteredTasksStream.filter(task -> taskFilterForm.getTaskType().equals(task.getTaskType()))
+            : filteredTasksStream;
+
+        filteredTasksStream = filterSelected(taskFilterForm.getTaskState())
+            ? filteredTasksStream.filter(task -> task.getTaskState().equals(taskFilterForm.getTaskState()))
+            : filteredTasksStream;
+
+        filteredTasksStream = filterSelected(taskFilterForm.getTaskStatus())
+            ? filteredTasksStream.filter(task -> task.getTaskStatus().equals(taskFilterForm.getTaskStatus()))
+            : filteredTasksStream;
+
+        filteredTasksStream = taskFilterForm.getImportant()
+            ? filteredTasksStream.filter(task -> task.getImportant())
+            : filteredTasksStream;
+
+        filteredTasksStream = taskFilterForm.getUrgent()
+            ? filteredTasksStream.filter(task -> task.getUrgent())
+            : filteredTasksStream;
+
+        filteredTasksStream = filterSelected(taskFilterForm.getPhrase())
+            ? filteredTasksStream.filter(task -> (
+                task.getName().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())
+                ||
+                task.getDescription().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())))
+            : filteredTasksStream;
 
         return filteredTasksStream.collect(Collectors.toList());
 
+    }
+
+    private boolean filterSelected(Object filter) {
+        return Optional.ofNullable(filter).isPresent();
     }
 
     @Override
@@ -115,8 +144,8 @@ public class TaskServiceGraph implements TaskService {
     public List<Task> getMaintanceTasks() {
         //TODO: Implement individual task level tasks
         //TODO: One task set for alla ore task set each
-        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK);
-        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK);
+        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
+        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         return Arrays.asList(maintanceTaskA, maintanceTaskB);
     }
 
@@ -189,13 +218,13 @@ public class TaskServiceGraph implements TaskService {
         //System.out.print(
 
         Stream.of(
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A1","Opisik", 0d, CostUnit.SOLDIER, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task B2","Opisik", 0d, CostUnit.SOLDIER, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C3","Opisik", 0d, CostUnit.SOLDIER, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A4","Opisik", 1000000d, CostUnit.PLN, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 0d, CostUnit.SOLDIER, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 7d, CostUnit.SOLDIER, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C6","Opisik", 7d, CostUnit.DAY, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK)
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A1","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task B2","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C3","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A4","Opisik", 1000000d, CostUnit.PLN, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 7d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C6","Opisik", 7d, CostUnit.DAY, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK)
         )
                 //.count();
 

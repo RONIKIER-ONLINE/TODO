@@ -2,9 +2,9 @@ package online.ronikier.todo.domain;
 
 import lombok.*;
 import online.ronikier.todo.domain.dictionary.CostUnit;
-import online.ronikier.todo.domain.dictionary.StateTask;
-import online.ronikier.todo.domain.dictionary.StatusTask;
-import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.domain.dictionary.TaskState;
+import online.ronikier.todo.domain.dictionary.TaskStatus;
+import online.ronikier.todo.domain.dictionary.TaskType;
 import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperEntity;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -49,11 +49,11 @@ private Date due;
 
     protected CostUnit costUnit;
 
-    protected StateTask stateTask;
+    protected TaskState taskState;
 
-    protected TypeTask typeTask;
+    protected TaskType taskType;
 
-    protected StatusTask statusTask;
+    protected TaskStatus taskStatus;
 
     public void requires(Task task) { getRequiredTasks().add(task);
     }

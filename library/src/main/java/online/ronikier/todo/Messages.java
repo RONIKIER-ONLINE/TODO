@@ -19,21 +19,21 @@ public class Messages {
     public static final String TYPE_RESOURCE_PHONE_NO = "TYPE_RESOURCE_PHONE_NO";
     public static final String TYPE_RESOURCE_EMAIL = "TYPE_RESOURCE_EMAIL";
 
-    public static final String TYPE_TASK_GENERAL = "General";
-    public static final String TYPE_TASK_PERSONAL = "Personal";
-    public static final String TYPE_TASK_MONEY = "Money";
+    public static final String TASK_TYPE_GENERAL = "General";
+    public static final String TASK_TYPE_PERSONAL = "Personal";
+    public static final String TASK_TYPE_MONEY = "Money";
 
-    public static final String STATE_TASK_NEW = "New";
-    public static final String STATE_TASK_INITIALIZED = "Initialized";
-    public static final String STATE_TASK_MODIFIED = "Modified";
-    public static final String STATE_TASK_STARTED = "Started";
-    public static final String STATE_TASK_ON_HOLD = "On hold";
-    public static final String STATE_TASK_COMPLETED = "Completed";
+    public static final String TASK_STATE_NEW = "New";
+    public static final String TASK_STATE_INITIALIZED = "Initialized";
+    public static final String TASK_STATE_MODIFIED = "Modified";
+    public static final String TASK_STATE_STARTED = "Started";
+    public static final String TASK_STATE_ON_HOLD = "On hold";
+    public static final String TASK_STATE_COMPLETED = "Completed";
 
-    public static final String STATUS_TASK_OK = "Processing";
-    public static final String STATUS_TASK_APPROACHING = "Approaching";
-    public static final String STATUS_TASK_DELAYED = "Delayed";
-    public static final String STATUS_TASK_UNKNOWN = "Not evaluated";
+    public static final String TASK_STATUS_OK = "OK";
+    public static final String TASK_STATUS_APPROACHING = "Approaching";
+    public static final String TASK_STATUS_DELAYED = "Delayed";
+    public static final String TASK_STATUS_UNKNOWN = "Not evaluated";
 
     public static final String COST_UNIT_PLN = "PLN";
     public static final String COST_UNIT_DAY = "DAYS";

@@ -1,12 +1,13 @@
 package online.ronikier.todo.domain.forms;
 
 import lombok.Data;
-import online.ronikier.todo.domain.dictionary.StateTask;
-import online.ronikier.todo.domain.dictionary.StatusTask;
-import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.domain.dictionary.TaskState;
+import online.ronikier.todo.domain.dictionary.TaskStatus;
+import online.ronikier.todo.domain.dictionary.TaskType;
 import online.ronikier.todo.templete.SuperForm;
 
 import java.util.Date;
+import java.util.Optional;
 
 
 @Data
@@ -20,8 +21,10 @@ public class TaskFilterForm extends SuperForm {
     private Date startTo;
     private Date dueFrom;
     private Date dueTo;
-    private StateTask stateTask;
-    private StatusTask statusTask;
-    private TypeTask typeTask;
+    private TaskState taskState;
+    private TaskStatus taskStatus;
+    private TaskType taskType;
+
+
 
 }

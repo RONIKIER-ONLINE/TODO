@@ -116,7 +116,7 @@ public class TaskController extends SuperController {
                 Task processedTask = taskService.findTaskByName(taskForm.getName());
                 if (processedTask != null) {
                     log.info((Messages.INFO_TASK_EXISTS));
-                    processedTask.setStateTask(StateTask.MODIFIED);
+                    processedTask.setTaskState(TaskState.MODIFIED);
                     log.debug(processedTask.toString());
                 } else {
                     processedTask = initializeTask();
@@ -179,8 +179,8 @@ public class TaskController extends SuperController {
             }
         }
 
-        taskForm.getTask().setTypeTask(task.getTypeTask());
-        taskForm.getTask().setStateTask(task.getStateTask());
+        taskForm.getTask().setTaskType(task.getTaskType());
+        taskForm.getTask().setTaskState(task.getTaskState());
 
         log.info(Messages.INFO_TASK_MODIFIED);
         log.debug(task.toString());
@@ -224,9 +224,9 @@ public class TaskController extends SuperController {
                 null,
                 Double.valueOf(1),
                 CostUnit.SOLDIER,
-                StateTask.NEW,
-                TypeTask.GENERAL,
-                StatusTask.OK
+                TaskState.NEW,
+                TaskType.GENERAL,
+                TaskStatus.OK
         );
 
         return newTask;

@@ -41,33 +41,55 @@ public class TaskProcessor {
     }
     public Task checkDelayed(Task task) {
 
-        StatusTask previousStatus = task.getStatusTask();
+        TaskStatus previousStatus = task.getTaskStatus();
 
         if (task.getStart() != null && task.getStart().before(Utilities.dateCurrent())) {
-            task.setStateTask(StateTask.STARTED);
+            task.setTaskState(TaskState.STARTED);
         }
 
         if (task.getDue() != null) {
             if (task.getDue().before(Utilities.dateCurrent())) {
-                task.setStatusTask(StatusTask.DELAYED);
+                task.setTaskStatus(TaskStatus.DELAYED);
             } else if (task.getDue().before(Utilities.dateFutureFrom(setupProcessorTaskApproachingDays,Utilities.dateCurrent()))) {
-                task.setStatusTask(StatusTask.APPROACHING);
+                task.setTaskStatus(TaskStatus.APPROACHING);
             } else {
-                task.setStatusTask(StatusTask.OK);
+                task.setTaskStatus(TaskStatus.OK);
             }
         } else {
-            task.setStatusTask(StatusTask.UNKNOWN);
+            task.setTaskStatus(TaskStatus.UNKNOWN);
         }
 
-        if (!task.getStatusTask().equals(previousStatus)) {
+        if (!task.getTaskStatus().equals(previousStatus)) {
             taskStatusChanged(previousStatus,task);
         }
+
+
+
+
+        // TODO: Remove it
+        if (task.getTaskState() == null) {
+            task.setTaskState(TaskState.NEW);
+        }
+
+        if (task.getTaskType() == null) {
+            task.setTaskType(TaskType.GENERAL);
+        }
+        if (task.getTaskState() == null) {
+            task.setTaskState(TaskState.NEW);
+        }
+
+        if (task.getTaskStatus() == null) {
+            task.setTaskStatus(TaskStatus.UNKNOWN);
+        }
+        // ===
+
+
 
         taskService.saveTask(task);
         return task;
     }
 
-    private void taskStatusChanged(StatusTask previousStatus, Task task) {
-        log.warn(Messages.WARN_TASK_STATUS_CHANGED + Messages.SEPARATOR + task.getName() + Messages.SEPARATOR + (previousStatus != null ? previousStatus.getLabel() : "") + " > " + task.getStatusTask().getLabel());
+    private void taskStatusChanged(TaskStatus previousStatus, Task task) {
+        log.warn(Messages.WARN_TASK_STATUS_CHANGED + Messages.SEPARATOR + task.getName() + Messages.SEPARATOR + (previousStatus != null ? previousStatus.getLabel() : "") + " > " + task.getTaskStatus().getLabel());
     }
 }

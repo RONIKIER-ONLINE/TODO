@@ -3,9 +3,9 @@ package online.ronikier.todo.configuration;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.CostUnit;
-import online.ronikier.todo.domain.dictionary.StateTask;
-import online.ronikier.todo.domain.dictionary.StatusTask;
-import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.domain.dictionary.TaskState;
+import online.ronikier.todo.domain.dictionary.TaskStatus;
+import online.ronikier.todo.domain.dictionary.TaskType;
 import online.ronikier.todo.library.Utilities;
 
 import org.springframework.boot.actuate.audit.AuditEvent;
@@ -28,15 +28,15 @@ public class Setup {
     @Bean
     public static Set<Task> dafaultTasks() {
         //TODO: Identify tasks by name to have single references (currently duplicates after restsrt)
-        Task initializationTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task", 1d, CostUnit.DAY, StateTask.NEW , TypeTask.GENERAL, StatusTask.OK);
-        Task completionTask = new Task(null, null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task", 1d, CostUnit.DAY, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK);
+        Task initializationTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task", 1d, CostUnit.DAY, TaskState.NEW , TaskType.GENERAL, TaskStatus.OK);
+        Task completionTask = new Task(null, null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task", 1d, CostUnit.DAY, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         List<Task> dafaultTasks = Arrays.asList(initializationTask, completionTask);
         return new HashSet<>(dafaultTasks);
     }
 
     @Bean
     public static Task devTask() {
-        return new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task", 0d, CostUnit.SOLDIER, StateTask.NEW ,TypeTask.GENERAL, StatusTask.OK);
+        return new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
     }
 
     @Bean

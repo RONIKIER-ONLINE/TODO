@@ -25,55 +25,33 @@
     <tr>
         <td>
             <form action="#" method="post" th:action="@{/person}" th:object="${personForm}">
-                <table border="0" align="center" cellspacing="5">
+                <table border="0" align="center" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td class="rightLabel" width="80">&nbsp;</td>
-                        <td class="left" width="143">&nbsp;</td>
-                        <td class="error" width="275">&nbsp;
-                        </td>
+                        <td class="rightLabel" width="80"></td>
+                        <td class="leftValue" width="143"><input class="textShort" id="personUsername" th:field="*{username}" type="text" maxlength="30"/></td>
+                        <td class="error"  width="275" th:errors="*{username}" th:if="${#fields.hasErrors('username')}">Username Error</td>
                     </tr>
                     <tr>
-                        <td class="rightLabel">Username:</td>
-                        <td class="left"><input class="textShort" id="personUsername" th:field="*{username}" type="text" maxlength="30"/></td>
-                        <td class="error" th:errors="*{username}" th:if="${#fields.hasErrors('username')}">Username
-                            Error
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="rightLabel">Is known by:</td>
-                        <td class="left">
+                        <td class="rightLabel">is known by ...</td>
+                        <td class="leftValue">
                             <select class="selectMedium" th:field="*{knownByPersonId}">
-                                <option value="none">none</option>
+                                <option value="none">nope</option>
                                 <option th:each="person : *{persons}" th:text="${person.username}"
                                         th:value="${person.id}"></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                    <td class="rightLabel"></td>
-                    <td class="left">
-                        <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE</button>
-                    </td>
+                        <td class="rightLabel"></td>
+                        <td class="rightButton">
+                            <button accesskey="d" class="buttonShort" name="action" type="submit" value="save">PREGO</button>
+                        </td>
                     </tr>
-                    <div th:if="${not #lists.isEmpty(personsKnownPersons)}">
-                        </tr>
-                        <td class="rightLabel">
-                            &nbsp;
+                    <tr>
+                        <td colspan="2">
+                            <hr width="100%" size="1"/>
                         </td>
-                        <td class="left">
-                            <table border="0" align="center" th:each="personsKnownPerson : *{personsKnownPersons}" width="100%">
-                                <tr>
-                                    <td>
-                                        <li>
-                                            <a th:href="@{'/person/' + ${personsKnownPerson.id}}"/>
-                                            <label th:text="${personsKnownPerson.username}"></label>
-                                        </li>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                        </tr>
-                    </div>
+                    </tr>
                 </table>
             </form>
         </td>
@@ -84,33 +62,23 @@
             <td>
                 <table border="0" align="center" th:each="person : *{personList}" width="100%">
                     <tr>
-                        <td>
-                            <hr width="100%" size="1"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            &nbsp;<a th:href="@{'/person/' + ${person.id}}">
-                            <label th:text="${person.username}"></label>
-                        </a>
+                        <td class="leftValue">
+                            <a th:href="@{'/person/' + ${person.id}}">
+                                <label th:text="${person.username}"/>
+                            </a>
                         </td>
                     </tr>
                     <div th:if="${not #lists.isEmpty(person.knownPersons)}">
                         <tr>
                             <td>
-                                <table border="0" th:each="knownPerson : *{person.knownPersons}">
+                                <table border="0" cellspacing="0" cellpadding="0" th:each="knownPerson : *{person.knownPersons}">
                                     <tr>
-                                        <td class="knowsSomething" width="10">
-
-                                        </td>
+                                        <td class="knowsSomething" width="10"></td>
                                         <td class="knowsSomething">
                                             knows
-                                        </td>
-                                        <td class="knowsSomething">
-                                            <a class="knowsSomething" th:href="@{'/person/' + ${knownPerson.id}}"/>
-                                                <label th:text="${knownPerson.username}"></label>
-                                        </td>
-                                        <td class="knowsSomething">
+                                            <a class="knowsSomething" th:href="@{'/person/' + ${knownPerson.id}}">
+                                                <label th:text="${knownPerson.username}"/>
+                                            </a>
                                             ...
                                         </td>
                                     </tr>
@@ -119,7 +87,7 @@
                         </tr>
                     </div>
                     <tr>
-                        <td><a th:href="@{'/person_delete/' + ${person.id}}">BANG !!!</a></td>
+                        <td class="leftValue"><a th:href="@{'/person_delete/' + ${person.id}}">BANG !!!</a></td>
                     </tr>
                     <tr>
                         <td>
