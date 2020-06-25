@@ -11,6 +11,7 @@ public class Parameters {
     public static final int SYSTEM_VERSION_UPDATE = 1;
 
     public static final boolean SYSTEM_SAVE_NOT_REQUIRED = true;
+    public static final boolean SYSTEM_ALLOW_DUPLICATE_NAMES = false;
 
     public static final String WEB_FORM_DATE_FORMAT = "yyyy-MM-dd";
 

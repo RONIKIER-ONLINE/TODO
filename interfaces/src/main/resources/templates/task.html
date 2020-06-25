@@ -78,6 +78,7 @@
                 <tr>
                     <td>
                         <table border="0" align="center" cellpadding="3" cellspacing="0" width="700">
+                            <input th:field="*{taskId}" type="hidden"/>
                             <tr>
                                 <td class="rightLabel" width="74">Name</td>
                                 <td class="left" width="164"><input class="textShortName" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
@@ -105,7 +106,7 @@
                                 </td>
                                 <td class="rightLabel">Type</td>
                                 <td class="leftValue">
-                                    <div th:if="${(taskType ne null)}">
+                                    <div th:if="*{(taskType ne null)}">
                                         <label th:text="*{taskType.label}"/>
                                     </div>
                                 </td>
@@ -123,7 +124,7 @@
                                 </td>
                                 <td class="rightLabel">State</td>
                                 <td class="leftValue">
-                                    <div th:if="${(taskState ne null)}">
+                                    <div th:if="*{(taskState ne null)}">
                                     <label th:text="*{taskState.label}" th:style="*{taskState.style}"/>
                                     </div>
                                 </td>
@@ -134,7 +135,7 @@
                                 <td class="error"></td>
                                 <td class="rightLabel">Status</td>
                                 <td class="leftValue">
-                                    <div th:if="${(taskStatus ne null)}">
+                                    <div th:if="*{(taskStatus ne null)}">
                                     <label th:text="*{taskStatus.label}" th:style="*{taskStatus.style}"/>
                                     </div>
                                 </td>
@@ -166,12 +167,17 @@
                                 </td>
                                 <td class="Personnel"><a href="/person">Personnel</a></td>
                                 <td class="rightLabel">Unit</td>
-                                <td class="leftValue"><input class="textShortName" th:field="*{costUnit}" type="text"></td>
+                                <td class="leftValue">
+                                    <select class="selectStandard" th:field="*{costUnit}" value="*{costUnit}">
+                                        <option class="selectMediumOption" th:each="costUnit : ${T(online.ronikier.todo.domain.dictionary.CostUnit).values()}"
+                                                th:value="${costUnit}" th:text="${costUnit.label}"/>
+                                    </select>
+                                </td>
                                 <td class="error"></td>
                             </tr>
                             <tr><td colspan="6"><hr width="99%" size="1"/></td></tr>
                             <tr>
-                                <td class="formInfo" colspan="4">
+                                <td class="formInfo" colspan="3">
                                     <table border="0" cellpadding="0" cellspacing="0" align="left">
                                         <tr>
                                             <td width="20" class="rightCheckbox">
@@ -194,6 +200,9 @@
                                             </td>
                                         </tr>
                                     </table>
+                                </td>
+                                <td class="rightButton">
+                                    <button accesskey="c" class="buttonShort" id="deleteButton" name="action" type="submit" value="delete">DELETE</button>
                                 </td>
                                 <td class="rightButton">
                                     <button accesskey="c" class="buttonShort" name="action" type="submit" value="complete">COMPLETE</button>
@@ -251,21 +260,21 @@
                                 <select class="selectStandard" th:field="*{taskFilterForm.taskType}" value="*{taskFilterForm.taskType}">
                                     <option class="selectMediumOption" value="">- Type -</option>
                                     <option class="selectMediumOption" th:each="taskType : ${T(online.ronikier.todo.domain.dictionary.TaskType).values()}"
-                                            th:value="${taskType}" th:text="${taskType.label}"></option>
+                                            th:value="${taskType}" th:text="${taskType.label}"/>
                                 </select>
                             </td>
                             <td class="leftValue" width="70">
                                 <select class="selectStandard" th:field="*{taskFilterForm.taskState}" value="*{taskFilterForm.taskState}">
                                     <option class="selectMediumOption" value="">- State -</option>
                                     <option class="selectMediumOption" th:each="taskState : ${T(online.ronikier.todo.domain.dictionary.TaskState).values()}"
-                                            th:value="${taskState}" th:text="${taskState.label}"></option>
+                                            th:value="${taskState}" th:text="${taskState.label}"/>
                                 </select>
                             </td>
                             <td class="leftValue" width="70">
                                 <select class="selectStandard" th:field="*{taskFilterForm.taskStatus}" value="*{taskFilterForm.taskStatus}">
                                     <option class="selectMediumOption" value="">- Status -</option>
                                     <option class="selectMediumOption" th:each="taskStatus : ${T(online.ronikier.todo.domain.dictionary.TaskStatus).values()}"
-                                            th:value="${taskStatus}" th:text="${taskStatus.label}"></option>
+                                            th:value="${taskStatus}" th:text="${taskStatus.label}"/>
                                 </select>
                             </td>
 

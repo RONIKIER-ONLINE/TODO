@@ -31,12 +31,14 @@ public class Messages {
     public static final String TASK_STATE_COMPLETED = "Completed";
 
     public static final String TASK_STATUS_OK = "OK";
-    public static final String TASK_STATUS_APPROACHING = "Approaching";
+    public static final String TASK_STATUS_THIS_WEEK = "This week";
+    public static final String TASK_STATUS_APPROACHING = "Tommorow";
     public static final String TASK_STATUS_DELAYED = "Delayed";
     public static final String TASK_STATUS_UNKNOWN = "Not evaluated";
 
     public static final String COST_UNIT_PLN = "PLN";
-    public static final String COST_UNIT_DAY = "DAYS";
+    public static final String COST_UNIT_HOUR = "Hours";
+    public static final String COST_UNIT_DAY = "Days";
     public static final String COST_UNIT_SOLDIER = "YARI";
 
 

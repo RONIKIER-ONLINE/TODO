@@ -90,6 +90,7 @@
                     <projectId>ronikier</projectId>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>

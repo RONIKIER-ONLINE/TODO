@@ -9,9 +9,11 @@ import online.ronikier.todo.Messages;
 public enum TaskStatus {
 
     OK(Messages.TASK_STATUS_OK,"color:Grey;"),
-    APPROACHING(Messages.TASK_STATUS_APPROACHING,"color:#006600;"),
-    DELAYED(Messages.TASK_STATUS_DELAYED,"color:#660000;"),
+    THIS_WEEK(Messages.TASK_STATUS_THIS_WEEK,"color:#006600;"),
+    APPROACHING(Messages.TASK_STATUS_APPROACHING,"color:#660000;"),
+    DELAYED(Messages.TASK_STATUS_DELAYED,"color:#FF0000;"),
     UNKNOWN(Messages.TASK_STATUS_UNKNOWN,"color:#DD6600;");
+
 
     @Getter
     private String label;

@@ -107,11 +107,21 @@ public class TaskController extends SuperController {
     @PostMapping(Parameters.WEB_CONTROLLER_TASK)
     public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
 
+        Task processedTask;
+
+        //TODO: Refactor - Transfer to service
         switch (taskForm.getAction()) {
+            case "delete":
+                processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
+                taskService.deleteTaskById(processedTask.getId());
+                initializeForm(taskForm,model);
+                break;
             case "filter":
                 break;
             case "complete": {
-                Task processedTask = taskService.findTaskByName(taskForm.getName());
+                processedTask = Parameters.SYSTEM_ALLOW_DUPLICATE_NAMES
+                                ? taskService.findTaskByName(taskForm.getName())
+                                : taskService.findTaskById(taskForm.getTaskId()).get();
                 processedTask.setTaskState(TaskState.COMPLETED);
                 processedTask.setTaskStatus(TaskStatus.OK);
                 taskService.saveTask(processedTask);
@@ -125,7 +135,11 @@ public class TaskController extends SuperController {
                     break;
                 }
                 try {
-                    Task processedTask = taskService.findTaskByName(taskForm.getName());
+                    processedTask = taskService.findTaskByName(taskForm.getName());
+                    //processedTask = Parameters.SYSTEM_ALLOW_DUPLICATE_NAMES
+                    //        ? taskService.findTaskByName(taskForm.getName())
+                    // TODO: Fix null pointer by new task - introduce New button (visible/disabled)
+                    //        : taskService.findTaskById(taskForm.getTaskId()).get();
                     if (processedTask != null) {
                         log.info((Messages.INFO_TASK_EXISTS));
                         processedTask.setTaskState(TaskState.MODIFIED);

@@ -54,7 +54,9 @@ public class TaskProcessor {
                 task.setTaskStatus(TaskStatus.DELAYED);
             } else if (task.getDue().before(Utilities.dateFutureFrom(setupProcessorTaskApproachingDays,Utilities.dateCurrent()))) {
                 task.setTaskStatus(TaskStatus.APPROACHING);
-            } else {
+            } else if (task.getDue().before(Utilities.dateFutureFrom(7,Utilities.dateCurrent()))) {
+                task.setTaskStatus(TaskStatus.THIS_WEEK);
+            }else {
                 task.setTaskStatus(TaskStatus.OK);
             }
         } else {

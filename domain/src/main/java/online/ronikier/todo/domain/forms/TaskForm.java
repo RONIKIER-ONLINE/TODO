@@ -28,6 +28,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class TaskForm extends SuperForm {
 
+    private Long taskId;
+
     private Boolean showDialog;
 
     private Boolean showTaskDetails;
@@ -158,5 +160,9 @@ public class TaskForm extends SuperForm {
     }
     public void setTaskStatus(TaskStatus taskStatus) {
         getTask().setTaskStatus(taskStatus);
+    }
+
+    public Long getTaskId() {
+        return taskId;
     }
 }
