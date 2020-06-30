@@ -13,7 +13,8 @@ public enum TaskState {
     MODIFIED(Messages.TASK_STATE_MODIFIED,"color:Grey;"),
     STARTED(Messages.TASK_STATE_STARTED,"color:#006600;"),
     ON_HOLD(Messages.TASK_STATE_ON_HOLD,"color:#000000;"),
-    COMPLETED(Messages.TASK_STATE_COMPLETED,"color:#00DD00;");
+    COMPLETED(Messages.TASK_STATE_COMPLETED,"color:#00DD00;"),
+    REJECTED(Messages.TASK_STATE_REJECTED,"color:#000000;");
 
     @Getter
     private String label;

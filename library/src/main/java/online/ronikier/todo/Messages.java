@@ -29,10 +29,12 @@ public class Messages {
     public static final String TASK_STATE_STARTED = "Started";
     public static final String TASK_STATE_ON_HOLD = "On hold";
     public static final String TASK_STATE_COMPLETED = "Completed";
+    public static final String TASK_STATE_REJECTED= "Rejected";
 
     public static final String TASK_STATUS_OK = "OK";
     public static final String TASK_STATUS_THIS_WEEK = "This week";
-    public static final String TASK_STATUS_APPROACHING = "Tommorow";
+    public static final String TASK_STATUS_TODAY = "Today";
+    public static final String TASK_STATUS_APPROACHING = "Tomorrow";
     public static final String TASK_STATUS_DELAYED = "Delayed";
     public static final String TASK_STATUS_UNKNOWN = "Not evaluated";
 

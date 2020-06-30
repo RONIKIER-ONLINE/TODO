@@ -116,12 +116,17 @@ public class TaskController extends SuperController {
                 taskService.deleteTaskById(processedTask.getId());
                 initializeForm(taskForm,model);
                 break;
+            case "reject":
+                processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
+                processedTask.setTaskState(TaskState.REJECTED);
+                processedTask.setDue(null);
+                processedTask.setTaskStatus(TaskStatus.UNKNOWN);
+                taskService.saveTask(processedTask);
+                break;
             case "filter":
                 break;
             case "complete": {
-                processedTask = Parameters.SYSTEM_ALLOW_DUPLICATE_NAMES
-                                ? taskService.findTaskByName(taskForm.getName())
-                                : taskService.findTaskById(taskForm.getTaskId()).get();
+                processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
                 processedTask.setTaskState(TaskState.COMPLETED);
                 processedTask.setTaskStatus(TaskStatus.OK);
                 taskService.saveTask(processedTask);
