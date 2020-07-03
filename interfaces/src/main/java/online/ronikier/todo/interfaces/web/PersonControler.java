@@ -74,7 +74,6 @@ public class PersonControler extends SuperController {
         Person selectedPerson = optionalPerson.get();
         initializeForm(personForm, model);
         updateForm(personForm, selectedPerson);
-        model.addAttribute("personsKnownPersons", getKnownPersonList(selectedPerson.getId()));
         refreshForm(personForm, model);
         return Parameters.WEB_CONTROLLER_PERSON;
     }

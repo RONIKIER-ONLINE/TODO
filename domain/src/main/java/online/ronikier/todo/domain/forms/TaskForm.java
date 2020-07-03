@@ -8,8 +8,9 @@ import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.CostUnit;
-import online.ronikier.todo.domain.dictionary.StateTask;
-import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.domain.dictionary.TaskState;
+import online.ronikier.todo.domain.dictionary.TaskStatus;
+import online.ronikier.todo.domain.dictionary.TaskType;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperForm;
@@ -27,6 +28,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class TaskForm extends SuperForm {
 
+    private Long taskId;
+
     private Boolean showDialog;
 
     private Boolean showTaskDetails;
@@ -35,7 +38,7 @@ public class TaskForm extends SuperForm {
 
     private Task task;
 
-    private Task taskFilter;
+    private TaskFilterForm taskFilterForm;
 
     private String requiredByTaskId;
 
@@ -134,11 +137,11 @@ public class TaskForm extends SuperForm {
     public List<Task> getRequiredTasks() {
         return getTask().getRequiredTasks();
     }
-    public StateTask getStateTask() {
-        return getTask().getStateTask();
+    public TaskState getTaskState() {
+        return getTask().getTaskState();
     }
-    public TypeTask getTypeTask() {
-        return getTask().getTypeTask();
+    public TaskType getTaskType() {
+        return getTask().getTaskType();
     }
     public Double getCostValue() {
         return getTask().getCostValue();
@@ -151,5 +154,15 @@ public class TaskForm extends SuperForm {
     }
     public void setCostUnit(CostUnit costUnit) {
         getTask().setCostUnit(costUnit);
+    }
+    public TaskStatus getTaskStatus() {
+        return getTask().getTaskStatus();
+    }
+    public void setTaskStatus(TaskStatus taskStatus) {
+        getTask().setTaskStatus(taskStatus);
+    }
+
+    public Long getTaskId() {
+        return taskId;
     }
 }

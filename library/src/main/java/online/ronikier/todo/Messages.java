@@ -19,17 +19,28 @@ public class Messages {
     public static final String TYPE_RESOURCE_PHONE_NO = "TYPE_RESOURCE_PHONE_NO";
     public static final String TYPE_RESOURCE_EMAIL = "TYPE_RESOURCE_EMAIL";
 
-    public static final String TYPE_TASK_GENERAL = "General";
-    public static final String TYPE_TASK_PERSONAL = "Personal";
-    public static final String TYPE_TASK_MONEY = "Money";
+    public static final String TASK_TYPE_GENERAL = "General";
+    public static final String TASK_TYPE_PERSONAL = "Work";
+    public static final String TASK_TYPE_MONEY = "Payment";
 
-    public static final String STATE_TASK_INITIALIZED = "Initialized";
-    public static final String STATE_TASK_STARTED = "Started";
-    public static final String STATE_TASK_ON_HOLD = "On hold";
-    public static final String STATE_TASK_COMPLETED = "Completed";
+    public static final String TASK_STATE_NEW = "New";
+    public static final String TASK_STATE_INITIALIZED = "Initialized";
+    public static final String TASK_STATE_MODIFIED = "Modified";
+    public static final String TASK_STATE_STARTED = "Started";
+    public static final String TASK_STATE_ON_HOLD = "On hold";
+    public static final String TASK_STATE_COMPLETED = "Completed";
+    public static final String TASK_STATE_REJECTED= "Rejected";
+
+    public static final String TASK_STATUS_OK = "OK";
+    public static final String TASK_STATUS_THIS_WEEK = "This week";
+    public static final String TASK_STATUS_TODAY = "Today";
+    public static final String TASK_STATUS_APPROACHING = "Tomorrow";
+    public static final String TASK_STATUS_DELAYED = "Delayed";
+    public static final String TASK_STATUS_UNKNOWN = "Not evaluated";
 
     public static final String COST_UNIT_PLN = "PLN";
-    public static final String COST_UNIT_DAY = "DAYS";
+    public static final String COST_UNIT_HOUR = "Hours";
+    public static final String COST_UNIT_DAY = "Days";
     public static final String COST_UNIT_SOLDIER = "YARI";
 
 
@@ -48,6 +59,8 @@ public class Messages {
 
     public static final String EXCEPTION_TASK_DATE_PARSE = "EXCEPTION_TASK_DATE_PARSE";
 
+    public static final String WARN_TASK_STATUS_CHANGED = "WARN_TASK_STATUS_CHANGED";
+
     public static final String ERROR_TASK_ADD = "ERROR_TASK_ADD";
     public static final String ERROR_PARAMETER_NAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
     public static final String ERROR_TASK_DOES_NOT_EXIST = "ERROR_TASK_DOES_NOT_EXIST";
@@ -56,7 +69,7 @@ public class Messages {
     public static final String ERROR_PARAMETER_USERNAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
     public static final String ERROR_PERSON_DOES_NOT_EXIST = "ERROR_PERSON_DOES_NOT_EXIST";
 
-    public static final String INFO_DATE_NOT_SET = "N/A";
+    public static final String INFO_DATE_NOT_SET = "- - -";
 
     public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
     public static final String INFO_NEO4J_CONNECTION_SETUP = "INFO_NEO4J_CONNECTION_SETUP";
@@ -89,6 +102,8 @@ public class Messages {
 
     public static final String REPOSITORY_TASK_NOT_FOUND = "REPOSITORY_TASK_NOT_FOUND";
     public static final String REPOSITORY_PERSON_NOT_FOUND = "REPOSITORY_PERSON_NOT_FOUND";
+
+    public static final String SCHEDULER_TASK_PROCESSING = "SCHEDULER_TASK_PROCESSING";
 
     public static final String SERVICE_RESPONSE_404_TASK = "SERVICE_RESPONSE_404_TASK";
 

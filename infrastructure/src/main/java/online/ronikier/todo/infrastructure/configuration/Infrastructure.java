@@ -12,6 +12,7 @@ public class Infrastructure {
 
     @Value("${todo.setup.neo4j.host:localhost}")
     private String setupNeo4jHost;
+
     @Value("${todo.setup.neo4j.port:7687}")
     private String setupNeo4jPort;
 

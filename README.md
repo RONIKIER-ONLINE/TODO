@@ -17,7 +17,14 @@
 </h6>
 
 <h3>neo4j CLEAR (Terminal)</h3>
-<code>MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r</code><br>
+<code>
+MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r
+</code><br>
+
+<h3>neo4j Tasks + subtasks (Terminal)</h3>
+<code>
+MATCH (task:Task {name:'Karma'}) RETURN task UNION MATCH ((mainTask:Task {name:'Karma'})-[r]->(task:Task)) RETURN task
+</code>
 
 <h3>cloud (Google)</h3>
 <h6>

@@ -4,12 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
-import online.ronikier.todo.domain.dictionary.CostUnit;
-import online.ronikier.todo.domain.dictionary.SortOrder;
-import online.ronikier.todo.domain.dictionary.StateTask;
-import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.domain.dictionary.*;
+import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Utilities;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -54,12 +53,14 @@ public class TaskServiceGraph implements TaskService {
     }
 
     @Override
+    @CacheEvict
     public void saveTask(Task task) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "SAVING TASK " + Utilities.wrapString(task.toString()));
         taskRepository.save(task);
     }
 
     @Override
+    @CacheEvict
     public void deleteTaskById(Long taskId) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "BUSTIN' TASK " + taskId);
         taskRepository.deleteById(taskId);
@@ -73,33 +74,53 @@ public class TaskServiceGraph implements TaskService {
     }
 
     @Override
-    public List<Task> filteredTasks(Task taskFilter, SortOrder sortOrder) {
+    public List<Task> filteredTasks(TaskFilterForm taskFilterForm, SortOrder sortOrder) {
 
-        if (taskFilter == null) return allTasks(sortOrder);
+        if (taskFilterForm == null) return allTasks(sortOrder);
 
         Stream<Task> filteredTasksStream = allTasks(sortOrder).parallelStream();
 
-        filteredTasksStream = taskFilter.getImportant() ? filteredTasksStream.filter(task -> task.getImportant() == taskFilter.getImportant()) : filteredTasksStream;
 
-        filteredTasksStream = taskFilter.getUrgent() ? filteredTasksStream.filter(task -> task.getUrgent() == taskFilter.getUrgent()) : filteredTasksStream;
+        //TDOD: Refactor (but not too much ;)
+        filteredTasksStream = filterSelected(taskFilterForm.getTaskType())
+            ? filteredTasksStream.filter(task -> taskFilterForm.getTaskType().equals(task.getTaskType()))
+            : filteredTasksStream;
 
-        filteredTasksStream = Utilities.notEmpty(taskFilter.getName()) ? filteredTasksStream.filter(task -> task.getName().toUpperCase().contains(taskFilter.getName().toUpperCase())) : filteredTasksStream;
+        filteredTasksStream = filterSelected(taskFilterForm.getTaskState())
+            ? filteredTasksStream.filter(task -> taskFilterForm.getTaskState().equals(task.getTaskState()))
+            : filteredTasksStream;
 
-        filteredTasksStream = Utilities.notEmpty(taskFilter.getDescription()) ? filteredTasksStream.filter(task -> task.getDescription().toUpperCase().contains(taskFilter.getDescription().toUpperCase())) : filteredTasksStream;
+        filteredTasksStream = filterSelected(taskFilterForm.getTaskStatus())
+            ? filteredTasksStream.filter(task -> taskFilterForm.getTaskStatus().equals(task.getTaskStatus()))
+            : filteredTasksStream;
+
+        filteredTasksStream = filterFlag(taskFilterForm.getImportant())
+            ? filteredTasksStream.filter(task -> task.getImportant())
+            : filteredTasksStream;
+
+        filteredTasksStream = filterFlag(taskFilterForm.getUrgent())
+            ? filteredTasksStream.filter(task -> task.getUrgent())
+            : filteredTasksStream;
+
+        filteredTasksStream = filterSelected(taskFilterForm.getPhrase())
+            ? filteredTasksStream.filter(task -> (
+                task.getName().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())
+                ||
+                task.getDescription().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())))
+            : filteredTasksStream;
 
         return filteredTasksStream.collect(Collectors.toList());
 
     }
 
     @Override
+    @Cacheable("TASKS_SORTED")
     public List<Task> allTasks(SortOrder sortOrder) {
-
-        //TEST_DEV();
 
         Comparator<Task> taskComparator = (Task tasksA, Task tasksB) -> tasksA.getName().compareTo(tasksB.getName());
 
         switch (sortOrder) {
-
+            case NONE: return StreamSupport.stream(taskRepository.findAll().spliterator(), true).collect(Collectors.toList());
             case DEFAULT :
             case REQUIRED_TASKS : {
                 taskComparator = (Task tasksA, Task tasksB) -> tasksB.getRequiredTasks().size() - tasksA.getRequiredTasks().size();
@@ -121,12 +142,13 @@ public class TaskServiceGraph implements TaskService {
     public List<Task> getMaintanceTasks() {
         //TODO: Implement individual task level tasks
         //TODO: One task set for alla ore task set each
-        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL);
-        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL);
+        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
+        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         return Arrays.asList(maintanceTaskA, maintanceTaskB);
     }
 
     @Override
+    @Cacheable("TASKS_REQUIRED")
     public List<Task> tasksRequiredTasks(Long taskId) {
 
         Optional<Task> tasksRequiredTasks = findTaskById(taskId);
@@ -136,12 +158,16 @@ public class TaskServiceGraph implements TaskService {
         return null;
     }
 
-
-    private void logMessage(String message) {
-        log.info(message);
+    private boolean filterSelected(Object filter) {
+        return Optional.ofNullable(filter).isPresent();
     }
 
+    private boolean filterFlag(Boolean flag) {
+        if (filterSelected(flag)) return flag;
+        return false;
+    }
 
+    @Deprecated(forRemoval = true)
     private void TEST_DEVX() {
 
         Iterable<Task> tasks = taskRepository.findAll();
@@ -194,19 +220,19 @@ public class TaskServiceGraph implements TaskService {
         //System.out.print(
 
         Stream.of(
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A1","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task B2","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C3","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A4","Opisik", 1000000d, CostUnit.PLN, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 0d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 7d, CostUnit.SOLDIER, StateTask.INITIALIZED ,TypeTask.GENERAL),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C6","Opisik", 7d, CostUnit.DAY, StateTask.INITIALIZED ,TypeTask.GENERAL)
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A1","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task B2","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C3","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A4","Opisik", 1000000d, CostUnit.PLN, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 7d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
+                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C6","Opisik", 7d, CostUnit.DAY, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK)
         )
                 //.count();
 
                 .skip(1)
                 .filter(task -> task.getName().contains("A"))
-                .map(this::chujTask)
+                .map(this::transformTask)
 
                 //.forEach(System.out::println);
 
@@ -225,8 +251,8 @@ public class TaskServiceGraph implements TaskService {
 
     }
 
-    public Task chujTask(online.ronikier.todo.domain.Task task) {
-        task.setName("chuj");
+    public Task transformTask(online.ronikier.todo.domain.Task task) {
+        task.setName(task.getName() + " has been transformed ...");
         return task;
     }
 

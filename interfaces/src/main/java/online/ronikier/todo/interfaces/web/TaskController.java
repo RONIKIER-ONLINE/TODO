@@ -5,10 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
-import online.ronikier.todo.domain.dictionary.CostUnit;
-import online.ronikier.todo.domain.dictionary.SortOrder;
-import online.ronikier.todo.domain.dictionary.StateTask;
-import online.ronikier.todo.domain.dictionary.TypeTask;
+import online.ronikier.todo.domain.dictionary.*;
+import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.domain.forms.TaskForm;
 import online.ronikier.todo.infrastructure.service.PersonService;
 import online.ronikier.todo.infrastructure.service.TaskService;
@@ -22,11 +20,13 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+//import org.w3c.dom.css.Counter;
 
 import javax.validation.Valid;
 import java.text.ParseException;
@@ -71,7 +71,10 @@ public class TaskController extends SuperController {
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK, produces = "text/html")
     public String getTask(TaskForm taskForm, Model model) {
-        refreshForm(taskForm,model);
+        refreshForm(taskForm, model);
+        if (taskForm.getTask().getId() == null) {
+            taskForm.setTask(initializeTask());
+        }
         return Parameters.WEB_CONTROLLER_TASK;
     }
 
@@ -104,31 +107,66 @@ public class TaskController extends SuperController {
      */
     @PostMapping(Parameters.WEB_CONTROLLER_TASK)
     public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
-        if (!"filter".equals(taskForm.getAction())) {
-            if (bindingResult.hasErrors()) {
-                log.error(Messages.ERROR_TASK_ADD);
-                bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
-                initializeForm(taskForm, model);
-                return Parameters.WEB_CONTROLLER_TASK;
+
+        Task processedTask;
+
+        //TODO: Refactor - Transfer to service
+        switch (taskForm.getAction()) {
+            case "delete":
+                processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
+                taskService.deleteTaskById(processedTask.getId());
+                initializeForm(taskForm,model);
+                break;
+            case "reject":
+                processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
+                processedTask.setTaskState(TaskState.REJECTED);
+                processedTask.setDue(null);
+                processedTask.setTaskStatus(TaskStatus.UNKNOWN);
+                taskService.saveTask(processedTask);
+                break;
+            case "filter":
+                break;
+            case "complete": {
+                processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
+                processedTask.setTaskState(TaskState.COMPLETED);
+                processedTask.setTaskStatus(TaskStatus.OK);
+                taskService.saveTask(processedTask);
+                break;
             }
-            try {
-                Task processedTask = taskService.findTaskByName(taskForm.getName());
-                if (processedTask != null) {
-                    log.info((Messages.INFO_TASK_EXISTS));
-                    log.debug(processedTask.toString());
-                } else {
-                    processedTask = initializeTask();
-                    processedTask.setStateTask(StateTask.INITIALIZED);
-                    processedTask.setTypeTask(TypeTask.GENERAL);
+            case "save": {
+                if (bindingResult.hasErrors()) {
+                    log.error(Messages.ERROR_TASK_ADD);
+                    bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
+                    initializeForm(taskForm, model);
+                    break;
                 }
-                saveTask(taskForm, processedTask);
-                log.info(Messages.INFO_TASK_CREATED);
-                log.debug(processedTask.toString());
-            } catch (Exception e) {
-                log.error(Messages.EXCEPTION_TASK_CREATION + Messages.SEPARATOR + e.getMessage());
+                try {
+                    processedTask = taskService.findTaskByName(taskForm.getName());
+                    //processedTask = Parameters.SYSTEM_ALLOW_DUPLICATE_NAMES
+                    //        ? taskService.findTaskByName(taskForm.getName())
+                    // TODO: Fix null pointer by new task - introduce New button (visible/disabled)
+                    //        : taskService.findTaskById(taskForm.getTaskId()).get();
+                    if (processedTask != null) {
+                        log.info((Messages.INFO_TASK_EXISTS));
+                        processedTask.setTaskState(TaskState.MODIFIED);
+                        log.debug(processedTask.toString());
+                    } else {
+                        processedTask = initializeTask();
+                    }
+                    saveTask(taskForm, processedTask);
+                    log.info(Messages.INFO_TASK_CREATED);
+                    log.debug(processedTask.toString());
+                } catch (Exception e) {
+                    taskForm.setShowDialog(true);
+                    model.addAttribute("dialogMessage", e.getMessage());
+                    log.error(Messages.EXCEPTION_TASK_CREATION + Messages.SEPARATOR + e.getMessage());
+                }
             }
         }
         refreshForm(taskForm, model);
+        if (taskForm.getTask() == null) {
+            taskForm.setTask(initializeTask());
+        }
         return Parameters.WEB_CONTROLLER_TASK;
     }
 
@@ -148,7 +186,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @param taskForm
      * @param task
      */
@@ -176,15 +213,14 @@ public class TaskController extends SuperController {
             }
         }
 
-        taskForm.getTask().setTypeTask(task.getTypeTask());
-        taskForm.getTask().setStateTask(task.getStateTask());
+        taskForm.getTask().setTaskType(task.getTaskType());
+        taskForm.getTask().setTaskState(task.getTaskState());
 
         log.info(Messages.INFO_TASK_MODIFIED);
         log.debug(task.toString());
     }
 
     /**
-     *
      * @param taskForm
      * @param task
      */
@@ -198,7 +234,6 @@ public class TaskController extends SuperController {
 
 
     /**
-     *
      * @param taskForm
      * @return
      * @throws ParseException
@@ -214,15 +249,16 @@ public class TaskController extends SuperController {
                 null,
                 null,
                 null,
-                null,     //Utilities.dateCurrent(),
+                Utilities.dateCurrent(),
                 null,       //Utilities.dateCurrent(),
                 null,       //Utilities.dateFuture(taskCompletionTimeDays),
                 null,
                 null,
-                null,    //Double.valueOf(0),
-                null,     //CostUnit.SOLDIERS,
-                null,    //StateTask.INITIALIZED,
-                null     //TypeTask.GENERAL
+                Double.valueOf(1),
+                CostUnit.SOLDIER,
+                TaskState.NEW,
+                TaskType.GENERAL,
+                TaskStatus.OK
         );
 
         return newTask;
@@ -230,7 +266,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @param taskName
      * @return
      */
@@ -243,7 +278,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @param taskId
      * @return
      */
@@ -254,7 +288,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @return
      */
     private List<Task> getTaskList(SortOrder sortOrder) {
@@ -262,13 +295,11 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @return
      */
-    private List<Task> getFilteredTaskList(Task taskFilter,SortOrder sortOrder) {
-        return taskService.filteredTasks(taskFilter,sortOrder);
+    private List<Task> getFilteredTaskList(TaskFilterForm taskFilterForm, SortOrder sortOrder) {
+        return taskService.filteredTasks(taskFilterForm, sortOrder);
     }
-
 
 
     /**
@@ -277,13 +308,12 @@ public class TaskController extends SuperController {
      */
     private void initializeForm(TaskForm taskForm, Model model) {
         taskForm.setTask(initializeTask());
-        taskForm.setTaskFilter(initializeTask());
-        taskForm.setShowTaskDetails(true);
-        refreshForm(taskForm,model);
+        taskForm.setTaskFilterForm(new TaskFilterForm());
+        //taskForm.setShowTaskDetails(false);
+        refreshForm(taskForm, model);
     }
 
     /**
-     *
      * @param taskForm
      * @param model
      */
@@ -291,19 +321,20 @@ public class TaskController extends SuperController {
 
         SortOrder taskListSortOrder = SortOrder.DEFAULT;
 
-        if (taskForm.getShowTaskDetails() == null || taskForm.getShowTaskDetails()) {
-            taskForm.setShowTaskDetails(true);
+        if (taskForm.getShowTaskDetails() != null && taskForm.getShowTaskDetails()) {
             model.addAttribute("showTaskDetails", true);
         } else {
             taskListSortOrder = SortOrder.NAME;
         }
-        model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilter(),taskListSortOrder));
+        model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilterForm(), taskListSortOrder));
+
+        model.addAttribute("taskListCounter", Utilities.counter());
 
         taskForm.setTasks(getTaskList(SortOrder.NAME));
         taskForm.setPersons(getPersonList());
-        //taskForm.setTask(null);
+
         model.addAttribute("taskCount", taskService.countTasks());
-        model.addAttribute("showFcknDialog", taskForm.getShowDialog());
+        model.addAttribute("showDialog", taskForm.getShowDialog());
     }
 
     private List<Person> getPersonList() {
@@ -312,7 +343,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     *
      * @param targetTaskForm
      * @param sourceTask
      */
