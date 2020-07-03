@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+//import org.w3c.dom.css.Counter;
 
 import javax.validation.Valid;
 import java.text.ParseException;
@@ -327,11 +328,13 @@ public class TaskController extends SuperController {
         }
         model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilterForm(), taskListSortOrder));
 
+        model.addAttribute("taskListCounter", Utilities.counter());
+
         taskForm.setTasks(getTaskList(SortOrder.NAME));
         taskForm.setPersons(getPersonList());
-        //taskForm.setTask(null);
+
         model.addAttribute("taskCount", taskService.countTasks());
-        model.addAttribute("showFcknDialog", taskForm.getShowDialog());
+        model.addAttribute("showDialog", taskForm.getShowDialog());
     }
 
     private List<Person> getPersonList() {

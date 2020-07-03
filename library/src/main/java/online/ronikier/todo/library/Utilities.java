@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Utilities {
@@ -55,5 +56,11 @@ public class Utilities {
         if (value == null) return false;
         if (value.trim().isEmpty()) return false;
         return true;
+    }
+
+    public static AtomicInteger counter() {
+
+        return new AtomicInteger(1);
+
     }
 }

@@ -80,6 +80,8 @@ public class TaskServiceGraph implements TaskService {
 
         Stream<Task> filteredTasksStream = allTasks(sortOrder).parallelStream();
 
+
+        //TDOD: Refactor (but not too much ;)
         filteredTasksStream = filterSelected(taskFilterForm.getTaskType())
             ? filteredTasksStream.filter(task -> taskFilterForm.getTaskType().equals(task.getTaskType()))
             : filteredTasksStream;

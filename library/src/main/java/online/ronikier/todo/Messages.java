@@ -20,8 +20,8 @@ public class Messages {
     public static final String TYPE_RESOURCE_EMAIL = "TYPE_RESOURCE_EMAIL";
 
     public static final String TASK_TYPE_GENERAL = "General";
-    public static final String TASK_TYPE_PERSONAL = "Personal";
-    public static final String TASK_TYPE_MONEY = "Money";
+    public static final String TASK_TYPE_PERSONAL = "Work";
+    public static final String TASK_TYPE_MONEY = "Payment";
 
     public static final String TASK_STATE_NEW = "New";
     public static final String TASK_STATE_INITIALIZED = "Initialized";

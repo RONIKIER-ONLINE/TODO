@@ -32,7 +32,7 @@
                         <td class="error"  width="275" th:errors="*{username}" th:if="${#fields.hasErrors('username')}">Username Error</td>
                     </tr>
                     <tr>
-                        <td class="rightLabel">is known by ...</td>
+                        <td class="rightLabel">is known by</td>
                         <td class="leftValue">
                             <select class="selectMedium" th:field="*{knownByPersonId}">
                                 <option value="none">nope</option>
@@ -73,13 +73,13 @@
                             <td>
                                 <table border="0" cellspacing="0" cellpadding="0" th:each="knownPerson : *{person.knownPersons}">
                                     <tr>
-                                        <td class="knowsSomething" width="10"></td>
-                                        <td class="knowsSomething">
-                                            knows
+                                        <td width="10"></td>
+                                        <td >
+                                            <label class="knowsSomething">knows</label>
                                             <a class="knowsSomething" th:href="@{'/person/' + ${knownPerson.id}}">
-                                                <label th:text="${knownPerson.username}"/>
+                                                <label class="knowsSomething" th:text="${knownPerson.username}"/>
                                             </a>
-                                            ...
+                                            <label class="knowsSomething">...</label>
                                         </td>
                                     </tr>
                                 </table>
