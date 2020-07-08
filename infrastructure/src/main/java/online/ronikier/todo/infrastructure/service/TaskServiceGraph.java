@@ -41,7 +41,7 @@ public class TaskServiceGraph implements TaskService {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING TASK " + taskId);
         Optional<Task> taskOptional = taskRepository.findById(taskId);
         if (taskOptional.isPresent()) return taskOptional;
-        log.info((Messages.INFO_TASK_NOT_FOUND + Messages.SEPARATOR + taskId));
+        log.info((Messages.TASK_NOT_FOUND + Messages.SEPARATOR + taskId));
         return Optional.empty();
     }
 

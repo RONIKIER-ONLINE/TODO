@@ -36,7 +36,7 @@ public class Application {
         return args -> {
 
             if (setupInitializeDatabase) {
-                log.info(Messages.INFO_INITIALISING_DATABASE);
+                log.info(Messages.INITIALISING_DATABASE);
                 taskRepository.deleteAll();
             }
 

@@ -24,7 +24,7 @@ public class Infrastructure {
 
     @Bean
     public org.neo4j.ogm.config.Configuration configuration() {
-        log.info(Messages.INFO_NEO4J_CONNECTION_SETUP);
+        log.info(Messages.NEO4J_CONNECTION_SETUP);
         return new org.neo4j.ogm.config.Configuration.Builder()
                 .uri("bolt://"+ setupNeo4jHost + ":" + setupNeo4jPort)
                 .credentials(setupNeo4jUsername, setupNeo4jPassword)

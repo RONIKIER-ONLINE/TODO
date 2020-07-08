@@ -147,14 +147,13 @@ public class TaskController extends SuperController {
                     // TODO: Fix null pointer by new task - introduce New button (visible/disabled)
                     //        : taskService.findTaskById(taskForm.getTaskId()).get();
                     if (processedTask != null) {
-                        log.info((Messages.INFO_TASK_EXISTS));
-                        processedTask.setTaskState(TaskState.MODIFIED);
+                        log.info((Messages.TASK_EXISTS));
                         log.debug(processedTask.toString());
                     } else {
                         processedTask = initializeTask();
                     }
                     saveTask(taskForm, processedTask);
-                    log.info(Messages.INFO_TASK_CREATED);
+                    log.info(Messages.TASK_CREATED);
                     log.debug(processedTask.toString());
                 } catch (Exception e) {
                     taskForm.setShowDialog(true);
@@ -178,7 +177,7 @@ public class TaskController extends SuperController {
      */
     @GetMapping(value = Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}", produces = "text/html")
     public String getTaskDelete(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
-        log.info(Messages.INFO_TASK_DELETING);
+        log.info(Messages.TASK_DELETING);
         taskService.deleteTaskById(taskId);
         initializeForm(taskForm, model);
         model.addAttribute("tasksRequiredTasks", null);
@@ -190,7 +189,7 @@ public class TaskController extends SuperController {
      * @param task
      */
     private void saveTask(TaskForm taskForm, Task task) {
-        log.info(Messages.INFO_TASK_MODIFIED);
+        log.info(Messages.TASK_MODIFIED);
         taskMapper.form2Domain(taskForm, task);
 
         assignResponsible(taskForm, task);
@@ -208,7 +207,7 @@ public class TaskController extends SuperController {
             if (Parameters.SYSTEM_SAVE_NOT_REQUIRED) {
                 taskService.saveTask(task);
             } else {
-                log.info(Messages.INFO_SKIPPING_NOT_REQUIRED);
+                log.info(Messages.SKIPPING_NOT_REQUIRED);
                 return;
             }
         }
@@ -216,7 +215,7 @@ public class TaskController extends SuperController {
         taskForm.getTask().setTaskType(task.getTaskType());
         taskForm.getTask().setTaskState(task.getTaskState());
 
-        log.info(Messages.INFO_TASK_MODIFIED);
+        log.info(Messages.TASK_MODIFIED);
         log.debug(task.toString());
     }
 
@@ -271,7 +270,7 @@ public class TaskController extends SuperController {
      */
     private List<Task> appendMaintanceTasks() {
         if (Parameters.SYSTEM_SKIP_MAINTENANCE_TASKS) {
-            log.info(Messages.INFO_SKIPPING_MAINTENANCE_TASKS);
+            log.info(Messages.SKIPPING_MAINTENANCE_TASKS);
             return null;
         }
         return taskService.getMaintanceTasks();

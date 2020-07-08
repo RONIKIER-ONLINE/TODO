@@ -24,12 +24,11 @@ public class Messages {
     public static final String TASK_TYPE_MONEY = "Payment";
 
     public static final String TASK_STATE_NEW = "New";
-    public static final String TASK_STATE_INITIALIZED = "Initialized";
-    public static final String TASK_STATE_MODIFIED = "Modified";
     public static final String TASK_STATE_STARTED = "Started";
     public static final String TASK_STATE_ON_HOLD = "On hold";
     public static final String TASK_STATE_COMPLETED = "Completed";
     public static final String TASK_STATE_REJECTED= "Rejected";
+    public static final String TASK_STATE_UNKNOWN= "Unknown";
 
     public static final String TASK_STATUS_OK = "OK";
     public static final String TASK_STATUS_THIS_WEEK = "This week";
@@ -59,7 +58,7 @@ public class Messages {
 
     public static final String EXCEPTION_TASK_DATE_PARSE = "EXCEPTION_TASK_DATE_PARSE";
 
-    public static final String WARN_TASK_STATUS_CHANGED = "WARN_TASK_STATUS_CHANGED";
+    public static final String TASK_STATUS_CHANGED = "TASK_STATUS_CHANGED";
 
     public static final String ERROR_TASK_ADD = "ERROR_TASK_ADD";
     public static final String ERROR_PARAMETER_NAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
@@ -69,17 +68,17 @@ public class Messages {
     public static final String ERROR_PARAMETER_USERNAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
     public static final String ERROR_PERSON_DOES_NOT_EXIST = "ERROR_PERSON_DOES_NOT_EXIST";
 
-    public static final String INFO_DATE_NOT_SET = "- - -";
+    public static final String DATE_NOT_SET = "- - -";
 
-    public static final String INFO_INITIALISING_DATABASE = "INFO_INITIALISING_DATABASE";
-    public static final String INFO_NEO4J_CONNECTION_SETUP = "INFO_NEO4J_CONNECTION_SETUP";
-    public static final String INFO_TASK_NOT_FOUND = "INFO_TASK_NOT_FOUND";
-    public static final String INFO_TASK_CREATED = "INFO_TASK_CREATED";
-    public static final String INFO_TASK_EXISTS = "INFO_TASK_EXISTS";
-    public static final String INFO_TASK_MODIFIED = "INFO_TASK_MODIFIED";
-    public static final String INFO_TASK_DELETING = "INFO_TASK_DELETING";
-    public static final String INFO_SKIPPING_MAINTENANCE_TASKS = "INFO_SKIPPING_MAINTENANCE_TASKS";
-    public static final String INFO_SKIPPING_NOT_REQUIRED = "INFO_SKIPPING_NOT_REQUIRED";
+    public static final String INITIALISING_DATABASE = "INITIALISING_DATABASE";
+    public static final String NEO4J_CONNECTION_SETUP = "NEO4J_CONNECTION_SETUP";
+    public static final String TASK_NOT_FOUND = "TASK_NOT_FOUND";
+    public static final String TASK_CREATED = "TASK_CREATED";
+    public static final String TASK_EXISTS = "TASK_EXISTS";
+    public static final String TASK_MODIFIED = "TASK_MODIFIED";
+    public static final String TASK_DELETING = "TASK_DELETING";
+    public static final String SKIPPING_MAINTENANCE_TASKS = "SKIPPING_MAINTENANCE_TASKS";
+    public static final String SKIPPING_NOT_REQUIRED = "SKIPPING_NOT_REQUIRED";
 
     public static final String FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL = "FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL";
     public static final String FORM_TASK_VALIDATION_URGENT_NOT_NULL = "FORM_TASK_VALIDATION_URGENT_NOT_NULL";
@@ -94,11 +93,11 @@ public class Messages {
     public static final String FORM_PERSON_VALIDATION_USERNAME_NOT_EMPTY = "FORM_PERSON_VALIDATION_NAME_NOT_EMPTY";
     public static final String FORM_PERSON_VALIDATION_USERNAME_SIZE_MAX = "FORM_PERSON_VALIDATION_NAME_SIZE_MAX";
 
-    public static final String INFO_PERSON_NOT_FOUND = "INFO_PERSON_NOT_FOUND";
-    public static final String INFO_PERSON_CREATED = "INFO_PERSON_CREATED";
-    public static final String INFO_PERSON_EXISTS = "INFO_PERSON_EXISTS";
-    public static final String INFO_PERSON_MODIFIED = "INFO_PERSON_MODIFIED";
-    public static final String INFO_PERSON_DELETING = "INFO_PERSON_DELETING";
+    public static final String PERSON_NOT_FOUND = "PERSON_NOT_FOUND";
+    public static final String PERSON_CREATED = "PERSON_CREATED";
+    public static final String PERSON_EXISTS = "PERSON_EXISTS";
+    public static final String PERSON_MODIFIED = "PERSON_MODIFIED";
+    public static final String PERSON_DELETING = "PERSON_DELETING";
 
     public static final String REPOSITORY_TASK_NOT_FOUND = "REPOSITORY_TASK_NOT_FOUND";
     public static final String REPOSITORY_PERSON_NOT_FOUND = "REPOSITORY_PERSON_NOT_FOUND";

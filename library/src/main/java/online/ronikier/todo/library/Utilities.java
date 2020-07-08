@@ -42,7 +42,7 @@ public class Utilities {
     }
 
     public static String stringFromDate(Date date) {
-        if (date == null) return Messages.INFO_DATE_NOT_SET;
+        if (date == null) return Messages.DATE_NOT_SET;
         return getDateFormat().format(date);
     }
 

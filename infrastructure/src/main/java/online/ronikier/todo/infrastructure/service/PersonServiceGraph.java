@@ -32,7 +32,7 @@ public class PersonServiceGraph implements PersonService {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING PERSON " + personId);
         Optional<Person> personOptional = personRepository.findById(personId);
         if (personOptional.isPresent()) return personOptional;
-        log.info((Messages.INFO_PERSON_NOT_FOUND + Messages.SEPARATOR + personId));
+        log.info((Messages.PERSON_NOT_FOUND + Messages.SEPARATOR + personId));
         return Optional.empty();
     }
 
