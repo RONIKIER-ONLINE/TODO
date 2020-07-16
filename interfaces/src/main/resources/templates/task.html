@@ -62,7 +62,7 @@
                                                 th:value="${task.id}"></option>
                                     </select>
                                 </td>
-                                <td class="error" width="94"></td>
+                                <td class="rightButton" width="94"><button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE</button></td>
                             </tr>
                             <tr>
                                 <td class="rightLabelDescription" rowspan="3">Description</td>
@@ -81,8 +81,7 @@
                                         <label th:text="*{taskType.label}"/>
                                     </div>
                                 </td>
-                                <td class="error">
-                                </td>
+                                <td class="rightButton"> <button accesskey="c" class="buttonShort" name="action" type="submit" value="complete">COMPLETE</button></td>
                             </tr>
                             <tr>
                                 <td class="leftValue">
@@ -99,8 +98,7 @@
                                     <label th:text="*{taskState.label}" th:style="*{taskState.style}"/>
                                     </div>
                                 </td>
-                                <td class="error">
-                                </td>
+                                <td class="rightButton"><button accesskey="r" class="buttonShort" id="rejectButton" name="action" type="submit" value="reject">REJECT</button></td>
                             </tr>
                             <tr>
                                 <td class="error"></td>
@@ -110,7 +108,7 @@
                                     <label th:text="*{taskStatus.label}" th:style="*{taskStatus.style}"/>
                                     </div>
                                 </td>
-                                <td class="error"></td>
+                                <td class="rightButton"><button accesskey="c" class="buttonShort" id="deleteButton" name="action" type="submit" value="delete">DELETE</button></td>
                             </tr>
                             <tr>
                                 <td class="rightLabel">Start</td>
@@ -125,8 +123,24 @@
                                 <td class="leftValue" th:text="*{created}"></td>
                                 <td class="error"></td>
                                 <td class="rightLabel">Value</td>
-                                <td class="leftValue" ><input class="textShortName" th:field="*{costValue}" type="text"></td>
-                                <td class="error"></td>
+                                <td class="leftValue" >
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td>
+                                                <input class="textShortValue" th:field="*{costValue}" type="text">
+                                            </td>
+                                            <td>
+                                                <select class="selectValueUnit" th:field="*{costUnit}" value="*{costUnit}">
+                                                    <option class="selectMediumOption" th:each="costUnit : ${T(online.ronikier.todo.domain.dictionary.CostUnit).values()}"
+                                                            th:value="${costUnit}" th:text="${costUnit.label}"/>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="leftValue">
+
+                                </td>
                             </tr>
                             <tr>
                                 <td class="rightLabel">Responsible</td>
@@ -137,12 +151,9 @@
                                     </select>
                                 </td>
                                 <td class="Personnel"><a href="/person">Personnel</a></td>
-                                <td class="rightLabel">Unit</td>
+                                <td class="rightLabel"></td>
                                 <td class="leftValue">
-                                    <select class="selectStandard" th:field="*{costUnit}" value="*{costUnit}">
-                                        <option class="selectMediumOption" th:each="costUnit : ${T(online.ronikier.todo.domain.dictionary.CostUnit).values()}"
-                                                th:value="${costUnit}" th:text="${costUnit.label}"/>
-                                    </select>
+
                                 </td>
                                 <td class="error"></td>
                             </tr>
@@ -171,18 +182,6 @@
                                             </td>
                                         </tr>
                                     </table>
-                                </td>
-                                <td class="rightButton">
-                                    <button accesskey="r" class="buttonShort" id="rejectButton" name="action" type="submit" value="reject">REJECT</button>
-                                </td>
-                                <td class="rightButton">
-                                    <button accesskey="c" class="buttonShort" id="deleteButton" name="action" type="submit" value="delete">DELETE</button>
-                                </td>
-                                <td class="rightButton">
-                                    <button accesskey="c" class="buttonShort" name="action" type="submit" value="complete">COMPLETE</button>
-                                </td>
-                                <td class="rightButton">
-                                    <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE</button>
                                 </td>
                             </tr>
                             <tr><td colspan="6"><hr width="99%" size="1"/></td></tr>
@@ -251,9 +250,6 @@
                                             th:value="${taskStatus}" th:text="${taskStatus.label}"/>
                                 </select>
                             </td>
-
-
-
                             <td class="rightButton" width="*">
                                 <button accesskey="f" class="buttonShort" name="action" type="submit" value="filter">FILTER</button>
                             </td>
