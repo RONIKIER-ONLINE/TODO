@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import online.ronikier.todo.Messages;
 
-//TODO: Implement on front-end.
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum CostUnit {
     PLN(Messages.COST_UNIT_PLN),

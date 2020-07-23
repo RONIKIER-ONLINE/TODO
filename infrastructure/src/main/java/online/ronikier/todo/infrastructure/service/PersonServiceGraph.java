@@ -8,7 +8,6 @@ import online.ronikier.todo.infrastructure.repository.PersonRepository;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StreamUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -76,7 +75,7 @@ public class PersonServiceGraph implements PersonService {
         if (personsKnownPersons.isPresent()) {
             return personsKnownPersons.get().getKnownPersons();
         }
-        return null;
+        return Collections.emptyList();
     }
 
 

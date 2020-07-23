@@ -8,8 +8,13 @@ import org.neo4j.ogm.annotation.NodeEntity;
 @Slf4j
 @Data
 @NodeEntity
-// TODO: TaskStatus obsolete ???
 public class DelayedTask extends Task {
+
+    public DelayedTask() {
+        super();
+        doSomethingFast();
+    }
+
     private void doSomethingFast() {
         log.warn("AAAAAAAAA !!!");
         throw new UnsupportedOperationException();

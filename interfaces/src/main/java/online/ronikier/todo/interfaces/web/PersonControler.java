@@ -8,7 +8,6 @@ import online.ronikier.todo.domain.forms.PersonForm;
 import online.ronikier.todo.infrastructure.service.PersonService;
 import online.ronikier.todo.interfaces.mappers.PersonMapper;
 import online.ronikier.todo.library.Parameters;
-import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -149,71 +147,36 @@ public class PersonControler extends SuperController {
      * @return
      * @throws ParseException
      */
-    private Person initializePerson(PersonForm personForm) throws ParseException {
+    private Person initializePerson(PersonForm personForm) {
 
-        //TODO: Implement system common persons
-        //return new Person(dafaultPersons,
-
-        return new Person(ilPadre(),
+        return new Person(madhuSudana(),
                 personForm.getUsername());
     }
 
-    private List<Person> ilPadre() {
+    private List<Person> madhuSudana() {
         return new ArrayList<>();
     }
 
-
-    /**
-     *
-     * @param personId
-     * @return
-     */
-    private Iterable<Person> getKnownPersonList(Long personId) {
-        log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Known person filtering");
-        if (personId == null) return null;
-        return personService.personsKnownPersons(personId);
-    }
-
-    /**
-     *
-     * @return
-     */
     private Iterable<Person> getPersonList() {
         log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form person filtering");
         return personService.allPersons();
     }
 
-    /**
-     * @param personForm
-     * @param model
-     */
     private void initializeForm(PersonForm personForm, Model model) {
         personForm.setUsername("Don ");
 
         refreshForm(personForm,model);
     }
 
-    /**
-     *
-     * @param personForm
-     * @param model
-     */
     private void refreshForm(PersonForm personForm, Model model) {
         model.addAttribute("personList", getPersonList());
         personForm.setPersons(getPersonList());
         model.addAttribute("personCount", personService.countPersons());
     }
 
-    /**
-     * @param targetPersonForm
-     * @param sourcePerson
-     */
     private void updateForm(PersonForm targetPersonForm, Person sourcePerson) {
 
         personMapper.domain2Form(sourcePerson, targetPersonForm);
-
-        //targetPersonForm.setUsername(sourcePerson.getUsername());
-
 
     }
 

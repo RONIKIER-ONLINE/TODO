@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Messages {
 
-    //TODO: Remove development message
+    // Remove development message
     public static final String DEV_IMPLEMENT_ME = "DEV_IMPLEMENT_ME";
 
     public static final String SEPARATOR = " - ";

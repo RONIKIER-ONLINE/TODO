@@ -53,8 +53,7 @@ public class Utilities {
 
 
     public static boolean notEmpty(String value) {
-        if (value == null) return false;
-        if (value.trim().isEmpty()) return false;
+        if (value == null || value.trim().isEmpty()) return false;
         return true;
     }
 

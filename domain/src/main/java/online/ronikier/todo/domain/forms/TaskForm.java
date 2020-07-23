@@ -20,7 +20,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Slf4j
@@ -120,11 +119,6 @@ public class TaskForm extends SuperForm {
     //@NotEmpty(message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY)
     @Size(max = Parameters.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX, message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX)
 
-    //TODO: Bust this ...
-    public Task getTask() {
-        if (task == null) task = new Task();
-        return task;
-    }
     public String getDescription() {
         return getTask().getDescription();
     }

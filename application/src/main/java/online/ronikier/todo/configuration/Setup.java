@@ -1,5 +1,6 @@
 package online.ronikier.todo.configuration;
 
+import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.CostUnit;
@@ -10,7 +11,6 @@ import online.ronikier.todo.library.Utilities;
 
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.actuate.audit.AuditEventRepository;
-import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 
@@ -21,13 +21,12 @@ import java.time.Instant;
 import java.util.*;
 
 
-
+@Slf4j
 @Configuration
 public class Setup {
 
     @Bean
     public static Set<Task> dafaultTasks() {
-        //TODO: Identify tasks by name to have single references (currently duplicates after restsrt)
         Task initializationTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task", 1d, CostUnit.DAY, TaskState.NEW , TaskType.GENERAL, TaskStatus.OK);
         Task completionTask = new Task(null, null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task", 1d, CostUnit.DAY, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         List<Task> dafaultTasks = Arrays.asList(initializationTask, completionTask);
@@ -41,8 +40,7 @@ public class Setup {
 
     @Bean
     public AuditEventRepository auditEventRepository() {
-        //TODO: If needed return customAuditEventRepository(); ???
-        return new InMemoryAuditEventRepository();
+        return customAuditEventRepository();
     }
 
     @Bean
@@ -66,12 +64,14 @@ public class Setup {
 
             @Override
             public void add(AuditEvent event) {
+                log.debug(Messages.DEV_IMPLEMENT_ME);
                 throw new UnsupportedOperationException(Messages.DEV_IMPLEMENT_ME);
             }
 
             @Override
             public List<AuditEvent> find(String principal, Instant after, String type) {
-                throw new UnsupportedOperationException(Messages.DEV_IMPLEMENT_ME);
+                log.debug(Messages.DEV_IMPLEMENT_ME);
+                return Collections.emptyList();
             }
         };
     }

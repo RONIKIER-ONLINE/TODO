@@ -12,12 +12,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -35,6 +31,23 @@ public class TaskServiceGraph implements TaskService {
         return "Lou kills";
     }
 
+    @Override
+    public void processComplete(Task processedTask) {
+        processedTask.setTaskState(TaskState.COMPLETED);
+        processedTask.setTaskStatus(TaskStatus.OK);
+        saveTask(processedTask);
+    }
+
+
+    @Override
+    public void processReject(Task processedTask) {
+        processedTask.setTaskState(TaskState.REJECTED);
+        processedTask.setDue(null);
+        processedTask.setTaskStatus(TaskStatus.UNKNOWN);
+        saveTask(processedTask);
+    }
+
+
     @Cacheable("TASKS_BY_ID")
     @Override
     public Optional<Task> findTaskById(Long taskId) {
@@ -47,7 +60,7 @@ public class TaskServiceGraph implements TaskService {
 
     @Cacheable("TASKS_BY_NAME")
     @Override
-    public Task findTaskByName(String taskName) {
+    public Optional<Task> findTaskByName(String taskName) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING TASK " + Utilities.wrapString(taskName));
         return taskRepository.findByName(taskName);
     }
@@ -95,11 +108,11 @@ public class TaskServiceGraph implements TaskService {
             : filteredTasksStream;
 
         filteredTasksStream = filterFlag(taskFilterForm.getImportant())
-            ? filteredTasksStream.filter(task -> task.getImportant())
+            ? filteredTasksStream.filter(Task::getImportant)
             : filteredTasksStream;
 
         filteredTasksStream = filterFlag(taskFilterForm.getUrgent())
-            ? filteredTasksStream.filter(task -> task.getUrgent())
+            ? filteredTasksStream.filter(Task::getUrgent)
             : filteredTasksStream;
 
         filteredTasksStream = filterSelected(taskFilterForm.getPhrase())
@@ -130,18 +143,16 @@ public class TaskServiceGraph implements TaskService {
             default:
         }
 
-        // NOTE: sorting cannot be done parallel
-        boolean PARAllEL = false;
-
-        return StreamSupport.stream(taskRepository.findAll().spliterator(), PARAllEL).sorted(taskComparator).collect(Collectors.toList());
+        // Sorting cannot be done parallel
+        return StreamSupport.stream(taskRepository.findAll().spliterator(), false).sorted(taskComparator).collect(Collectors.toList());
         // otherwise use parallel for efficiency
 
     }
 
     @Override
     public List<Task> getMaintanceTasks() {
-        //TODO: Implement individual task level tasks
-        //TODO: One task set for alla ore task set each
+        // Implement individual task level tasks
+        // One task set for alla ore task set each
         Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         return Arrays.asList(maintanceTaskA, maintanceTaskB);
@@ -155,7 +166,7 @@ public class TaskServiceGraph implements TaskService {
         if (tasksRequiredTasks.isPresent()) {
             return tasksRequiredTasks.get().getRequiredTasks();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     private boolean filterSelected(Object filter) {
@@ -165,95 +176,6 @@ public class TaskServiceGraph implements TaskService {
     private boolean filterFlag(Boolean flag) {
         if (filterSelected(flag)) return flag;
         return false;
-    }
-
-    @Deprecated(forRemoval = true)
-    private void TEST_DEVX() {
-
-        Iterable<Task> tasks = taskRepository.findAll();
-
-        Stream.of(tasks).forEach(task -> log.info(task.toString()));
-        Stream.of(tasks).forEach(task -> log.info(task.toString()));
-
-
-        Comparator<Task> taskComparator = (Task tasksA, Task tasksB) -> {
-            return tasksB.getRequiredTasks().size() - tasksA.getRequiredTasks().size();
-        };
-
-
-        log.info("=========================================================");
-        log.info("UNSORTER ================================================");
-        log.info("=========================================================");
-
-        StreamSupport.stream(tasks.spliterator(), true).forEach(task -> log.info(task.toString()));
-        log.info("=========================================================");
-        log.info("SORTED ==================================================");
-        log.info("=========================================================");
-
-        StreamSupport.stream(tasks.spliterator(), false).sorted(taskComparator).forEach(task -> log.info(task.toString()));
-
-        if(true) return;
-
-
-
-        Stream.of(taskRepository.findAll()).sorted().forEach(System.out::println);
-
-        LongStream.range(1,10).forEach(l -> System.out.println(l));
-
-        LongStream.range(1,10).forEach(System.out::println);
-
-        System.out.print(LongStream.range(1,10).sum());
-
-        Random randomNumber = new Random(100);
-
-        System.out.print(LongStream
-                .range(
-                randomNumber.nextInt(),
-                randomNumber.nextInt())
-                .summaryStatistics());
-
-        Arrays.stream(new int[] {1,2,3,4,5})
-                .map(x -> x * x)
-                .average()
-                .ifPresent(System.out::println);
-
-        //System.out.print(
-
-        Stream.of(
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A1","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task B2","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C3","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task A4","Opisik", 1000000d, CostUnit.PLN, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C5","Opisik", 7d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK),
-                new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1),"Task C6","Opisik", 7d, CostUnit.DAY, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK)
-        )
-                //.count();
-
-                .skip(1)
-                .filter(task -> task.getName().contains("A"))
-                .map(this::transformTask)
-
-                //.forEach(System.out::println);
-
-                .collect(Collectors.toList());
-
-        //.reduce((task, task2) -> new Task(task.getName() + " " + task2.getName())).orElse(new Task("X"));
-
-        try {
-            Stream<String> lines = Files.lines(Paths.get("c:\\magazyn\\git\\TODO\\pom.xml"));
-            lines.filter(line -> line.contains("version")).forEach(l -> System.out.println(l));
-            lines.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public Task transformTask(online.ronikier.todo.domain.Task task) {
-        task.setName(task.getName() + " has been transformed ...");
-        return task;
     }
 
 }

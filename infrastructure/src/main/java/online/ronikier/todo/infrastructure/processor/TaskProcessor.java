@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.*;
-import online.ronikier.todo.domain.extension.NewTask;
 import online.ronikier.todo.infrastructure.service.TaskService;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,17 +48,13 @@ public class TaskProcessor {
         TaskStatus previousTaskStatus = task.getTaskStatus();
 
         if (task.getDue() != null) {
-            if (task.getDue().before(Utilities.dateCurrent()))
-                task.setTaskStatus(TaskStatus.DELAYED);
-            else if (task.getDue().before(Utilities.dateFutureFrom(setupProcessorTaskApproachingDays, Utilities.dateCurrent())))
-                task.setTaskStatus(TaskStatus.APPROACHING);
-            else if (task.getDue().before(Utilities.dateFutureFrom(0, Utilities.dateCurrent())))
-                task.setTaskStatus(TaskStatus.TODAY);
+            if      (task.getDue().before(Utilities.dateFutureFrom(1, Utilities.dateCurrent()))) task.setTaskStatus(TaskStatus.DELAYED);
+            else if (task.getDue().before(Utilities.dateFutureFrom(setupProcessorTaskApproachingDays, Utilities.dateCurrent()))) task.setTaskStatus(TaskStatus.APPROACHING);
+            else if (task.getDue().before(Utilities.dateFutureFrom(0, Utilities.dateCurrent()))) task.setTaskStatus(TaskStatus.TODAY);
             else task.setTaskStatus(TaskStatus.OK);
         }
 
-        if (!task.getTaskStatus().equals(previousTaskStatus))
-            taskStatusChanged(previousTaskStatus,task);
+        if (!task.getTaskStatus().equals(previousTaskStatus)) taskStatusChanged(previousTaskStatus,task);
 
     }
 

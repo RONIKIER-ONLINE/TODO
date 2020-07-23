@@ -1,6 +1,7 @@
 package online.ronikier.todo.domain;
 
 import lombok.*;
+import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.templete.SuperEntity;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -18,7 +19,8 @@ public class Person extends SuperEntity {
 
     public Person(String personId) {
         super();
-        setId(Long.valueOf(personId));
+        username = Parameters.NEW_USERNAME + personId;
+        id = Long.valueOf(personId);
     }
 
     @Relationship(type = "KNOWS")
