@@ -46,13 +46,17 @@
                         </goals>
 
                         <configuration>
-                            <outputDirectory>//home/lukasz/magazyn</outputDirectory>
+                            <!-- TODO: add OS WIN/LINUX profiles -->
+                            <!--                            <outputDirectory>//home/lukasz/magazyn</outputDirectory>-->
+                            <outputDirectory>c:/magazyn/</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>
-                                        //media/lukasz/8f7a236d-5312-4157-9da6-e5035481168f/home/lou/magazyn/git/todo_local/TODO/application/target
+                                        <!-- TODO: add OS WIN/LINUX profiles -->
+                                        c:\magazyn\git\TODO\application\target
                                     </directory>
                                     <includes>
+                                        <!-- TODO: add dynamic version -->
                                         <include>todo-application-1.0-SNAPSHOT.jar</include>
                                     </includes>
                                 </resource>

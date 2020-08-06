@@ -26,7 +26,7 @@ import java.util.*;
 public class Setup {
 
     @Bean
-    public static Set<Task> dafaultTasks() {
+    public Set<Task> dafaultTasks() {
         Task initializationTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task", 1d, CostUnit.DAY, TaskState.NEW , TaskType.GENERAL, TaskStatus.OK);
         Task completionTask = new Task(null, null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task", 1d, CostUnit.DAY, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         List<Task> dafaultTasks = Arrays.asList(initializationTask, completionTask);
@@ -34,7 +34,7 @@ public class Setup {
     }
 
     @Bean
-    public static Task devTask() {
+    public Task devTask() {
         return new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
     }
 
