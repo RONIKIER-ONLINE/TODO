@@ -27,15 +27,15 @@ public class Setup {
 
     @Bean
     public Set<Task> dafaultTasks() {
-        Task initializationTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task", 1d, CostUnit.DAY, TaskState.NEW , TaskType.GENERAL, TaskStatus.OK);
-        Task completionTask = new Task(null, null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task", 1d, CostUnit.DAY, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
+        Task initializationTask = new Task(null,null,null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task", 1d, CostUnit.DAY, TaskState.NEW , TaskType.GENERAL, TaskStatus.OK);
+        Task completionTask = new Task(null,null,null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task", 1d, CostUnit.DAY, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         List<Task> dafaultTasks = Arrays.asList(initializationTask, completionTask);
         return new HashSet<>(dafaultTasks);
     }
 
     @Bean
     public Task devTask() {
-        return new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
+        return new Task(null,null,null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "DEV_TEST", "Test development task", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
     }
 
     @Bean

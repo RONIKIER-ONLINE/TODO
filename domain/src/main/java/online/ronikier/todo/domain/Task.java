@@ -26,6 +26,9 @@ public class Task extends SuperEntity {
     protected List<Task> requiredTasks;
     @Relationship(type = "IS DONE BY")
     protected Person responsiblePerson;
+
+    protected Task isRequiredBy;
+    protected List<Task> isRequiredByList;
 //    @NonNull
     protected Boolean important;
 //    @NonNull
@@ -69,14 +72,14 @@ private Date due;
         return requiredTasks;
     }
 
-    @Override
-    public String toString() {
-        return "'" + this.name + "' requires: " +
-                Optional.ofNullable(this.getRequiredTasks()).orElse(Collections.emptyList())
-                        .stream()
-                        .map(Task::getName)
-                        .collect(Collectors.toList());
-    }
+//    @Override
+//    public String toString() {
+//        return "'" + this.name + "' requires: " +
+//                Optional.ofNullable(this.getRequiredTasks()).orElse(Collections.emptyList())
+//                        .stream()
+//                        .map(Task::getName)
+//                        .collect(Collectors.toList());
+//    }
 
     public String getCreatedFormatted() {
         return Utilities.stringFromDate(created);

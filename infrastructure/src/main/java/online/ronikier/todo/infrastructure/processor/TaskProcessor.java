@@ -37,9 +37,10 @@ public class TaskProcessor {
     }
 
     private Task processTask(Task task) {
-        processTaskState(task);
-        processTaskStatus(task);
-        taskService.saveTask(task);
+//        processTaskState(task);
+//        processTaskStatus(task);
+        //taskService.saveTask(task);
+//        log.info("SAVING:" + task);
         return task;
     }
 

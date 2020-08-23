@@ -7,6 +7,7 @@ import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.*;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
+import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -45,6 +46,19 @@ public class TaskServiceGraph implements TaskService {
         processedTask.setDue(null);
         processedTask.setTaskStatus(TaskStatus.UNKNOWN);
         saveTask(processedTask);
+    }
+
+    @Override
+    public Task processSave(Task task, String taskName) {
+        Optional<Task> processedTaskOptional = findTaskByName(taskName);
+
+            if (processedTaskOptional.isPresent()) {
+                log.info((Messages.TASK_EXISTS));
+                log.debug(taskName);
+                if (Parameters.SYSTEM_ALLOW_TASK_REPLACE) return processedTaskOptional.get();
+            }
+        saveTask(task);
+        return task;
     }
 
 
@@ -153,8 +167,8 @@ public class TaskServiceGraph implements TaskService {
     public List<Task> getMaintanceTasks() {
         // Implement individual task level tasks
         // One task set for alla ore task set each
-        Task maintanceTaskA = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
-        Task maintanceTaskB = new Task(null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
+        Task maintanceTaskA = new Task(null, null,null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
+        Task maintanceTaskB = new Task(null, null,null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         return Arrays.asList(maintanceTaskA, maintanceTaskB);
     }
 

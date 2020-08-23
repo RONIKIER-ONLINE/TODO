@@ -31,4 +31,6 @@ public interface TaskService extends SuperService {
     List<Task> tasksRequiredTasks(Long taskId);
 
     void processReject(Task processedTask);
+
+    Task processSave(Task task, String taskName);
 }

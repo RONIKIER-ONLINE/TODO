@@ -53,9 +53,13 @@
                             <tr>
                                 <td class="rightLabel" width="74">Name</td>
                                 <td class="left" width="164"><input class="textShortName" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
-                                <td class="error" width="94"></td>
+                                <td class="centerValue" width="94">
+                                    <div th:if="*{(taskType ne null)}">
+                                        <label th:text="*{taskType.label}"/>
+                                    </div>
+                                </td>
                                 <td class="rightLabel" width="74">Required by</td>
-                                <td class="left" width="164">
+                                <td class="listSelect" width="164">
                                     <select class="selectMedium" th:field="*{requiredByTaskId}">
                                         <option class="selectMediumOption" value="none">none</option>
                                         <option class="selectMediumOption" th:each="task : *{tasks}" th:text="${task.name}"
@@ -70,53 +74,49 @@
                                 <td class="leftValue">
                                     <table cellpadding="0" cellspacing="0">
                                         <tr>
-                                            <td class="rightCheckbox"><input th:field="*{urgent}" type="checkbox"/></td>
-                                            <td class="leftValue">Urgent</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td class="rightLabel">Type</td>
-                                <td class="leftValue">
-                                    <div th:if="*{(taskType ne null)}">
-                                        <label th:text="*{taskType.label}"/>
-                                    </div>
-                                </td>
-                                <td class="rightButton"> <button accesskey="c" class="buttonShort" name="action" type="submit" value="COMPLETE">COMPLETE</button></td>
-                            </tr>
-                            <tr>
-                                <td class="leftValue">
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
                                             <td class="rightCheckbox"><input th:field="*{important}" type="checkbox"/></td>
                                             <td class="leftValue">Important</td>
                                         </tr>
                                     </table>
                                 </td>
-                                <td class="rightLabel">State</td>
-                                <td class="leftValue">
-                                    <div th:if="*{(taskState ne null)}">
-                                    <label th:text="*{taskState.label}" th:style="*{taskState.style}"/>
-                                    </div>
+                                <td class="rightLabel"></td>
+                                <td class="leftValue" rowspan="3">
+                                    <select class="selectRequiredByTaskList" size="5" th:field="*{isRequiredBy}">
+                                        <option class="selectMediumOption" value="none">none</option>
+                                        <option class="selectMediumOption" th:each="task : *{isRequiredByList}" th:text="${task.name}"
+                                                th:value="${task.id}"></option>
+                                    </select>
                                 </td>
+                                <td class="rightButton"> <button accesskey="c" class="buttonShort" name="action" type="submit" value="COMPLETE">COMPLETE</button></td>
+                            </tr>
+                            <tr>
+                                <td class="leftValue"></td>
+                                <td class="rightLabel"></td>
                                 <td class="rightButton"><button accesskey="r" class="buttonShort" id="rejectButton" name="action" type="submit" value="REJECT">REJECT</button></td>
                             </tr>
                             <tr>
                                 <td class="error"></td>
-                                <td class="rightLabel">Status</td>
-                                <td class="leftValue">
-                                    <div th:if="*{(taskStatus ne null)}">
-                                    <label th:text="*{taskStatus.label}" th:style="*{taskStatus.style}"/>
-                                    </div>
-                                </td>
+                                <td class="rightLabel"></td>
                                 <td class="rightButton"><button accesskey="c" class="buttonShort" id="deleteButton" name="action" type="submit" value="DELETE">DELETE</button></td>
                             </tr>
                             <tr>
                                 <td class="rightLabel">Start</td>
                                 <td class="left"><input class="dateShort" th:field="*{start}" type="date"/></td>
-                                <td class="error"></td>
+                                <td class="leftValue">
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td class="rightCheckbox"><input th:field="*{urgent}" type="checkbox"/></td>
+                                            <td class="leftValue">Urgent</td>
+                                        </tr>
+                                    </table>
+                                </td>
                                 <td class="rightLabel">Due</td>
                                 <td class="left"><input class="dateShort" th:field="*{due}" type="date"/></td>
-                                <td class="error"></td>
+                                <td class="centerValue">
+                                    <div th:if="*{(taskState ne null)}">
+                                        <label th:text="*{taskState.label}" th:style="*{taskState.style}"/>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td class="rightLabel">Created</td>
@@ -155,7 +155,11 @@
                                 <td class="leftValue">
 
                                 </td>
-                                <td class="error"></td>
+                                <td class="centerValue">
+                                    <div th:if="*{(taskStatus ne null)}">
+                                        <label th:text="*{taskStatus.label}" th:style="*{taskStatus.style}"/>
+                                    </div>
+                                </td>
                             </tr>
                             <tr><td colspan="6"><hr width="99%" size="1"/></td></tr>
                             <tr>

@@ -161,6 +161,24 @@ td.leftValue {
 	padding: 3pt 3pt 3pt 3pt;
 }
 
+td.centerValue {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:center;
+  	vertical-align: middle;
+   	font-weight: bold;
+    color: Gray;
+	padding: 3pt 3pt 3pt 3pt;
+}
+
+td.listSelect {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	vertical-align: top;
+   	font-weight: bold;
+    color: Gray;
+	padding: 3pt 3pt 3pt 3pt;
+}
+
 td.error {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
 	color: red;
@@ -366,6 +384,22 @@ option.selectMediumOption
 {
     font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
     background-color: #ffffff;
+}
+
+select.selectRequiredByTaskList
+{
+    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    width: 162px;
+    height: 80px;
+    size:5;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #ffffff;
+    vertical-align: bottom;
+    text-align: bottom;
 }
 
 select.selectList
