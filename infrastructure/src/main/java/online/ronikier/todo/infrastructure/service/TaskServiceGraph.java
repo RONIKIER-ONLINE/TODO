@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.*;
+import online.ronikier.todo.domain.exception.TaskExistsException;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Parameters;
@@ -49,15 +50,13 @@ public class TaskServiceGraph implements TaskService {
     }
 
     @Override
-    public Task processSave(Task task, String taskName) {
+    public Task processSave(Task task, String taskName) throws TaskExistsException {
         Optional<Task> processedTaskOptional = findTaskByName(taskName);
-
             if (processedTaskOptional.isPresent()) {
                 log.info((Messages.TASK_EXISTS));
                 log.debug(taskName);
-                if (Parameters.SYSTEM_ALLOW_TASK_REPLACE) return processedTaskOptional.get();
+                throw new TaskExistsException(taskName);
             }
-        saveTask(task);
         return task;
     }
 

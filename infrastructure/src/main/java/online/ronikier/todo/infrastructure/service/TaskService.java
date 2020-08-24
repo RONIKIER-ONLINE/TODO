@@ -2,6 +2,7 @@ package online.ronikier.todo.infrastructure.service;
 
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.SortOrder;
+import online.ronikier.todo.domain.exception.TaskExistsException;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.templete.SuperService;
 
@@ -32,5 +33,5 @@ public interface TaskService extends SuperService {
 
     void processReject(Task processedTask);
 
-    Task processSave(Task task, String taskName);
+    Task processSave(Task task, String taskName) throws TaskExistsException;
 }

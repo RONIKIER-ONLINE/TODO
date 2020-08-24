@@ -386,6 +386,27 @@ option.selectMediumOption
     background-color: #ffffff;
 }
 
+select.selectStandard
+{
+    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    width: 75px;
+    height: 24px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #ffffff;
+    vertical-align: bottom;
+    text-align: bottom;
+}
+
+option.selectStandardOption
+{
+    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    background-color: #ffffff;
+}
+
 select.selectRequiredByTaskList
 {
     font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;

@@ -6,6 +6,7 @@ import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.*;
+import online.ronikier.todo.domain.exception.TaskExistsException;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.domain.forms.TaskForm;
 import online.ronikier.todo.infrastructure.service.PersonService;
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,46 +84,69 @@ public class TaskController extends SuperController {
     @PostMapping(Parameters.WEB_CONTROLLER_TASK)
     public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
 
-        if (FormAction.SAVE.equals(taskForm.getAction())) {
-            if (bindingResult.hasErrors()) {
-                log.error(Messages.ERROR_TASK_ADD);
-                StringBuilder dialogMessageBuilder = new StringBuilder();
-                bindingResult.getAllErrors().forEach(error -> dialogMessageBuilder.append(Messages.SEPARATOR + error.toString()));
-                log.error(dialogMessageBuilder.toString());
-//                initializeDialog(model, dialogMessageBuilder.toString());
-//                initializeForm(taskForm, model);
-//                return Parameters.WEB_CONTROLLER_TASK;
+        if (taskForm.getTaskId() == null) {
+            if (FormAction.SAVE.equals(taskForm.getAction())) {
+                if (bindingResult.hasErrors()) {
+                    log.error(Messages.ERROR_TASK_ADD);
+                    StringBuilder dialogMessageBuilder = new StringBuilder();
+                    bindingResult.getAllErrors().forEach(error -> dialogMessageBuilder.append(Messages.SEPARATOR + error.toString()));
+                    log.error(dialogMessageBuilder.toString());
+                    initializeDialog(model, dialogMessageBuilder.toString());
+                    refreshForm(taskForm, model);
+                    return Parameters.WEB_CONTROLLER_TASK;
+                }
+                saveTask(taskForm, initializeTask());
+                refreshForm(taskForm, model);
+                return Parameters.WEB_CONTROLLER_TASK;
             }
-            saveTask(taskForm,initializeTask());
-            refreshForm(taskForm, model);
-            return Parameters.WEB_CONTROLLER_TASK;
+            if (FormAction.FILTER.equals(taskForm.getAction())) {
+                taskForm.setTask(initializeTask());
+                refreshForm(taskForm, model);
+                return Parameters.WEB_CONTROLLER_TASK;
+            }
         }
 
-        Optional<Task> processedTaskOptional = null;
-        if (taskForm.getTask() != null && !FormAction.SAVE.equals(taskForm.getAction())) {
-            processedTaskOptional = taskService.findTaskById(taskForm.getTaskId());
-            switch (taskForm.getAction()) {
-                case DELETE:
-                    taskService.deleteTaskById(processedTaskOptional.get().getId());
-                    initializeForm(taskForm, model);
-                    break;
-                case REJECT:
-                    taskService.processReject(processedTaskOptional.get());
-                    break;
-                case FILTER:
-                    break;
-                case COMPLETE:
-                    taskService.processComplete(processedTaskOptional.get());
-                    break;
-                case SAVE:
-                    saveTask(taskForm,taskService.processSave(processedTaskOptional.get(),taskForm.getName()));
-                    break;
-                default:
-                    log.debug("NO ACTION ?");
-                    taskForm.setTask(initializeTask());
+        Optional<Task> processedTaskOptional = taskService.findTaskById(taskForm.getTaskId());
+
+        switch (taskForm.getAction()) {
+            case DELETE:
+                taskService.deleteTaskById(processedTaskOptional.get().getId());
+                initializeForm(taskForm, model);
+                break;
+            case REJECT:
+                taskService.processReject(processedTaskOptional.get());
+                break;
+            case FILTER:
+                taskForm.setTask(initializeTask());
+                break;
+            case COMPLETE:
+                taskService.processComplete(processedTaskOptional.get());
+                break;
+            case SAVE:
+                if (bindingResult.hasErrors()) {
+                    log.error(Messages.ERROR_TASK_ADD);
+                    StringBuilder dialogMessageBuilder = new StringBuilder();
+                    bindingResult.getAllErrors().forEach(error -> dialogMessageBuilder.append(Messages.SEPARATOR + error.toString()));
+                    log.error(dialogMessageBuilder.toString());
+                    initializeDialog(model, dialogMessageBuilder.toString());
                     refreshForm(taskForm, model);
-            }
+                    break;
+                }
+                try {
+                    taskService.processSave(processedTaskOptional.get(), taskForm.getName());
+                } catch (TaskExistsException e) {
+                    log.error(e.getMessage());
+                    ObjectError taskExistsError = new ObjectError(taskForm.getName(), e.getMessage());
+                    bindingResult.addError(taskExistsError);
+                }
+                saveTask(taskForm, processedTaskOptional.get());
+                break;
+            default:
+                log.debug("NO ACTION ?");
+                taskForm.setTask(initializeTask());
+                refreshForm(taskForm, model);
         }
+
         refreshForm(taskForm, model);
         return Parameters.WEB_CONTROLLER_TASK;
     }

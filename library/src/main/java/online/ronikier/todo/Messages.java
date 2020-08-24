@@ -41,6 +41,7 @@ public class Messages {
     public static final String COST_UNIT_HOUR = "Hours";
     public static final String COST_UNIT_DAY = "Days";
     public static final String COST_UNIT_SOLDIER = "YARI";
+    public static final String COST_UNIT_LUCK = "Zdrowaskaz";
 
 
     public static final String TYPE_PLACE_CITY = "TYPE_PLACE_CITY";

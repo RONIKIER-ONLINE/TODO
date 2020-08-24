@@ -54,9 +54,11 @@
                                 <td class="rightLabel" width="74">Name</td>
                                 <td class="left" width="164"><input class="textShortName" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
                                 <td class="centerValue" width="94">
-                                    <div th:if="*{(taskType ne null)}">
-                                        <label th:text="*{taskType.label}"/>
-                                    </div>
+                                    <select class="selectStandard" th:field="*{taskType}" value="*{taskType}">
+                                        <option class="selectStandardOption" value="">- Type -</option>
+                                        <option class="selectStandardOption" th:each="taskType : ${T(online.ronikier.todo.domain.dictionary.TaskType).values()}"
+                                                th:value="${taskType}" th:text="${taskType.label}"/>
+                                    </select>
                                 </td>
                                 <td class="rightLabel" width="74">Required by</td>
                                 <td class="listSelect" width="164">
@@ -235,8 +237,8 @@
 
                             <td class="leftValue" width="70">
                                 <select class="selectStandard" th:field="*{taskFilterForm.taskType}" value="*{taskFilterForm.taskType}">
-                                    <option class="selectMediumOption" value="">- Type -</option>
-                                    <option class="selectMediumOption" th:each="taskType : ${T(online.ronikier.todo.domain.dictionary.TaskType).values()}"
+                                    <option class="selectStandardOption" value="">- Type -</option>
+                                    <option class="selectStandardOption" th:each="taskType : ${T(online.ronikier.todo.domain.dictionary.TaskType).values()}"
                                             th:value="${taskType}" th:text="${taskType.label}"/>
                                 </select>
                             </td>
