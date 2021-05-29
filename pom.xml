@@ -46,12 +46,12 @@
                         </goals>
 
                         <configuration>
-                            <outputDirectory>//home/lukasz/magazyn</outputDirectory>
+                            <outputDirectory>C:/magazyn</outputDirectory>
+                            <!-- <outputDirectory>//home/lukasz/magazyn</outputDirectory> -->
                             <resources>
                                 <resource>
-                                    <directory>
-                                        //media/lukasz/8f7a236d-5312-4157-9da6-e5035481168f/home/lou/magazyn/git/todo_local/TODO/application/target
-                                    </directory>
+                                    <directory>C:\magazyn\dev\TODO\application\target</directory>
+                                    <!-- <directory>//media/lukasz/8f7a236d-5312-4157-9da6-e5035481168f/home/lou/magazyn/git/todo_local/TODO/application/target</directory> -->
                                     <includes>
                                         <include>todo-application-1.0-SNAPSHOT.jar</include>
                                     </includes>
