@@ -1,14 +1,19 @@
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
+
 <html>
+
     <head>
         <title>Brain Support - Tasks</title>
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
         <link rel="stylesheet" th:href="@{/styles/main.css}"/>
         <meta charset="utf-8">
     </head>
+
     <body>
 
+        <!--  Dialog popup START -->
         <div class="modal" id="taskInfoDialog">
             <div class="taskInfoDialog">
                 <span class="close">&times;</span>
@@ -35,19 +40,28 @@
                 </table>
             </div>
         </div>
+        <!--  Dialog popup END -->
 
+        <!--  Javascript START -->
         <script type="text/javascript" th:src="@{/scripts/init.js}"></script>
         <script type="text/javascript" th:src="@{/scripts/modal.js}"></script>
 
         <div th:if="${showDialog}">
             <script type="text/javascript" th:src="@{/scripts/modal_show.js}"></script>
         </div>
+        <!--  Javascript END -->
 
+        <!--  Main frame START -->
         <table border="0" width="700" align="center" bgcolor="#EEEEEE" cellpadding="0" cellspacing="0">
+
+            <!--  Task form START -->
             <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">
+
                 <tr><td><hr width="99%" size="1"/></td></tr>
                 <tr>
                     <td>
+
+                        <!--  Task DATA form START -->
                         <table border="0" align="center" cellpadding="3" cellspacing="0" width="700">
                             <input th:field="*{taskId}" type="hidden"/>
                             <tr>
@@ -206,11 +220,17 @@
                                 </tr>
                             </div>
                         </table>
+                        <!--  Task DATA form END -->
+
                     </td>
                 </tr>
+
                 <tr><td><hr width="99%" size="1"/></td></tr>
+
                 <tr>
                     <td>
+
+                        <!--  Task filter form START -->
                         <table border="0" align="center" cellpadding="3" cellspacing="0" width="100%">
                         <tr>
                             <td class="rightLabel" width="74"></td>
@@ -259,17 +279,72 @@
                             </td>
                         </tr>
                     </table>
+                        <!--  Task filter form END -->
+
                     </td>
                 </tr>
+
                 <tr><td><hr width="99%" size="1"/></td></tr>
+
             </form>
+            <!--  Task form END -->
+
+            <!--  Task list START -->
             <div th:if="${not #lists.isEmpty(taskList)}">
                 <tr>
                     <td>
+
+                        <!--  Task list header START -->
+                        <table border="0" cellpadding="2" cellspacing="2" align="center" width="700">
+                            <tr>
+                                <td>
+                                    <table border="1" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td width="20" align="right" class="taskListHeader">
+                                                <label th:text="lp."/>
+                                            </td>
+                                            <td width="120" class="taskListHeader">
+                                                <label th:text="Name"/>
+                                            </td>
+                                            <td width="60" align="center" class="taskListHeader">
+                                                <label th:text="State"/>
+                                            </td>
+                                            <td width="10" align="center" class="taskListHeader">
+
+                                            </td>
+                                            <td width="10" align="center" class="taskListHeader">
+
+                                            </td>
+                                            <td width="65" align="center" class="taskListHeader">
+                                                <label th:text="Created"/>
+                                            </td>
+                                            <td width="55" align="center" class="taskListHeader">
+                                                <label th:text="Started"/>
+                                            </td>
+                                            <td width="55" align="center" class="taskListHeader">
+                                                <label th:text="Due"/>
+                                            </td>
+                                            <td width="80" align="right" class="taskListHeader">
+                                                <label th:text="Cost"/>
+                                            </td>
+                                            <td width="*" align="right" class="taskListHeader">
+
+                                            </td>
+                                            <td width="80" align="center" class="taskListHeader">
+                                                <label th:text="StatusX"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <!--  Task list header END -->
+
+                        <!--  Task list table START -->
                         <table border="0" cellpadding="2" cellspacing="2" align="center" th:each="task : *{taskList}" width="700">
                             <tr>
                                 <td>
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <table border="1" cellpadding="0" cellspacing="0" width="100%">
                                             <tr>
                                                 <td width="20" align="right" class="taskListPosition">
                                                     <label th:text="${taskListCounter.getAndIncrement()}"/>.
@@ -286,7 +361,7 @@
                                                 <td width="10" align="center" class="taskListPosition" style="color:#880000;font-weight: bold;">
                                                     <div th:if="${task.urgent}">!</div>
                                                 </td>
-                                                <td width="55" align="center" class="taskListPosition">
+                                                <td width="65" align="center" class="taskListPosition">
                                                     <label th:text="${task.createdFormatted}"/>
                                                 </td>
                                                 <td width="55" align="center" class="taskListPosition">
@@ -331,11 +406,19 @@
                                 </tr>
                             </div>
                         </table>
+                        <!--  Task list  table END -->
+
                     </td>
                 </tr>
+
                 <tr><td><hr width="99%" size="1"/></td></tr>
+
             </div>
+            <!--  Task list END -->
+
         </table>
+        <!--  Main frame END -->
 
     </body>
+
 </html>
