@@ -31,7 +31,7 @@ public class TaskProcessor {
     @Autowired
     private TaskService taskService;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 3600000)
     public void processTasks() {
         log.info(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + Messages.SCHEDULER_TASK_PROCESSING);
 

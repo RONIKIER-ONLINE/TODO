@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <title>Brain Support - Login</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+    <meta charset="utf-8">
+    <script>
+    window.onload = function() {
+        document.getElementById("username").focus();
+        var username = document.getElementById("username").value;
+        document.getElementById("username").value = '';
+        document.getElementById("username").value = username;
+    };
+    </script>
+</head>
+<body>
+<table border="0" class="person" align="center">
+    <tr>
+        <td>
+            <form action="#" method="post" th:action="@{/login}" th:object="${loginForm}">
+                <table border="0" align="center" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td colspan="3">
+                            <hr width="100%" size="1"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel" width="80"></td>
+                        <td class="leftValue" width="143"><input class="textShort" id="username" th:field="*{username}" type="text" maxlength="30"/></td>
+                        <td class="error"  width="275" th:errors="*{username}" th:if="${#fields.hasErrors('username')}">Username Error</td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel" width="80"></td>
+                        <td class="leftValue" width="143"><input class="textShort" id="password" th:field="*{password}" type="text" maxlength="30"/></td>
+                        <td class="error"  width="275" th:errors="*{username}" th:if="${#fields.hasErrors('username')}">Password Error</td>
+                    </tr>
+                    <tr>
+                        <td class="rightLabel"></td>
+                        <td class="rightButton">
+                            <button accesskey="d" class="buttonShort" name="action" type="submit" value="save">PREGO</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <hr width="100%" size="1"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

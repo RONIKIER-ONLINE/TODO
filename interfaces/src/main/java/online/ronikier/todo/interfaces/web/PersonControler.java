@@ -7,8 +7,6 @@ import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.forms.PersonForm;
 import online.ronikier.todo.infrastructure.service.PersonService;
 import online.ronikier.todo.interfaces.mappers.PersonMapper;
-import online.ronikier.todo.library.Parameters;
-import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -43,8 +40,8 @@ public class PersonControler extends SuperController {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/" + Parameters.WEB_CONTROLLER_PERSON).setViewName(Parameters.WEB_CONTROLLER_PERSON);
-        registry.addViewController("/" + Parameters.WEB_CONTROLLER_PERSON + Parameters.WEB_CONTROLLER_OPERATION_DELETE).setViewName(Parameters.WEB_CONTROLLER_PERSON);
+        registry.addViewController("/person").setViewName("person");
+        registry.addViewController("/person_delete").setViewName("person");
     }
 
     /**
@@ -52,10 +49,11 @@ public class PersonControler extends SuperController {
      * @param model
      * @return
      */
-    @GetMapping(Parameters.WEB_CONTROLLER_PERSON)
+    @GetMapping("person")
     public String person(PersonForm personForm, Model model) {
+        if (!securityCheckOK(model)) return "/";
         initializeForm(personForm, model);
-        return Parameters.WEB_CONTROLLER_PERSON;
+        return "person";
     }
 
     /**
@@ -64,19 +62,22 @@ public class PersonControler extends SuperController {
      * @param model
      * @return
      */
-    @GetMapping(Parameters.WEB_CONTROLLER_PERSON + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_PERSON_ID + "}")
-    public String personShow(@PathVariable(name = Parameters.WEB_CONTROLLER_PARAMETER_PERSON_ID, required = false) Long personId, PersonForm personForm, Model model) {
+    @GetMapping("person/{personId}")
+    public String personShow(@PathVariable(name = "personId", required = false) Long personId, PersonForm personForm, Model model) {
+        if (!securityCheckOK(model)) return "/";
         Optional<Person> optionalPerson = personService.findPersonById(personId);
         if (!optionalPerson.isPresent()) {
             log.info(Messages.REPOSITORY_PERSON_NOT_FOUND + Messages.SEPARATOR + personId);
-            return Parameters.WEB_CONTROLLER_PERSON;
+            return "person";
         }
         Person selectedPerson = optionalPerson.get();
         initializeForm(personForm, model);
         updateForm(personForm, selectedPerson);
         refreshForm(personForm, model);
-        return Parameters.WEB_CONTROLLER_PERSON;
+        return "person";
     }
+
+
 
     /**
      * @param personForm
@@ -84,13 +85,14 @@ public class PersonControler extends SuperController {
      * @param model
      * @return
      */
-    @PostMapping(Parameters.WEB_CONTROLLER_PERSON)
+    @PostMapping("person")
     public String personProcess(@Valid PersonForm personForm, BindingResult bindingResult, Model model) {
+        if (!securityCheckOK(model)) return "/";
         if (bindingResult.hasErrors()) {
             log.error(Messages.ERROR_PERSON_ADD);
             bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
             initializeForm(personForm, model);
-            return Parameters.WEB_CONTROLLER_PERSON;
+            return "person";
         }
         try {
             Person processedPerson = personService.findPersonByUsername(personForm.getUsername());
@@ -107,7 +109,7 @@ public class PersonControler extends SuperController {
             log.error(Messages.EXCEPTION_PERSON_CREATION + Messages.SEPARATOR + e.getMessage());
         }
         refreshForm(personForm, model);
-        return Parameters.WEB_CONTROLLER_PERSON;
+        return "person";
     }
 
     private void savePerson(PersonForm personForm, Person person) {
@@ -136,12 +138,12 @@ public class PersonControler extends SuperController {
      * @param model
      * @return
      */
-    @GetMapping(Parameters.WEB_CONTROLLER_PERSON + Parameters.WEB_CONTROLLER_OPERATION_DELETE + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_PERSON_ID + "}")
+    @GetMapping("person_delete/{personId}")
     public String personDelete(@PathVariable(name = "personId", required = false) Long personId, PersonForm personForm, Model model) {
         log.info(Messages.INFO_PERSON_DELETING);
         personService.deletePersonById(personId);
         initializeForm(personForm, model);
-        return Parameters.WEB_CONTROLLER_PERSON;
+        return "person";
     }
 
     /**

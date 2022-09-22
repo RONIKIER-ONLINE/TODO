@@ -1,6 +1,7 @@
 package online.ronikier.todo.templete;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -20,5 +21,8 @@ public abstract class SuperController implements WebMvcConfigurer {
         localeChangeInterceptor.setParamName(REQUEST_VARIABLE_LANGUAGE);
         return localeChangeInterceptor;
     }
-
+    protected boolean securityCheckOK(Model model) {
+        return true;
+//        return model.getAttribute("person") != null;
+    }
 }

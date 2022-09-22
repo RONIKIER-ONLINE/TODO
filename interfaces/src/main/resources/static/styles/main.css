@@ -93,7 +93,7 @@ td.taskListPosition {
 	vertical-align: middle;
     font-weight: bold;
     color: Gray;
-    padding: 3pt 3pt 3pt 3pt;
+    padding: 2pt 2pt 2pt 2pt;
 }
 
 td.taskListTaskName {
@@ -249,6 +249,41 @@ input.textShort {
 
 input.textShortName {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 235px;
+	height: 22px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #ffffff;
+    #background-image: url('some_background.png');
+    #background-position: 10px 10px;
+    #background-repeat: no-repeat;
+    #border-bottom: 2px solid blue;
+    #color: white;
+}
+
+textarea.taskDescription {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 235px;
+    height: 50x;
+    padding: 3pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #ffffff;
+	resize: none;
+    transition: width 0.4s ease-in-out;
+}
+
+textarea.taskDescription:focus {
+  width: 170%;
+}
+
+input.textTaskCostValue {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	width: 140px;
 	height: 22px;
     padding: 0pt 10pt 0pt 5pt;
@@ -262,29 +297,6 @@ input.textShortName {
     #background-repeat: no-repeat;
     #border-bottom: 2px solid blue;
     #color: white;
-    transition: width 0.4s ease-in-out;
-}
-
-input.textShortName:focus {
-  width: 150%;
-}
-
-textarea.description {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	width: 140px;
-    height: 142px;
-    padding: 3pt 10pt 0pt 5pt;
-    border-right: 1px solid Gray;
-    border-bottom: 1px solid Gray;
-    border-top: 1px solid Gray;
-    border-left: 1px solid Gray;
-    background-color: #ffffff;
-	resize: none;
-    transition: width 0.4s ease-in-out;
-}
-
-textarea.description:focus {
-  width: 150%;
 }
 
 input.filterPhrase {

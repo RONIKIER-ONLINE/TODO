@@ -16,13 +16,10 @@ import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -60,8 +57,8 @@ public class TaskController extends SuperController {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/" + Parameters.WEB_CONTROLLER_TASK).setViewName(Parameters.WEB_CONTROLLER_TASK);
-        registry.addViewController("/" + Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE).setViewName(Parameters.WEB_CONTROLLER_TASK);
+        registry.addViewController("/task").setViewName("task");
+        registry.addViewController("/task_delete").setViewName("task");
     }
 
     /**
@@ -69,13 +66,14 @@ public class TaskController extends SuperController {
      * @param model
      * @return
      */
-    @GetMapping(value = Parameters.WEB_CONTROLLER_TASK, produces = "text/html")
+    @GetMapping(value = "task", produces = "text/html")
     public String getTask(TaskForm taskForm, Model model) {
+        if (!securityCheckOK(model)) return "login";
         refreshForm(taskForm, model);
         if (taskForm.getTask().getId() == null) {
             taskForm.setTask(initializeTask());
         }
-        return Parameters.WEB_CONTROLLER_TASK;
+        return "task";
     }
 
     /**
@@ -84,19 +82,20 @@ public class TaskController extends SuperController {
      * @param model
      * @return
      */
-    @GetMapping(value = Parameters.WEB_CONTROLLER_TASK + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}", produces = "text/html")
-    public String getTaskById(@PathVariable(name = Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID, required = false) Long taskId, TaskForm taskForm, Model model) {
+    @GetMapping(value = "task/{taskId}", produces = "text/html")
+    public String getTaskById(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
+        if (!securityCheckOK(model)) return "/";
         Optional<Task> optionalTask = taskService.findTaskById(taskId);
         if (!optionalTask.isPresent()) {
             log.info(Messages.REPOSITORY_TASK_NOT_FOUND + Messages.SEPARATOR + taskId);
-            return Parameters.WEB_CONTROLLER_TASK;
+            return "task";
         }
         Task selectedTask = optionalTask.get();
         //initializeForm(taskForm, model);
         updateForm(taskForm, selectedTask);
         model.addAttribute("tasksRequiredTasks", getRequiredTaskList(selectedTask.getId()));
         refreshForm(taskForm, model);
-        return Parameters.WEB_CONTROLLER_TASK;
+        return "task";
     }
 
     /**
@@ -105,8 +104,10 @@ public class TaskController extends SuperController {
      * @param model
      * @return
      */
-    @PostMapping(Parameters.WEB_CONTROLLER_TASK)
+    @PostMapping("task")
     public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
+
+        if (!securityCheckOK(model)) return "/";
 
         Task processedTask;
 
@@ -167,7 +168,7 @@ public class TaskController extends SuperController {
         if (taskForm.getTask() == null) {
             taskForm.setTask(initializeTask());
         }
-        return Parameters.WEB_CONTROLLER_TASK;
+        return "task";
     }
 
     /**
@@ -176,13 +177,16 @@ public class TaskController extends SuperController {
      * @param model
      * @return
      */
-    @GetMapping(value = Parameters.WEB_CONTROLLER_TASK + Parameters.WEB_CONTROLLER_OPERATION_DELETE + "/" + "{" + Parameters.WEB_CONTROLLER_PARAMETER_TASK_ID + "}", produces = "text/html")
+    @GetMapping(value = "task_delete/{taskId}", produces = "text/html")
     public String getTaskDelete(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
+
+        if (!securityCheckOK(model)) return "/";
+
         log.info(Messages.INFO_TASK_DELETING);
         taskService.deleteTaskById(taskId);
         initializeForm(taskForm, model);
         model.addAttribute("tasksRequiredTasks", null);
-        return Parameters.WEB_CONTROLLER_TASK;
+        return "task";
     }
 
     /**
