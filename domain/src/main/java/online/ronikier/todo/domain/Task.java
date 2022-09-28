@@ -25,7 +25,7 @@ public class Task extends SuperEntity {
 
     @Relationship(type = "REQUIRES")
     protected List<Task> requiredTasks;
-    @Relationship(type = "IS DONE BY")
+    @Relationship(type = "IS BEING DONE BY")
     protected Person responsiblePerson;
 //    @NonNull
     protected Boolean important;

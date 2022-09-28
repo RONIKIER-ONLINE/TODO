@@ -27,7 +27,6 @@ public class Setup {
 
     @Bean
     public static Set<Task> dafaultTasks() {
-        //TODO: Identify tasks by name to have single references (currently duplicates after restsrt)
         Task initializationTask = new Task(null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Initialization", "Initialization task", 1d, CostUnit.DAY, TaskState.NEW , TaskType.GENERAL, TaskStatus.OK);
         Task completionTask = new Task(null, null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "Completion", "Completion task", 1d, CostUnit.DAY, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         List<Task> dafaultTasks = Arrays.asList(initializationTask, completionTask);
