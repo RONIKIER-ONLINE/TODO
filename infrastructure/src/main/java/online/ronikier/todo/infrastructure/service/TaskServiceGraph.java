@@ -3,11 +3,13 @@ package online.ronikier.todo.infrastructure.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.Brain;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.*;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Utilities;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -29,10 +31,18 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class TaskServiceGraph implements TaskService {
 
+    @Autowired
+    private Brain brain;
+
     private final TaskRepository taskRepository;
 
-    public String kill() {
-        return "Lou kills";
+    @Override
+    public boolean securityCheckOK() {
+        return brain.getLoggedPerson() != null;
+    }
+
+    public void kill() {
+        brain.setLoggedPerson(null);
     }
 
     @Cacheable("TASKS_BY_ID")
@@ -255,5 +265,7 @@ public class TaskServiceGraph implements TaskService {
         task.setName(task.getName() + " has been transformed ...");
         return task;
     }
+
+
 
 }

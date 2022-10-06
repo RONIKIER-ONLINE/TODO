@@ -21,8 +21,5 @@ public abstract class SuperController implements WebMvcConfigurer {
         localeChangeInterceptor.setParamName(REQUEST_VARIABLE_LANGUAGE);
         return localeChangeInterceptor;
     }
-    protected boolean securityCheckOK(Model model) {
-        return true;
-//        return model.getAttribute("person") != null;
-    }
+
 }

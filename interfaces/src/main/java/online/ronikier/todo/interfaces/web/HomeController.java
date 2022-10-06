@@ -1,13 +1,22 @@
 package online.ronikier.todo.interfaces.web;
 
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.Brain;
 import online.ronikier.todo.domain.Person;
+import online.ronikier.todo.domain.exception.PersonNotValidatedException;
 import online.ronikier.todo.domain.forms.LoginForm;
 import online.ronikier.todo.domain.forms.PersonForm;
+import online.ronikier.todo.infrastructure.service.PersonService;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.templete.SuperController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,18 +24,19 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.validation.Valid;
 
+@Slf4j
+@RequiredArgsConstructor
 @Controller
 public class HomeController extends SuperController  {
+
+    @Autowired
+    private Brain brain;
+
+    private final PersonService personService;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
-    }
-
-    @GetMapping("lou")
-    public @ResponseBody
-    String index() {
-        return "Lou rulezzezzzz";
     }
 
     @GetMapping("/")
@@ -34,13 +44,24 @@ public class HomeController extends SuperController  {
         return "login";
     }
 
-    @PostMapping("login")
-    public String loginPerson(@Valid LoginForm loginForm, BindingResult bindingResult, Model model) {
+    @GetMapping("/logout")
+    public String logout(LoginForm loginForm, Model model) {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.USER_LOGGED_OUT + Messages.SEPARATOR + brain.getLoggedPerson().getUsername());
+        brain.setLoggedPerson(null);
+        return "login";
+    }
 
-        Person person = new Person();
-        person.setUsername(loginForm.getUsername());
-        if (loginForm.getPassword().equals("aaaaaa")) return "index";
-        model.addAttribute("person",person);
+    @PostMapping("login")
+    public String loginPerson(@Valid LoginForm loginForm, BindingResult bindingResult) {
+        try {
+
+            brain.setLoggedPerson(personService.retrievePerson(loginForm.getUsername(),loginForm.getPassword()));
+
+            return "index";
+        } catch (PersonNotValidatedException e) {
+            log.warn(Messages.INFO_PERSON_NOT_FOUND);
+            bindingResult.addError(new FieldError("loginForm","username",Messages.INFO_PERSON_NOT_FOUND));
+        }
         return "login";
     }
 

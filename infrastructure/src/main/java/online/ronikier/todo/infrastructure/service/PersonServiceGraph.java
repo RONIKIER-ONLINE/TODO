@@ -3,12 +3,16 @@ package online.ronikier.todo.infrastructure.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.Brain;
 import online.ronikier.todo.domain.Person;
+import online.ronikier.todo.domain.exception.PersonNotFoundException;
+import online.ronikier.todo.domain.exception.PersonNotValidatedException;
 import online.ronikier.todo.infrastructure.repository.PersonRepository;
 import online.ronikier.todo.library.Utilities;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StreamUtils;
+import org.springframework.ui.Model;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,28 +23,34 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class PersonServiceGraph implements PersonService {
 
+    @Autowired
+    private Brain brain;
+
     private final PersonRepository personRepository;
 
     @Override
-    public String kill() {
-        return "Lou kills";
+    public void kill() {
+        brain.setLoggedPerson(null);
     }
 
     @Override
     @Cacheable("PERSONS_BY_ID")
-    public Optional<Person> findPersonById(Long personId) {
+    public Person findPersonById(Long personId) throws PersonNotFoundException {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING PERSON " + personId);
         Optional<Person> personOptional = personRepository.findById(personId);
-        if (personOptional.isPresent()) return personOptional;
-        log.info((Messages.INFO_PERSON_NOT_FOUND + Messages.SEPARATOR + personId));
-        return Optional.empty();
+        if (personOptional.isPresent()) return personOptional.get();
+        log.warn((Messages.INFO_PERSON_NOT_FOUND + Messages.SEPARATOR + personId));
+        throw new PersonNotFoundException();
     }
 
     @Override
     @Cacheable("PERSONS_BY_USERNAME")
-    public Person findPersonByUsername(String personUsername) {
-        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING PERSON " + Utilities.wrapString(personUsername));
-        return personRepository.findByUsername(personUsername);
+    public Person findPersonByUsername(String username) throws PersonNotFoundException {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING PERSON " + username);
+        Optional<Person> personOptional = personRepository.findByUsername(username);
+        if (personOptional.isPresent()) return personOptional.get();
+        log.warn((Messages.INFO_PERSON_NOT_FOUND + Messages.SEPARATOR + username));
+        throw new PersonNotFoundException();
     }
 
     @Override
@@ -72,22 +82,23 @@ public class PersonServiceGraph implements PersonService {
     @Override
     public List<Person> personsKnownPersons(Long personId) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "GETTING KNOWN PERSONS");
-        Optional<Person> personsKnownPersons = findPersonById(personId);
+        Optional<Person> personsKnownPersons = personRepository.findById(personId);
         if (personsKnownPersons.isPresent()) {
             return personsKnownPersons.get().getKnownPersons();
         }
         return null;
     }
 
-
-    public static final String SUPER_HERO = "Supper Lukanio";
+    @Override
+    public Person retrievePerson(String username, String password) throws PersonNotValidatedException {
+        Optional<Person> leggedPersonOptional = personRepository.findByUsername(username);
+        if (leggedPersonOptional.isPresent() && leggedPersonOptional.get().getPassword()!= null && leggedPersonOptional.get().getPassword().equals(password)) return leggedPersonOptional.get();
+        throw new PersonNotValidatedException();
+    }
 
     @Override
-    public Person getSuperPerson() {
-        if (personRepository.findByUsername(SUPER_HERO) != null) {
-            return personRepository.findByUsername(SUPER_HERO);
-        }
-        return new Person(SUPER_HERO);
+    public boolean securityCheckOK() {
+        return brain.getLoggedPerson() != null;
     }
 
 }

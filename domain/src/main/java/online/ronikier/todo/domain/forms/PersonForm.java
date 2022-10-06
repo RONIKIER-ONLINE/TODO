@@ -24,6 +24,11 @@ public class PersonForm extends SuperForm {
 
     private String knownByPersonId;
 
+    public Person getPerson() {
+        if (person == null) person = new Person();
+        return person;
+    }
+
     @NotEmpty(message = Messages.FORM_PERSON_VALIDATION_USERNAME_NOT_EMPTY)
     @Size(max = Parameters.FORM_PERSON_VALIDATION_USERNAME_SIZE_MAX, message = Messages.FORM_PERSON_VALIDATION_USERNAME_SIZE_MAX)
     public String getName() {
@@ -34,14 +39,19 @@ public class PersonForm extends SuperForm {
         getPerson().setUsername(username);
     }
 
-    public Person getPerson() {
-        if (person == null) person = new Person();
-        return person;
-    }
-
     @NotEmpty(message = Messages.FORM_PERSON_VALIDATION_USERNAME_NOT_EMPTY)
     @Size(max = Parameters.FORM_PERSON_VALIDATION_USERNAME_SIZE_MAX, message = Messages.FORM_PERSON_VALIDATION_USERNAME_SIZE_MAX)
     public String getUsername() {
         return getPerson().getUsername();
+    }
+
+    public void setPassword(String password) {
+        getPerson().setPassword(password);
+    }
+
+    @NotEmpty(message = Messages.FORM_PERSON_VALIDATION_PASSWORD_NOT_EMPTY)
+    @Size(max = Parameters.FORM_PERSON_VALIDATION_PASSWORD_SIZE_MAX, message = Messages.FORM_PERSON_VALIDATION_PASSWORD_SIZE_MAX)
+    public String getPassword() {
+        return getPerson().getPassword();
     }
 }

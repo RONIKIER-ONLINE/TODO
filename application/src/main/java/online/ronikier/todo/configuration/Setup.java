@@ -2,6 +2,7 @@ package online.ronikier.todo.configuration;
 
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.TaskState;
 import online.ronikier.todo.domain.dictionary.TaskStatus;
@@ -16,6 +17,10 @@ import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.Instant;
 import java.util.*;
@@ -24,6 +29,13 @@ import java.util.*;
 
 @Configuration
 public class Setup {
+
+    @Bean
+    @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @ModelAttribute("loggedInPerson")
+    public Person loggedInPerson() {
+        return new Person();
+    }
 
     @Bean
     public static Set<Task> dafaultTasks() {

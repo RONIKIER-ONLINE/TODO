@@ -6,6 +6,7 @@ import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.*;
+import online.ronikier.todo.domain.exception.PersonNotFoundException;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.domain.forms.TaskForm;
 import online.ronikier.todo.infrastructure.service.PersonService;
@@ -68,7 +69,9 @@ public class TaskController extends SuperController {
      */
     @GetMapping(value = "task", produces = "text/html")
     public String getTask(TaskForm taskForm, Model model) {
-        if (!securityCheckOK(model)) return "login";
+
+        if (!personService.securityCheckOK()) return "login";
+
         refreshForm(taskForm, model);
         if (taskForm.getTask().getId() == null) {
             taskForm.setTask(initializeTask());
@@ -84,7 +87,9 @@ public class TaskController extends SuperController {
      */
     @GetMapping(value = "task/{taskId}", produces = "text/html")
     public String getTaskById(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
-        if (!securityCheckOK(model)) return "/";
+
+        if (!personService.securityCheckOK()) return "login";
+
         Optional<Task> optionalTask = taskService.findTaskById(taskId);
         if (!optionalTask.isPresent()) {
             log.info(Messages.REPOSITORY_TASK_NOT_FOUND + Messages.SEPARATOR + taskId);
@@ -107,7 +112,7 @@ public class TaskController extends SuperController {
     @PostMapping("task")
     public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
 
-        if (!securityCheckOK(model)) return "/";
+        if (!personService.securityCheckOK()) return "login";
 
         Task processedTask;
 
@@ -180,7 +185,7 @@ public class TaskController extends SuperController {
     @GetMapping(value = "task_delete/{taskId}", produces = "text/html")
     public String getTaskDelete(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
 
-        if (!securityCheckOK(model)) return "/";
+        if (!personService.securityCheckOK()) return "login";
 
         log.info(Messages.INFO_TASK_DELETING);
         taskService.deleteTaskById(taskId);
@@ -229,16 +234,15 @@ public class TaskController extends SuperController {
      * @param task
      */
     private void assignResponsible(TaskForm taskForm, Task task) {
-        Optional<Person> responsibleOptional = personService.findPersonById(Long.valueOf(taskForm.getResponsiblePersonId()));
-        if (responsibleOptional.isPresent()) {
-            task.isDoneBy(responsibleOptional.get());
-            log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + task + Messages.SEPARATOR + responsibleOptional.get());
+        try {
+            task.isDoneBy(personService.findPersonById(Long.valueOf(taskForm.getResponsiblePersonId())));
+        } catch (PersonNotFoundException e) {
+            log.error(Messages.INFO_PERSON_NOT_FOUND);
         }
     }
 
 
     /**
-     * @param taskForm
      * @return
      * @throws ParseException
      */
@@ -270,7 +274,6 @@ public class TaskController extends SuperController {
     }
 
     /**
-     * @param taskName
      * @return
      */
     private List<Task> appendMaintanceTasks() {

@@ -28,6 +28,10 @@ public class Person extends SuperEntity {
     @Size(min = 6, max = 10)
     private String username;
 
+    @NonNull
+    @Size(min = 6, max = 10)
+    private String password;
+
     public void knows(Person person) {
         if (getKnownPersons() == null) {
             setKnownPersons(new ArrayList<>());

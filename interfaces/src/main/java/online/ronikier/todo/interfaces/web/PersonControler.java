@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
+import online.ronikier.todo.domain.exception.PersonNotFoundException;
 import online.ronikier.todo.domain.forms.PersonForm;
 import online.ronikier.todo.infrastructure.service.PersonService;
 import online.ronikier.todo.interfaces.mappers.PersonMapper;
 import online.ronikier.todo.templete.SuperController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
@@ -16,11 +18,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -51,7 +54,9 @@ public class PersonControler extends SuperController {
      */
     @GetMapping("person")
     public String person(PersonForm personForm, Model model) {
-        if (!securityCheckOK(model)) return "/";
+
+        if (!personService.securityCheckOK()) return "login";
+
         initializeForm(personForm, model);
         return "person";
     }
@@ -64,19 +69,20 @@ public class PersonControler extends SuperController {
      */
     @GetMapping("person/{personId}")
     public String personShow(@PathVariable(name = "personId", required = false) Long personId, PersonForm personForm, Model model) {
-        if (!securityCheckOK(model)) return "/";
-        Optional<Person> optionalPerson = personService.findPersonById(personId);
-        if (!optionalPerson.isPresent()) {
+        if (!personService.securityCheckOK()) return "login";
+        Person person = null;
+        try {
+            person = personService.findPersonById(personId);
+        } catch (PersonNotFoundException pnfe) {
             log.info(Messages.REPOSITORY_PERSON_NOT_FOUND + Messages.SEPARATOR + personId);
             return "person";
         }
-        Person selectedPerson = optionalPerson.get();
+
         initializeForm(personForm, model);
-        updateForm(personForm, selectedPerson);
+        updateForm(personForm, person);
         refreshForm(personForm, model);
         return "person";
     }
-
 
 
     /**
@@ -87,7 +93,7 @@ public class PersonControler extends SuperController {
      */
     @PostMapping("person")
     public String personProcess(@Valid PersonForm personForm, BindingResult bindingResult, Model model) {
-        if (!securityCheckOK(model)) return "/";
+        if (!personService.securityCheckOK()) return "login";
         if (bindingResult.hasErrors()) {
             log.error(Messages.ERROR_PERSON_ADD);
             bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
@@ -117,14 +123,16 @@ public class PersonControler extends SuperController {
         personMapper.form2Domain(personForm, person);
         personService.savePerson(person);
         if (personForm.getKnownByPersonId() != null && !personForm.getKnownByPersonId().equals("none")) {
-            Optional<Person> knownByPersonOptional = personService.findPersonById(Long.valueOf(personForm.getKnownByPersonId()));
-            if (!knownByPersonOptional.isPresent()) {
+            Person knownByPerson;
+            try {
+                knownByPerson = personService.findPersonById(Long.valueOf(personForm.getKnownByPersonId()));
+            } catch (PersonNotFoundException pnfe) {
                 log.error(Messages.ERROR_PERSON_DOES_NOT_EXIST);
-            } else {
-                Person knownByPerson = knownByPersonOptional.get();
-                knownByPerson.knows(person);
-                personService.savePerson(knownByPerson);
+                return;
             }
+
+            knownByPerson.knows(person);
+            personService.savePerson(knownByPerson);
         }
 
         log.info(Messages.INFO_PERSON_MODIFIED);
@@ -140,6 +148,9 @@ public class PersonControler extends SuperController {
      */
     @GetMapping("person_delete/{personId}")
     public String personDelete(@PathVariable(name = "personId", required = false) Long personId, PersonForm personForm, Model model) {
+
+        if (!personService.securityCheckOK()) return "login";
+
         log.info(Messages.INFO_PERSON_DELETING);
         personService.deletePersonById(personId);
         initializeForm(personForm, model);
@@ -156,17 +167,11 @@ public class PersonControler extends SuperController {
         //TODO: Implement system common persons
         //return new Person(dafaultPersons,
 
-        return new Person(ilPadre(),
-                personForm.getUsername());
-    }
-
-    private List<Person> ilPadre() {
-        return new ArrayList<>();
+        return new Person(new ArrayList<Person>(), personForm.getUsername(), "motherfucker");
     }
 
 
     /**
-     *
      * @param personId
      * @return
      */
@@ -177,7 +182,6 @@ public class PersonControler extends SuperController {
     }
 
     /**
-     *
      * @return
      */
     private Iterable<Person> getPersonList() {
@@ -192,11 +196,10 @@ public class PersonControler extends SuperController {
     private void initializeForm(PersonForm personForm, Model model) {
         personForm.setUsername("Don ");
 
-        refreshForm(personForm,model);
+        refreshForm(personForm, model);
     }
 
     /**
-     *
      * @param personForm
      * @param model
      */

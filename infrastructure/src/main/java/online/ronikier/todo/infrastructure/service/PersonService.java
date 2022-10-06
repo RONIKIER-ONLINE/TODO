@@ -1,12 +1,12 @@
 package online.ronikier.todo.infrastructure.service;
 
 import online.ronikier.todo.domain.Person;
-import online.ronikier.todo.domain.Task;
+import online.ronikier.todo.domain.exception.PersonNotFoundException;
+import online.ronikier.todo.domain.exception.PersonNotValidatedException;
 import online.ronikier.todo.templete.SuperService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  *
@@ -18,14 +18,9 @@ public interface PersonService extends SuperService {
      * @param personId
      * @return
      */
-    Optional<Person> findPersonById(Long personId);
+    Person findPersonById(Long personId) throws PersonNotFoundException;
 
-    /**
-     *
-     * @param personUsername
-     * @return
-     */
-    Person findPersonByUsername(String personUsername);
+    Person findPersonByUsername(String username) throws PersonNotFoundException;
 
     /**
      *
@@ -58,5 +53,5 @@ public interface PersonService extends SuperService {
      */
     List<Person> personsKnownPersons(Long personId);
 
-    Person getSuperPerson();
+    Person retrievePerson(String username, String password) throws PersonNotValidatedException;
 }

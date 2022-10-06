@@ -16,25 +16,36 @@
         <!--  Dialog popup START -->
         <div class="modal" id="taskInfoDialog">
             <div class="taskInfoDialog">
-                <span class="close">&times;</span>
-                <table border="0">
-                    <tr>
-                        <td class="rightLabel">Number of tasks:</td>
-                        <td class="leftValue" th:text="*{taskCount}"></td>
-                    </tr>
-                </table>
-                <table border="0">
-                    <tr>
-                        <td class="rightLabel">Message:</td>
-                        <td class="leftValue" th:text="*{dialogMessage}"></td>
-                    </tr>
-                </table>
-                <table border="0" align="center" th:each="task : *{taskList}" width="100%">
+                <table width="650" border="0" cellspacing="0" cellpadding="2">
                     <tr>
                         <td>
-                            &nbsp;<a th:href="@{'/task/' + ${task.id}}">
-                                <label th:text="${task.name}"/>
-                            </a>
+                            <span class="close">&times;</span>
+                            <table border="0" align="center" cellspacing="0" cellpadding="0" width="100%">
+                                <tr>
+                                    <td class="rightLabel" width="80">Tasks:</td>
+                                    <td class="leftValue" th:text="*{taskCount}"></td>
+                                </tr>
+                            </table>
+                            <table border="0" align="center" cellspacing="0" cellpadding="0" width="100%">
+                                <tr>
+                                    <td class="rightLabel" width="80">Message:</td>
+                                    <td class="leftValue" th:text="*{dialogMessage}"></td>
+                                </tr>
+                            </table>
+                            <table border="0" align="center" cellspacing="0" cellpadding="0" th:each="task : *{taskList}" width="100%">
+                                <tr>
+                                    <td class="rightLabel" width="80"></td>
+                                    <td class="leftValue" width="*">
+                                        <a th:href="@{'/task/' + ${task.id}}"><label th:text="${task.name}"/></a>
+                                    </td>
+                                    <td class="rightButton" width="80">
+                                        <button accesskey="d" class="buttonShort" name="action" type="submit" value="nextDay">TOMMOROW</button>
+                                    </td>
+                                    <td class="rightButton" width="80">
+                                        <button accesskey="d" class="buttonShort" name="action" type="submit" value="nextWeek">NEXT WEEK</button>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                 </table>

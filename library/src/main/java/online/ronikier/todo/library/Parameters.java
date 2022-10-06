@@ -18,6 +18,7 @@ public class Parameters {
     public static final int FORM_TASK_VALIDATION_NAME_SIZE_MAX = 20;
 
     public static final int FORM_PERSON_VALIDATION_USERNAME_SIZE_MAX = 10;
+    public static final int FORM_PERSON_VALIDATION_PASSWORD_SIZE_MAX = 10;
 
 
     public static final String WEB_CONTROLLER_OPERATION_SAVE = "_save";
