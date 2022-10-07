@@ -12,7 +12,6 @@ import online.ronikier.todo.library.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,8 +22,7 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class PersonServiceGraph implements PersonService {
 
-    @Autowired
-    private Brain brain;
+    private final Brain brain;
 
     private final PersonRepository personRepository;
 
@@ -83,16 +81,13 @@ public class PersonServiceGraph implements PersonService {
     public List<Person> personsKnownPersons(Long personId) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "GETTING KNOWN PERSONS");
         Optional<Person> personsKnownPersons = personRepository.findById(personId);
-        if (personsKnownPersons.isPresent()) {
-            return personsKnownPersons.get().getKnownPersons();
-        }
-        return null;
+        return personsKnownPersons.map(Person::getKnownPersons).orElse(null);
     }
 
     @Override
     public Person retrievePerson(String username, String password) throws PersonNotValidatedException {
         Optional<Person> leggedPersonOptional = personRepository.findByUsername(username);
-        if (leggedPersonOptional.isPresent() && leggedPersonOptional.get().getPassword()!= null && leggedPersonOptional.get().getPassword().equals(password)) return leggedPersonOptional.get();
+        if (leggedPersonOptional.isPresent() && leggedPersonOptional.get().getPassword().equals(password)) return leggedPersonOptional.get();
         throw new PersonNotValidatedException();
     }
 

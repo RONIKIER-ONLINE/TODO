@@ -90,4 +90,8 @@ private Date due;
     public String getDueFormatted() {
         return Utilities.stringFromDate(due);
     }
+
+    public String getCostUnitAbreviation() {
+        return costUnit.getLabel().substring(0,1);
+    }
 }

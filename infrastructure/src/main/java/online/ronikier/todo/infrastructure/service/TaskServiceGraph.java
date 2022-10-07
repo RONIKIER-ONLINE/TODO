@@ -31,8 +31,7 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class TaskServiceGraph implements TaskService {
 
-    @Autowired
-    private Brain brain;
+    private final Brain brain;
 
     private final TaskRepository taskRepository;
 
@@ -105,11 +104,11 @@ public class TaskServiceGraph implements TaskService {
             : filteredTasksStream;
 
         filteredTasksStream = filterFlag(taskFilterForm.getImportant())
-            ? filteredTasksStream.filter(task -> task.getImportant())
+            ? filteredTasksStream.filter(Task::getImportant)
             : filteredTasksStream;
 
         filteredTasksStream = filterFlag(taskFilterForm.getUrgent())
-            ? filteredTasksStream.filter(task -> task.getUrgent())
+            ? filteredTasksStream.filter(Task::getUrgent)
             : filteredTasksStream;
 
         filteredTasksStream = filterSelected(taskFilterForm.getPhrase())
@@ -127,7 +126,7 @@ public class TaskServiceGraph implements TaskService {
     @Cacheable("TASKS_SORTED")
     public List<Task> allTasks(SortOrder sortOrder) {
 
-        Comparator<Task> taskComparator = (Task tasksA, Task tasksB) -> tasksA.getName().compareTo(tasksB.getName());
+        Comparator<Task> taskComparator = Comparator.comparing(Task::getName);
 
         switch (sortOrder) {
             case NONE: return StreamSupport.stream(taskRepository.findAll().spliterator(), true).collect(Collectors.toList());
@@ -162,10 +161,7 @@ public class TaskServiceGraph implements TaskService {
     public List<Task> tasksRequiredTasks(Long taskId) {
 
         Optional<Task> tasksRequiredTasks = findTaskById(taskId);
-        if (tasksRequiredTasks.isPresent()) {
-            return tasksRequiredTasks.get().getRequiredTasks();
-        }
-        return null;
+        return tasksRequiredTasks.map(Task::getRequiredTasks).orElse(null);
     }
 
     private boolean filterSelected(Object filter) {
@@ -186,9 +182,7 @@ public class TaskServiceGraph implements TaskService {
         Stream.of(tasks).forEach(task -> log.info(task.toString()));
 
 
-        Comparator<Task> taskComparator = (Task tasksA, Task tasksB) -> {
-            return tasksB.getRequiredTasks().size() - tasksA.getRequiredTasks().size();
-        };
+        Comparator<Task> taskComparator = (Task tasksA, Task tasksB) -> tasksB.getRequiredTasks().size() - tasksA.getRequiredTasks().size();
 
 
         log.info("=========================================================");
@@ -206,9 +200,9 @@ public class TaskServiceGraph implements TaskService {
 
 
 
-        Stream.of(taskRepository.findAll()).sorted().forEach(System.out::println);
+        Stream.of(taskRepository.findAll()).forEach(System.out::println);
 
-        LongStream.range(1,10).forEach(l -> System.out.println(l));
+        LongStream.range(1,10).forEach(System.out::println);
 
         LongStream.range(1,10).forEach(System.out::println);
 
@@ -252,7 +246,7 @@ public class TaskServiceGraph implements TaskService {
 
         try {
             Stream<String> lines = Files.lines(Paths.get("c:\\magazyn\\git\\TODO\\pom.xml"));
-            lines.filter(line -> line.contains("version")).forEach(l -> System.out.println(l));
+            lines.filter(line -> line.contains("version")).forEach(System.out::println);
             lines.close();
         } catch (IOException e) {
             e.printStackTrace();

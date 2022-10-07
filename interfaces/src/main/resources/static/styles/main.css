@@ -45,7 +45,7 @@ a:hover {
   margin: auto;
   padding: 2px;
   border: 1px solid #888;
-  width: 650px;
+  width: 350px;
 }
 
 /* The Close Button */
@@ -284,7 +284,7 @@ textarea.taskDescription:focus {
 
 input.textTaskCostValue {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	width: 140px;
+	width: 40px;
 	height: 22px;
     padding: 0pt 10pt 0pt 5pt;
     border-right: 1px solid Gray;
@@ -301,7 +301,7 @@ input.textTaskCostValue {
 
 input.filterPhrase {
 	    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-    	width: 200px;
+    	width: 150px;
     	height: 22px;
         border-right: 1px solid Gray;
         border-bottom: 1px solid Gray;
@@ -345,7 +345,7 @@ input.dateShort {
 select.selectStandard
 {
 	    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-        width: 70px;
+        width: 90px;
         height: 24px;
         padding: 0pt 10pt 0pt 5pt;
         border-right: 1px solid Gray;

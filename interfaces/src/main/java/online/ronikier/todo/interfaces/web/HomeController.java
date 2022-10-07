@@ -1,25 +1,19 @@
 package online.ronikier.todo.interfaces.web;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Brain;
-import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.exception.PersonNotValidatedException;
 import online.ronikier.todo.domain.forms.LoginForm;
-import online.ronikier.todo.domain.forms.PersonForm;
 import online.ronikier.todo.infrastructure.service.PersonService;
-import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.templete.SuperController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.validation.Valid;
@@ -29,8 +23,7 @@ import javax.validation.Valid;
 @Controller
 public class HomeController extends SuperController  {
 
-    @Autowired
-    private Brain brain;
+    private final Brain brain;
 
     private final PersonService personService;
 
