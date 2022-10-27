@@ -6,7 +6,10 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ToString
@@ -15,11 +18,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NodeEntity
 public class Person extends SuperEntity {
-
-    public Person(String personId) {
-        super();
-        setId(Long.valueOf(personId));
-    }
 
     @Relationship(type = "KNOWS")
     protected List<Person> knownPersons;

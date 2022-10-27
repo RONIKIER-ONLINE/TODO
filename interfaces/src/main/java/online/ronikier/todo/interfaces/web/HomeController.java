@@ -6,7 +6,7 @@ import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Brain;
 import online.ronikier.todo.domain.exception.PersonNotValidatedException;
 import online.ronikier.todo.domain.forms.LoginForm;
-import online.ronikier.todo.infrastructure.service.PersonService;
+import online.ronikier.todo.infrastructure.service.PersonInterface;
 import online.ronikier.todo.templete.SuperController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class HomeController extends SuperController  {
 
     private final Brain brain;
 
-    private final PersonService personService;
+    private final PersonInterface personService;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {

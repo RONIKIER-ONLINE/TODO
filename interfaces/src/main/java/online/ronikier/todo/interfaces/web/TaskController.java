@@ -9,8 +9,8 @@ import online.ronikier.todo.domain.dictionary.*;
 import online.ronikier.todo.domain.exception.PersonNotFoundException;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.domain.forms.TaskForm;
-import online.ronikier.todo.infrastructure.service.PersonService;
-import online.ronikier.todo.infrastructure.service.TaskService;
+import online.ronikier.todo.infrastructure.service.PersonInterface;
+import online.ronikier.todo.infrastructure.service.TaskInterface;
 import online.ronikier.todo.interfaces.mappers.TaskMapper;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
@@ -24,11 +24,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-//import org.w3c.dom.css.Counter;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  *
@@ -44,11 +45,11 @@ public class TaskController extends SuperController {
 
     private final Set<Task> dafaultTasks;
 
-    private final TaskService taskService;
+    private final TaskInterface taskService;
 
     private final TaskMapper taskMapper;
 
-    private final PersonService personService;
+    private final PersonInterface personService;
 
     @Value("${task.completion.time.days:7}")
     private Integer taskCompletionTimeDays;

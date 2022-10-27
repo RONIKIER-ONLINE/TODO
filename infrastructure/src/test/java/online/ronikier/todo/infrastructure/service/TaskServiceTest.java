@@ -1,14 +1,11 @@
 package online.ronikier.todo.infrastructure.service;
 
-import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.templete.SuperTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TaskServiceTest extends SuperTest {
 

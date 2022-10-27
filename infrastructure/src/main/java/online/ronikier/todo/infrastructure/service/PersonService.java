@@ -1,57 +1,99 @@
 package online.ronikier.todo.infrastructure.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.Brain;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.exception.PersonNotFoundException;
 import online.ronikier.todo.domain.exception.PersonNotValidatedException;
-import online.ronikier.todo.templete.SuperService;
+import online.ronikier.todo.infrastructure.repository.PersonRepository;
+import online.ronikier.todo.library.Utilities;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-/**
- *
- */
-public interface PersonService extends SuperService {
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class PersonService implements PersonInterface {
 
-    /**
-     *
-     * @param personId
-     * @return
-     */
-    Person findPersonById(Long personId) throws PersonNotFoundException;
+    private final Brain brain;
 
-    Person findPersonByUsername(String username) throws PersonNotFoundException;
+    private final PersonRepository personRepository;
 
-    /**
-     *
-     * @param person
-     */
-    void savePerson(Person person);
+    @Override
+    public void kill() {
+        brain.setLoggedPerson(null);
+    }
 
-    /**
-     *
-     * @param personId
-     */
-    void deletePersonById(Long personId);
+    @Override
+    @Cacheable("PERSONS_BY_ID")
+    public Person findPersonById(Long personId) throws PersonNotFoundException {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING PERSON " + personId);
+        Optional<Person> personOptional = personRepository.findById(personId);
+        if (personOptional.isPresent()) return personOptional.get();
+        log.warn((Messages.INFO_PERSON_NOT_FOUND + Messages.SEPARATOR + personId));
+        throw new PersonNotFoundException();
+    }
 
-    /**
-     *
-     * @return
-     */
-    Long countPersons();
+    @Override
+    @Cacheable("PERSONS_BY_USERNAME")
+    public Person findPersonByUsername(String username) throws PersonNotFoundException {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING PERSON " + username);
+        Optional<Person> personOptional = personRepository.findByUsername(username);
+        if (personOptional.isPresent()) return personOptional.get();
+        log.warn((Messages.INFO_PERSON_NOT_FOUND + Messages.SEPARATOR + username));
+        throw new PersonNotFoundException();
+    }
 
-    /**
-     *
-     * @return
-     */
-    List<Person> allPersons();
+    @Override
+    public void savePerson(Person person) {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "SAVING PERSON " + Utilities.wrapString(person.toString()));
+        personRepository.save(person);
+    }
 
-    /**
-     *
-     * @param personId
-     * @return
-     */
-    List<Person> personsKnownPersons(Long personId);
+    @Override
+    public void deletePersonById(Long personId) {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "BUSTIN' PERSON " + personId);
+        personRepository.deleteById(personId);
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "PERSON DELETED ...");
 
-    Person retrievePerson(String username, String password) throws PersonNotValidatedException;
+    }
+
+    @Override
+    public Long countPersons() {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "COUNTING PERSONS");
+        return personRepository.count();
+    }
+
+    @Override
+    public List<Person> allPersons() {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "GETTING PERSONS");
+        return StreamSupport.stream(personRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Person> personsKnownPersons(Long personId) {
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "GETTING KNOWN PERSONS");
+        Optional<Person> personsKnownPersons = personRepository.findById(personId);
+        return personsKnownPersons.map(Person::getKnownPersons).orElse(null);
+    }
+
+    @Override
+    public Person retrievePerson(String username, String password) throws PersonNotValidatedException {
+        Optional<Person> leggedPersonOptional = personRepository.findByUsername(username);
+        if (leggedPersonOptional.isPresent() && leggedPersonOptional.get().getPassword().equals(password)) return leggedPersonOptional.get();
+        throw new PersonNotValidatedException();
+    }
+
+    @Override
+    public boolean securityCheckOK() {
+        return brain.getLoggedPerson() != null;
+    }
+
 }

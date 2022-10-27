@@ -3,9 +3,11 @@ package online.ronikier.todo.infrastructure.processor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
-import online.ronikier.todo.domain.dictionary.*;
-import online.ronikier.todo.domain.extension.NewTask;
-import online.ronikier.todo.infrastructure.service.TaskService;
+import online.ronikier.todo.domain.dictionary.SortOrder;
+import online.ronikier.todo.domain.dictionary.TaskState;
+import online.ronikier.todo.domain.dictionary.TaskStatus;
+import online.ronikier.todo.domain.dictionary.TaskType;
+import online.ronikier.todo.infrastructure.service.TaskInterface;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +31,7 @@ public class TaskProcessor {
     private String setupNeo4jPassword;
 
     @Autowired
-    private TaskService taskService;
+    private TaskInterface taskService;
 
     @Scheduled(fixedRate = 3600000)
     public void processTasks() {

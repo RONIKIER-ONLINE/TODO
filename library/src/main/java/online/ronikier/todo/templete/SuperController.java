@@ -1,7 +1,6 @@
 package online.ronikier.todo.templete;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;

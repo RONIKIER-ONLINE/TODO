@@ -1,20 +1,18 @@
 package online.ronikier.todo.configuration;
 
 import online.ronikier.todo.Messages;
-import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.Person;
+import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.TaskState;
 import online.ronikier.todo.domain.dictionary.TaskStatus;
 import online.ronikier.todo.domain.dictionary.TaskType;
 import online.ronikier.todo.library.Utilities;
-
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.actuate.audit.AuditEventRepository;
 import org.springframework.boot.actuate.audit.InMemoryAuditEventRepository;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;

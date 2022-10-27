@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="cac343af-2beb-4927-9715-b3787396d180" activeEnvironment="Default" name="TODO REST API" resourceRoot="" soapui-version="5.7.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" id="5cfc69f7-439d-49b7-91bf-e3a666aff5ef" wadlVersion="http://wadl.dev.java.net/2009/02" name="RONIKIER.ONLINE TODO REST API" type="rest" basePath="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:description>REST interface to TODO system</con:description><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://localhost:9010</con:endpoint></con:endpoints><con:resource name="/api/task/add" path="/api/task/add" id="152ee80e-4bbd-492f-ae36-621ed407ca5a"><con:settings/><con:parameters/><con:method name="saveProductUsingPOST" id="6c7909f9-b79a-4012-884a-d7b71347bef4" method="POST"><con:description>&#13;
+saveProduct</con:description><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>201</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>401</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>403</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>404</con:status><con:params/></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:request name="Request 1" id="3265b885-7593-42b2-98b7-a4752ab97e0e" mediaType="application/json"><con:settings/><con:endpoint>http://localhost:9010</con:endpoint><con:request>{\r
+  "costUnit" : "DAY",\r
+  "costValue" : 1.100000023841858,\r
+  "created" : "2015-07-20T15:49:04-07:00",\r
+  "description" : "string",\r
+  "due" : "2015-07-20T15:49:04-07:00",\r
+  "id" : 0,\r
+  "important" : true,\r
+  "name" : "string",\r
+  "requiredTasks" : [ {\r
+    "costUnit" : "DAY",\r
+    "costValue" : 1.100000023841858,\r
+    "created" : "2015-07-20T15:49:04-07:00",\r
+    "description" : "string",\r
+    "due" : "2015-07-20T15:49:04-07:00",\r
+    "id" : 0,\r
+    "important" : true,\r
+    "name" : "string",\r
+    "requiredTasks" : [ { } ],\r
+    "responsiblePerson" : {\r
+      "id" : 0,\r
+      "knownPersons" : [ { } ],\r
+      "password" : "string",\r
+      "username" : "string"\r
+    },\r
+    "start" : "2015-07-20T15:49:04-07:00",\r
+    "taskState" : "COMPLETED",\r
+    "taskStatus" : "APPROACHING",\r
+    "taskType" : "GENERAL",\r
+    "urgent" : true\r
+  } ],\r
+  "responsiblePerson" : {\r
+    "id" : 0,\r
+    "knownPersons" : [ { } ],\r
+    "password" : "string",\r
+    "username" : "string"\r
+  },\r
+  "start" : "2015-07-20T15:49:04-07:00",\r
+  "taskState" : "COMPLETED",\r
+  "taskStatus" : "APPROACHING",\r
+  "taskType" : "GENERAL",\r
+  "urgent" : true\r
+}</con:request><con:parameters/></con:request></con:method></con:resource><con:resource name="/api/task/delete/{id}" path="/api/task/delete/{id}{taskId}" id="9ac9c49c-6212-4851-a2c6-83e4c350fd81"><con:settings/><con:parameters><con:parameter required="true"><con:name>taskId</con:name><con:style>TEMPLATE</con:style><con:description>taskId</con:description></con:parameter></con:parameters><con:method name="deleteUsingDELETE" id="3be1f4da-87bc-4d11-a438-48108749f522" method="DELETE"><con:description>&#13;
+delete</con:description><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>204</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>401</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>403</con:status><con:params/></con:representation><con:request name="Request 1" id="08cd57d3-8294-49f2-b97e-3cefe0ee145d" mediaType="application/json"><con:settings/><con:endpoint>http://localhost:9010</con:endpoint><con:parameters/></con:request></con:method></con:resource><con:resource name="/api/task/list" path="/api/task/list" id="9a197468-4f4a-42b5-93e7-8e07fe3d5724"><con:settings/><con:parameters/><con:method name="listUsingGET" id="42fdd3cb-8968-4f9f-8727-7cdfa42d81b3" method="GET"><con:description>&#13;
+list</con:description><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>401</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>403</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>404</con:status><con:params/></con:representation><con:request name="Request 1" id="c10ed0b8-72a3-4614-98cb-1de71f2cbbfd" mediaType="application/json"><con:settings/><con:endpoint>http://localhost:9010</con:endpoint><con:parameters/></con:request></con:method></con:resource><con:resource name="/api/task/show/{id}" path="/api/task/show/{id}{taskId}" id="f052c08c-8df3-413a-a1e4-23ee6e32089e"><con:settings/><con:parameters><con:parameter required="true"><con:name>taskId</con:name><con:style>TEMPLATE</con:style><con:description>taskId</con:description></con:parameter></con:parameters><con:method name="showTaskUsingGET" id="dd68dee1-892d-4e84-9e72-e29009468374" method="GET"><con:description>&#13;
+showTask</con:description><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>401</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>403</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>404</con:status><con:params/></con:representation><con:request name="Request 1" id="d6a61360-7de3-4dfb-af3d-18a26ed3228e" mediaType="application/json"><con:settings/><con:endpoint>http://localhost:9010</con:endpoint><con:parameters/></con:request></con:method></con:resource><con:resource name="/api/task/update/{id}" path="/api/task/update/{id}{taskId}" id="7b4887a6-37eb-4997-93fc-d007b16505d1"><con:settings/><con:parameters><con:parameter required="true"><con:name>taskId</con:name><con:style>TEMPLATE</con:style><con:description>taskId</con:description></con:parameter></con:parameters><con:method name="updateProductUsingPUT" id="d29043b5-26f5-4d88-9bcd-73b49bb19a85" method="PUT"><con:description>&#13;
+updateProduct</con:description><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>201</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>401</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>403</con:status><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>*/*</con:mediaType><con:status>404</con:status><con:params/></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:request name="Request 1" id="41ae3fd7-7c61-4413-b86b-30c9ec2ff864" mediaType="application/json"><con:settings/><con:endpoint>http://localhost:9010</con:endpoint><con:request>{\r
+  "costUnit" : "DAY",\r
+  "costValue" : 1.100000023841858,\r
+  "created" : "2015-07-20T15:49:04-07:00",\r
+  "description" : "string",\r
+  "due" : "2015-07-20T15:49:04-07:00",\r
+  "id" : 0,\r
+  "important" : true,\r
+  "name" : "string",\r
+  "requiredTasks" : [ {\r
+    "costUnit" : "DAY",\r
+    "costValue" : 1.100000023841858,\r
+    "created" : "2015-07-20T15:49:04-07:00",\r
+    "description" : "string",\r
+    "due" : "2015-07-20T15:49:04-07:00",\r
+    "id" : 0,\r
+    "important" : true,\r
+    "name" : "string",\r
+    "requiredTasks" : [ { } ],\r
+    "responsiblePerson" : {\r
+      "id" : 0,\r
+      "knownPersons" : [ { } ],\r
+      "password" : "string",\r
+      "username" : "string"\r
+    },\r
+    "start" : "2015-07-20T15:49:04-07:00",\r
+    "taskState" : "COMPLETED",\r
+    "taskStatus" : "APPROACHING",\r
+    "taskType" : "GENERAL",\r
+    "urgent" : true\r
+  } ],\r
+  "responsiblePerson" : {\r
+    "id" : 0,\r
+    "knownPersons" : [ { } ],\r
+    "password" : "string",\r
+    "username" : "string"\r
+  },\r
+  "start" : "2015-07-20T15:49:04-07:00",\r
+  "taskState" : "COMPLETED",\r
+  "taskStatus" : "APPROACHING",\r
+  "taskType" : "GENERAL",\r
+  "urgent" : true\r
+}</con:request><con:parameters/></con:request></con:method></con:resource></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

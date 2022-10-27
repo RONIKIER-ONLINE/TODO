@@ -26,6 +26,14 @@ MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r
 MATCH (task:Task {name:'Karma'}) RETURN task UNION MATCH ((mainTask:Task {name:'Karma'})-[r]->(task:Task)) RETURN task
 </code>
 
+<h3>Rest API</h3>
+<h6>
+http://localhost:9010/swagger-ui.html
+</h6>
+<h6>
+http://localhost:9010/v3/api-docs
+</h6>
+
 <h3>cloud (Google)</h3>
 <h6>
 https://ronikier.uc.r.appspot.com/

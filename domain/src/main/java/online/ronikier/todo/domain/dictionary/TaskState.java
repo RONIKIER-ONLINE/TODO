@@ -2,7 +2,6 @@ package online.ronikier.todo.domain.dictionary;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import online.ronikier.todo.Messages;
 

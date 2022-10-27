@@ -6,10 +6,9 @@ import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.exception.PersonNotFoundException;
 import online.ronikier.todo.domain.forms.PersonForm;
-import online.ronikier.todo.infrastructure.service.PersonService;
+import online.ronikier.todo.infrastructure.service.PersonInterface;
 import online.ronikier.todo.interfaces.mappers.PersonMapper;
 import online.ronikier.todo.templete.SuperController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.validation.Valid;
@@ -31,7 +29,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class PersonControler extends SuperController {
 
-    private final PersonService personService;
+    private final PersonInterface personService;
 
     private final PersonMapper personMapper;
 
