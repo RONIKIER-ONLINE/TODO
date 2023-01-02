@@ -3,12 +3,12 @@ package online.ronikier.todo.infrastructure.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
-import online.ronikier.todo.domain.Brain;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.*;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Utilities;
+import online.ronikier.todo.templete.SuperService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -28,20 +28,10 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TaskService implements TaskInterface {
-
-    private final Brain brain;
+public class TaskService extends SuperService implements TaskInterface {
 
     private final TaskRepository taskRepository;
 
-    @Override
-    public boolean securityCheckOK() {
-        return brain.getLoggedPerson() != null;
-    }
-
-    public void kill() {
-        brain.setLoggedPerson(null);
-    }
 
     @Cacheable("TASKS_BY_ID")
     @Override
@@ -163,6 +153,12 @@ public class TaskService implements TaskInterface {
         return tasksRequiredTasks.map(Task::getRequiredTasks).orElse(null);
     }
 
+    @Override
+    public void clearTasks() {
+        log.warn(Messages.TASK_CLEAR);
+        taskRepository.deleteAll();
+    }
+
     private boolean filterSelected(Object filter) {
         return Optional.ofNullable(filter).isPresent();
     }
@@ -172,7 +168,7 @@ public class TaskService implements TaskInterface {
         return false;
     }
 
-    @Deprecated(forRemoval = true)
+//    @Deprecated(forRemoval = true)
     private void TEST_DEVX() {
 
         Iterable<Task> tasks = taskRepository.findAll();

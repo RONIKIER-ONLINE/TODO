@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface TaskAPI extends SuperService {
+public interface TaskAPI {
     ResponseEntity<String> addTask(Task task);
 
     ResponseEntity<String> addTasks(List<Task> taskList);

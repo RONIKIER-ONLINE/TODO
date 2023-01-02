@@ -112,4 +112,10 @@ public class Messages {
 
     public static final String DEBUG_MESSAGE_PREFIX = "DEBUG_MESSAGE_PREFIX";
     public static final String USER_LOGGED_OUT = "USER_LOGGED_OUT";
+    public static final String ENCODER_EXCEPTION = "ENCODER_EXCEPTION";
+    public static final String DECODER_EXCEPTION = "DECODER_EXCEPTION";
+    public static final String BLOCKCHAIN_NULL_BLOCK = "BLOCKCHAIN_NULL_BLOCK";
+    public static final String BLOCKCHAIN_KEY_INVALID = "BLOCKCHAIN_KEY_INVALID";
+    public static final String BLOCKCHAIN_PARENT_INVALID = "BLOCKCHAIN_PARENT_INVALID";
+    public static final String TASK_CLEAR = "TASK_CLEAR";
 }

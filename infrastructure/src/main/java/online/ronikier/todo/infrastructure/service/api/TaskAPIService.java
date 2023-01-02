@@ -44,13 +44,4 @@ public class TaskAPIService implements TaskAPI {
         return null;
     }
 
-    @Override
-    public boolean securityCheckOK() {
-        return false;
-    }
-
-    @Override
-    public void kill() {
-
-    }
 }

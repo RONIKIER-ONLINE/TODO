@@ -3,10 +3,11 @@ package online.ronikier.todo.interfaces.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
-import online.ronikier.todo.domain.Brain;
+import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.exception.PersonNotValidatedException;
 import online.ronikier.todo.domain.forms.LoginForm;
 import online.ronikier.todo.infrastructure.service.PersonInterface;
+import online.ronikier.todo.library.UserSession;
 import online.ronikier.todo.templete.SuperController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
 @Controller
 public class HomeController extends SuperController  {
 
-    private final Brain brain;
+    private final UserSession userSession;
 
     private final PersonInterface personService;
 
@@ -37,20 +38,32 @@ public class HomeController extends SuperController  {
         return "login";
     }
 
+    @GetMapping("/error")
+    public String error() {
+        log.error(Messages.DEBUG_MESSAGE_PREFIX + " - Cosik sie zjeballo ...");
+        return "login";
+    }
+
     @GetMapping("/logout")
     public String logout(LoginForm loginForm, Model model) {
-        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.USER_LOGGED_OUT + Messages.SEPARATOR + brain.getLoggedPerson().getUsername());
-        brain.setLoggedPerson(null);
+
+        log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.USER_LOGGED_OUT);
+
+        personService.kill();
+
         return "login";
     }
 
     @PostMapping("login")
     public String loginPerson(@Valid LoginForm loginForm, BindingResult bindingResult) {
+
+//        if (true) return "index";
+
         try {
 
-            brain.setLoggedPerson(personService.retrievePerson(loginForm.getUsername(),loginForm.getPassword()));
-
+            userSession.setPersonId(personService.retrievePerson(loginForm.getUsername(),loginForm.getPassword()).getId());
             return "index";
+
         } catch (PersonNotValidatedException e) {
             log.warn(Messages.INFO_PERSON_NOT_FOUND);
             bindingResult.addError(new FieldError("loginForm","username",Messages.INFO_PERSON_NOT_FOUND));

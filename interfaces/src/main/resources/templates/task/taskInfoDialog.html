@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="modal" id="taskInfoDialog">
+    <div class="taskInfoDialog">
+        <table width="350" border="0" cellspacing="0" cellpadding="2">
+            <tr>
+                <td>
+                    <span class="close">&times;</span>
+                    <table border="0" align="center" cellspacing="0" cellpadding="0" width="100%">
+                        <tr>
+                            <td class="rightLabel" width="60">Tasks:</td>
+                            <td class="leftValue" th:text="*{taskCount}"></td>
+                        </tr>
+                    </table>
+                    <table border="0" align="center" cellspacing="0" cellpadding="0" width="100%">
+                        <tr>
+                            <td class="rightLabel" width="60">Message:</td>
+                            <td class="leftValue" th:text="*{dialogMessage}"></td>
+                        </tr>
+                    </table>
+                    <table border="0" align="center" cellspacing="0" cellpadding="0" th:each="task : *{taskList}" width="100%">
+                        <tr>
+                            <td class="rightLabel" width="*"></td>
+                            <td class="leftValue" width="*">
+                                <a th:href="@{'/task/' + ${task.id}}"><label th:text="${task.name}"/></a>
+                            </td>
+                            <td class="rightButton" width="90">
+                                <button accesskey="d" class="buttonShort" name="action" type="submit" value="nextDay">TOMMOROW</button>
+                            </td>
+                            <td class="rightButton" width="90">
+                                <button accesskey="d" class="buttonShort" name="action" type="submit" value="nextWeek">NEXT WEEK</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</html>

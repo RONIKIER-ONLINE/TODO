@@ -3,6 +3,7 @@ package online.ronikier.todo.infrastructure.service;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.exception.PersonNotFoundException;
 import online.ronikier.todo.domain.exception.PersonNotValidatedException;
+import online.ronikier.todo.templete.SuperInterface;
 import online.ronikier.todo.templete.SuperService;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  *
  */
-public interface PersonInterface extends SuperService {
+public interface PersonInterface extends SuperInterface {
 
     /**
      *

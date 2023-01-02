@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Builder
 @ToString
 @Data
 @NoArgsConstructor
@@ -25,6 +26,7 @@ public class Person extends SuperEntity {
     @NonNull
     @Size(min = 6, max = 10)
     private String username;
+
 
     @NonNull
     @Size(min = 6, max = 10)

@@ -31,19 +31,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- *
- */
 @Slf4j
 @Controller
 @PropertySource("classpath:controller.properties")
 @RequiredArgsConstructor
 public class TaskController extends SuperController {
-
-    @Deprecated
-    private final Task devTask;
-
-    private final Set<Task> dafaultTasks;
 
     private final TaskInterface taskService;
 

@@ -1,8 +1,9 @@
-package online.ronikier.todo.interfaces.api;
+package online.ronikier.todo.infrastructure.api;
 
 import lombok.RequiredArgsConstructor;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.infrastructure.service.api.TaskAPI;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +49,12 @@ public class TaskAPIControler {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable Long taskId) {
         return taskAPI.deleteTask(taskId);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> error() {
+        ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
+        return responseEntity;
     }
 
 }

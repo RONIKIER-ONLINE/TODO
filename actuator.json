@@ -1,0 +1,93 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost:29211/actuator",
+      "templated": false
+    },
+    "auditevents": {
+      "href": "http://localhost:29211/actuator/auditevents",
+      "templated": false
+    },
+    "beans": {
+      "href": "http://localhost:29211/actuator/beans",
+      "templated": false
+    },
+    "caches-cache": {
+      "href": "http://localhost:29211/actuator/caches/{cache}",
+      "templated": true
+    },
+    "caches": {
+      "href": "http://localhost:29211/actuator/caches",
+      "templated": false
+    },
+    "health-path": {
+      "href": "http://localhost:29211/actuator/health/{*path}",
+      "templated": true
+    },
+    "health": {
+      "href": "http://localhost:29211/actuator/health",
+      "templated": false
+    },
+    "info": {
+      "href": "http://localhost:29211/actuator/info",
+      "templated": false
+    },
+    "conditions": {
+      "href": "http://localhost:29211/actuator/conditions",
+      "templated": false
+    },
+    "shutdown": {
+      "href": "http://localhost:29211/actuator/shutdown",
+      "templated": false
+    },
+    "configprops": {
+      "href": "http://localhost:29211/actuator/configprops",
+      "templated": false
+    },
+    "env": {
+      "href": "http://localhost:29211/actuator/env",
+      "templated": false
+    },
+    "env-toMatch": {
+      "href": "http://localhost:29211/actuator/env/{toMatch}",
+      "templated": true
+    },
+    "loggers": {
+      "href": "http://localhost:29211/actuator/loggers",
+      "templated": false
+    },
+    "loggers-name": {
+      "href": "http://localhost:29211/actuator/loggers/{name}",
+      "templated": true
+    },
+    "heapdump": {
+      "href": "http://localhost:29211/actuator/heapdump",
+      "templated": false
+    },
+    "threaddump": {
+      "href": "http://localhost:29211/actuator/threaddump",
+      "templated": false
+    },
+    "metrics": {
+      "href": "http://localhost:29211/actuator/metrics",
+      "templated": false
+    },
+    "metrics-requiredMetricName": {
+      "href": "http://localhost:29211/actuator/metrics/{requiredMetricName}",
+      "templated": true
+    },
+    "scheduledtasks": {
+      "href": "http://localhost:29211/actuator/scheduledtasks",
+      "templated": false
+    },
+    "httptrace": {
+      "href": "http://localhost:29211/actuator/httptrace",
+      "templated": false
+    },
+    "mappings": {
+      "href": "http://localhost:29211/actuator/mappings",
+      "templated": false
+    }
+  }
+}
+

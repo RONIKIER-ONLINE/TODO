@@ -1,4 +1,4 @@
-package online.ronikier.todo.interfaces.api;
+package online.ronikier.todo.infrastructure.api;
 
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.domain.Task;

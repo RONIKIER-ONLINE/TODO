@@ -26,12 +26,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="rightLabel" width="80"></td>
+                        <td class="rightLabel" width="80">Username:</td>
                         <td class="leftValue" width="143"><input class="textShort" id="username" th:field="*{username}" type="text" maxlength="10"/></td>
                         <td class="error"  width="275" th:errors="*{username}" th:if="${#fields.hasErrors('username')}">Username Error</td>
                     </tr>
                     <tr>
-                        <td class="rightLabel" width="80"></td>
+                        <td class="rightLabel" width="80">Password:</td>
                         <td class="leftValue" width="143"><input class="textShort" id="password" th:field="*{password}" type="text" maxlength="10"/></td>
                         <td class="error"  width="275" th:errors="*{password}" th:if="${#fields.hasErrors('password')}">Password Error</td>
                     </tr>

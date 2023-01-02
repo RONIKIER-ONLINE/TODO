@@ -34,6 +34,11 @@ http://localhost:9010/swagger-ui.html
 http://localhost:9010/v3/api-docs
 </h6>
 
+<h3>Actuator system maintenance</h3>
+<h6>
+Metadata - actuator.json, actuator_metrics.json
+</h6>
+
 <h3>cloud (Google)</h3>
 <h6>
 https://ronikier.uc.r.appspot.com/

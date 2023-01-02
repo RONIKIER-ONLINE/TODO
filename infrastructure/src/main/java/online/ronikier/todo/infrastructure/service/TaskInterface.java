@@ -3,6 +3,7 @@ package online.ronikier.todo.infrastructure.service;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.SortOrder;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
+import online.ronikier.todo.templete.SuperInterface;
 import online.ronikier.todo.templete.SuperService;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Optional;
 /**
  *
  */
-public interface TaskInterface extends SuperService {
+public interface TaskInterface extends SuperInterface {
 
     /**
      *
@@ -70,4 +71,8 @@ public interface TaskInterface extends SuperService {
      */
     List<Task> tasksRequiredTasks(Long taskId);
 
+    /**
+     *
+     */
+    void clearTasks();
 }

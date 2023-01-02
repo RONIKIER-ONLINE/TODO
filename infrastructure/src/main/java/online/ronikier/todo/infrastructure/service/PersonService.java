@@ -3,12 +3,13 @@ package online.ronikier.todo.infrastructure.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
-import online.ronikier.todo.domain.Brain;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.exception.PersonNotFoundException;
 import online.ronikier.todo.domain.exception.PersonNotValidatedException;
 import online.ronikier.todo.infrastructure.repository.PersonRepository;
+import online.ronikier.todo.library.Cryptonite;
 import online.ronikier.todo.library.Utilities;
+import online.ronikier.todo.templete.SuperService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +21,9 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PersonService implements PersonInterface {
-
-    private final Brain brain;
+public class PersonService extends SuperService implements PersonInterface {
 
     private final PersonRepository personRepository;
-
-    @Override
-    public void kill() {
-        brain.setLoggedPerson(null);
-    }
 
     @Override
     @Cacheable("PERSONS_BY_ID")
@@ -87,13 +81,9 @@ public class PersonService implements PersonInterface {
     @Override
     public Person retrievePerson(String username, String password) throws PersonNotValidatedException {
         Optional<Person> leggedPersonOptional = personRepository.findByUsername(username);
-        if (leggedPersonOptional.isPresent() && leggedPersonOptional.get().getPassword().equals(password)) return leggedPersonOptional.get();
+        if (leggedPersonOptional.isPresent() && password.equals(Cryptonite.decode(leggedPersonOptional.get().getPassword()))) return leggedPersonOptional.get();
         throw new PersonNotValidatedException();
     }
 
-    @Override
-    public boolean securityCheckOK() {
-        return brain.getLoggedPerson() != null;
-    }
 
 }
