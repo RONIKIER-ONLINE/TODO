@@ -30,7 +30,7 @@ public class TaskProcessor {
     @Autowired
     private TaskService taskService;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 3600000)
     public void processTasks() {
         log.info(Messages.SCHEDULER_TASK_PROCESSING);
         taskService.allTasks(SortOrder.NONE).stream().forEach(this::processTask);

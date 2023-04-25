@@ -1,14 +1,19 @@
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
+
 <html>
+
     <head>
         <title>Brain Support - Tasks</title>
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
         <link rel="stylesheet" th:href="@{/styles/main.css}"/>
         <meta charset="utf-8">
     </head>
+
     <body>
 
+        <!--  Dialog popup START -->
         <div class="modal" id="taskInfoDialog">
             <div class="taskInfoDialog">
                 <span class="close">&times;</span>
@@ -35,44 +40,66 @@
                 </table>
             </div>
         </div>
+        <!--  Dialog popup END -->
 
+        <!--  Javascript START -->
         <script type="text/javascript" th:src="@{/scripts/init.js}"></script>
         <script type="text/javascript" th:src="@{/scripts/modal.js}"></script>
 
         <div th:if="${showDialog}">
             <script type="text/javascript" th:src="@{/scripts/modal_show.js}"></script>
         </div>
+        <!--  Javascript END -->
 
-        <table border="0" width="800" align="center" bgcolor="#EEEEEE" cellpadding="0" cellspacing="0">
+        <!--  Main frame START -->
+        <table border="0" width="700" align="center" bgcolor="#EEEEEE" cellpadding="0" cellspacing="0">
+
+            <!--  Task form START -->
             <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">
+
                 <tr><td><hr width="99%" size="1"/></td></tr>
                 <tr>
                     <td>
-                        <table border="0" align="center" cellpadding="3" cellspacing="0" width="800">
+
+                        <!--  Task DATA form START -->
+                        <table border="0" align="center" cellpadding="3" cellspacing="0" width="700">
                             <input th:field="*{taskId}" type="hidden"/>
                             <tr>
                                 <td class="rightLabel" width="74">Name</td>
-                                <td class="left" width="164"><input class="textShortName" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
-                                <td class="centerValue" width="94">
-                                    <select class="selectStandard" th:field="*{taskType}" value="*{taskType}">
-                                        <option class="selectStandardOption" value="">- Type -</option>
-                                        <option class="selectStandardOption" th:each="taskType : ${T(online.ronikier.todo.domain.dictionary.TaskType).values()}"
-                                                th:value="${taskType}" th:text="${taskType.label}"/>
-                                    </select>
-                                </td>
+                                <td class="left" width="258" colspan="2"><input class="textShortName" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
                                 <td class="rightLabel" width="74">Required by</td>
-                                <td class="listSelect" width="164">
+                                <td class="left" width="164">
                                     <select class="selectMedium" th:field="*{requiredByTaskId}">
                                         <option class="selectMediumOption" value="none">none</option>
                                         <option class="selectMediumOption" th:each="task : *{tasks}" th:text="${task.name}"
                                                 th:value="${task.id}"></option>
                                     </select>
                                 </td>
-                                <td class="rightButton" width="94"><button accesskey="t" class="buttonShort" name="action" type="submit" value="SAVE">SAVE</button></td>
+                                <td class="error" width="94"></td>
                             </tr>
                             <tr>
                                 <td class="rightLabelDescription" rowspan="3">Description</td>
-                                <td class="left" rowspan="3"><textarea id="taskDescription" class="description" cols="40" rows="5" th:field="*{description}"/></td>
+                                <td class="left" colspan="2" rowspan="2"><textarea id="taskDescription" class="taskDescription" cols="40" rows="5" th:field="*{description}"/></td>
+                                <td class="error">
+                                </td>
+                                <td class="rightLabel">Type</td>
+                                <td class="leftValue">
+                                    <div th:if="*{(taskType ne null)}">
+                                        <label th:text="*{taskType.label}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="leftValue"></td>
+                                <td class="rightLabel">State</td>
+                                <td class="leftValue">
+                                    <div th:if="*{(taskState ne null)}">
+                                    <label th:text="*{taskState.label}" th:style="*{taskState.style}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left"></td>
                                 <td class="leftValue">
                                     <table cellpadding="0" cellspacing="0">
                                         <tr>
@@ -81,29 +108,6 @@
                                         </tr>
                                     </table>
                                 </td>
-                                <td class="rightLabel"></td>
-                                <td class="leftValue" rowspan="3">
-                                    <select class="selectRequiredByTaskList" size="5" th:field="*{isRequiredBy}">
-                                        <option class="selectMediumOption" value="none">none</option>
-                                        <option class="selectMediumOption" th:each="task : *{isRequiredByList}" th:text="${task.name}"
-                                                th:value="${task.id}"></option>
-                                    </select>
-                                </td>
-                                <td class="rightButton"> <button accesskey="c" class="buttonShort" name="action" type="submit" value="COMPLETE">COMPLETE</button></td>
-                            </tr>
-                            <tr>
-                                <td class="leftValue"></td>
-                                <td class="rightLabel"></td>
-                                <td class="rightButton"><button accesskey="r" class="buttonShort" id="rejectButton" name="action" type="submit" value="REJECT">REJECT</button></td>
-                            </tr>
-                            <tr>
-                                <td class="error"></td>
-                                <td class="rightLabel"></td>
-                                <td class="rightButton"><button accesskey="c" class="buttonShort" id="deleteButton" name="action" type="submit" value="DELETE">DELETE</button></td>
-                            </tr>
-                            <tr>
-                                <td class="rightLabel">Start</td>
-                                <td class="left"><input class="dateShort" th:field="*{start}" type="date"/></td>
                                 <td class="leftValue">
                                     <table cellpadding="0" cellspacing="0">
                                         <tr>
@@ -112,37 +116,28 @@
                                         </tr>
                                     </table>
                                 </td>
-                                <td class="rightLabel">Due</td>
-                                <td class="left"><input class="dateShort" th:field="*{due}" type="date"/></td>
-                                <td class="centerValue">
-                                    <div th:if="*{(taskState ne null)}">
-                                        <label th:text="*{taskState.label}" th:style="*{taskState.style}"/>
+                                <td class="rightLabel">Status</td>
+                                <td class="leftValue">
+                                    <div th:if="*{(taskStatus ne null)}">
+                                    <label th:text="*{taskStatus.label}" th:style="*{taskStatus.style}"/>
                                     </div>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td class="rightLabel">Start</td>
+                                <td class="left"><input class="dateShort" th:field="*{start}" type="date"/></td>
+                                <td class="error"></td>
+                                <td class="rightLabel">Due</td>
+                                <td class="left"><input class="dateShort" th:field="*{due}" type="date"/></td>
+                                <td class="error"></td>
                             </tr>
                             <tr>
                                 <td class="rightLabel">Created</td>
                                 <td class="leftValue" th:text="*{created}"></td>
                                 <td class="error"></td>
                                 <td class="rightLabel">Value</td>
-                                <td class="leftValue" >
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <td>
-                                                <input class="textShortValue" th:field="*{costValue}" type="text">
-                                            </td>
-                                            <td>
-                                                <select class="selectValueUnit" th:field="*{costUnit}" value="*{costUnit}">
-                                                    <option class="selectMediumOption" th:each="costUnit : ${T(online.ronikier.todo.domain.dictionary.CostUnit).values()}"
-                                                            th:value="${costUnit}" th:text="${costUnit.label}"/>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                                <td class="leftValue">
-
-                                </td>
+                                <td class="leftValue" ><input class="textTaskCostValue" th:field="*{costValue}" type="text"></td>
+                                <td class="error"></td>
                             </tr>
                             <tr>
                                 <td class="rightLabel">Responsible</td>
@@ -153,15 +148,14 @@
                                     </select>
                                 </td>
                                 <td class="Personnel"><a href="/person">Personnel</a></td>
-                                <td class="rightLabel"></td>
+                                <td class="rightLabel">Unit</td>
                                 <td class="leftValue">
-
+                                    <select class="selectStandard" th:field="*{costUnit}" value="*{costUnit}">
+                                        <option class="selectMediumOption" th:each="costUnit : ${T(online.ronikier.todo.domain.dictionary.CostUnit).values()}"
+                                                th:value="${costUnit}" th:text="${costUnit.label}"/>
+                                    </select>
                                 </td>
-                                <td class="centerValue">
-                                    <div th:if="*{(taskStatus ne null)}">
-                                        <label th:text="*{taskStatus.label}" th:style="*{taskStatus.style}"/>
-                                    </div>
-                                </td>
+                                <td class="error"></td>
                             </tr>
                             <tr><td colspan="6"><hr width="99%" size="1"/></td></tr>
                             <tr>
@@ -189,6 +183,18 @@
                                         </tr>
                                     </table>
                                 </td>
+                                <td class="rightButton">
+                                    <button accesskey="r" class="buttonShort" id="rejectButton" name="action" type="submit" value="reject">REJECT</button>
+                                </td>
+                                <td class="rightButton">
+                                    <button accesskey="c" class="buttonShort" id="deleteButton" name="action" type="submit" value="delete">DELETE</button>
+                                </td>
+                                <td class="rightButton">
+                                    <button accesskey="c" class="buttonShort" name="action" type="submit" value="complete">COMPLETE</button>
+                                </td>
+                                <td class="rightButton">
+                                    <button accesskey="t" class="buttonShort" name="action" type="submit" value="save">SAVE</button>
+                                </td>
                             </tr>
                             <tr><td colspan="6"><hr width="99%" size="1"/></td></tr>
                             <div th:if="${not #lists.isEmpty(tasksRequiredTasks)}">
@@ -211,11 +217,21 @@
                                 </tr>
                             </div>
                         </table>
+                        <!--  Task DATA form END -->
+
                     </td>
                 </tr>
+
                 <tr><td><hr width="99%" size="1"/></td></tr>
+
+                <tr><td></td></tr>
+
+                <tr><td><hr width="99%" size="1"/></td></tr>
+
                 <tr>
                     <td>
+
+                        <!--  Task filter form START -->
                         <table border="0" align="center" cellpadding="3" cellspacing="0" width="100%">
                         <tr>
                             <td class="rightLabel" width="74"></td>
@@ -237,8 +253,8 @@
 
                             <td class="leftValue" width="70">
                                 <select class="selectStandard" th:field="*{taskFilterForm.taskType}" value="*{taskFilterForm.taskType}">
-                                    <option class="selectStandardOption" value="">- Type -</option>
-                                    <option class="selectStandardOption" th:each="taskType : ${T(online.ronikier.todo.domain.dictionary.TaskType).values()}"
+                                    <option class="selectMediumOption" value="">- Type -</option>
+                                    <option class="selectMediumOption" th:each="taskType : ${T(online.ronikier.todo.domain.dictionary.TaskType).values()}"
                                             th:value="${taskType}" th:text="${taskType.label}"/>
                                 </select>
                             </td>
@@ -256,19 +272,77 @@
                                             th:value="${taskStatus}" th:text="${taskStatus.label}"/>
                                 </select>
                             </td>
+
+
+
                             <td class="rightButton" width="*">
-                                <button accesskey="f" class="buttonShort" name="action" type="submit" value="FILTER">FILTER</button>
+                                <button accesskey="f" class="buttonShort" name="action" type="submit" value="filter">FILTER</button>
                             </td>
                         </tr>
                     </table>
+                        <!--  Task filter form END -->
+
                     </td>
                 </tr>
+
                 <tr><td><hr width="99%" size="1"/></td></tr>
+
             </form>
+            <!--  Task form END -->
+
+            <!--  Task list START -->
             <div th:if="${not #lists.isEmpty(taskList)}">
                 <tr>
                     <td>
-                        <table border="0" cellpadding="2" cellspacing="2" align="center" th:each="task : *{taskList}" width="800">
+
+                        <!--  Task list header START -->
+                        <table border="0" cellpadding="0" cellspacing="1" align="center" width="700">
+                            <tr>
+                                <td>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td width="20" align="right" class="taskListHeader">
+                                                <label th:text="lp."/>
+                                            </td>
+                                            <td width="120" class="taskListHeader">
+                                                <label th:text="Name"/>
+                                            </td>
+                                            <td width="60" align="center" class="taskListHeader">
+                                                <label th:text="State"/>
+                                            </td>
+                                            <td width="10" align="center" class="taskListHeader">
+
+                                            </td>
+                                            <td width="10" align="center" class="taskListHeader">
+
+                                            </td>
+                                            <td width="70" align="center" class="taskListHeader">
+                                                <label th:text="Created"/>
+                                            </td>
+                                            <td width="70" align="center" class="taskListHeader">
+                                                <label th:text="Started"/>
+                                            </td>
+                                            <td width="70" align="center" class="taskListHeader">
+                                                <label th:text="Due"/>
+                                            </td>
+                                            <td width="80" align="right" class="taskListHeader">
+                                                <label th:text="Cost"/>
+                                            </td>
+                                            <td width="*" align="right" class="taskListHeader">
+
+                                            </td>
+                                            <td width="80" align="center" class="taskListHeader">
+                                                <label th:text="StatusX"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <!--  Task list header END -->
+
+                        <!--  Task list table START -->
+                        <table border="0" cellpadding="0" cellspacing="1" align="center" th:each="task : *{taskList}" width="700">
                             <tr>
                                 <td>
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -288,13 +362,13 @@
                                                 <td width="10" align="center" class="taskListPosition" style="color:#880000;font-weight: bold;">
                                                     <div th:if="${task.urgent}">!</div>
                                                 </td>
-                                                <td width="75" align="center" class="taskListPosition">
+                                                <td width="70" align="center" class="taskListPosition">
                                                     <label th:text="${task.createdFormatted}"/>
                                                 </td>
-                                                <td width="75" align="center" class="taskListPosition">
+                                                <td width="70" align="center" class="taskListPosition">
                                                     <label th:text="${task.startFormatted}"/>
                                                 </td>
-                                                <td width="75" align="center" class="taskListPosition">
+                                                <td width="70" align="center" class="taskListPosition">
                                                     <label th:text="${task.dueFormatted}"/>
                                                 </td>
                                                 <td width="80" align="right" class="taskListPosition">
@@ -333,11 +407,19 @@
                                 </tr>
                             </div>
                         </table>
+                        <!--  Task list  table END -->
+
                     </td>
                 </tr>
+
                 <tr><td><hr width="99%" size="1"/></td></tr>
+
             </div>
+            <!--  Task list END -->
+
         </table>
+        <!--  Main frame END -->
 
     </body>
+
 </html>

@@ -30,3 +30,11 @@ MATCH (task:Task {name:'Karma'}) RETURN task UNION MATCH ((mainTask:Task {name:'
 <h6>
 https://ronikier.uc.r.appspot.com/
 </h6>
+
+<h3>Windows Service</h3>
+<h6>
+https://downloads.apache.org/commons/daemon/binaries/windows/
+</h6>
+<blockquote>TODOService.exe //IS//TODOService --Install="C:\magazyn\service\TODOService.exe" --Jvm=auto --Startup=auto --StartMode=jvm --Classpath="C:\magazyn\service\todo-application-1.0-SNAPSHOT.jar" --StartClass=online.ronikier.todo.Application</blockquote>
+
+

@@ -78,13 +78,22 @@ table.task {
 	*/
 }
 
+td.taskListHeader {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	/* background-color: #ffffff; */
+	vertical-align: middle;
+    font-weight: bold;
+    color: Gray;
+    padding: 3pt 3pt 3pt 3pt;
+}
+
 td.taskListPosition {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	background-color: #ffffff;
 	vertical-align: middle;
     font-weight: bold;
     color: Gray;
-    padding: 3pt 3pt 3pt 3pt;
+    padding: 2pt 2pt 2pt 2pt;
 }
 
 td.taskListTaskName {
@@ -156,24 +165,6 @@ td.leftValue {
    	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
   	text-align:left;
   	vertical-align: middle;
-   	font-weight: bold;
-    color: Gray;
-	padding: 3pt 3pt 3pt 3pt;
-}
-
-td.centerValue {
-   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-  	text-align:center;
-  	vertical-align: middle;
-   	font-weight: bold;
-    color: Gray;
-	padding: 3pt 3pt 3pt 3pt;
-}
-
-td.listSelect {
-   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-  	text-align:left;
-  	vertical-align: top;
    	font-weight: bold;
     color: Gray;
 	padding: 3pt 3pt 3pt 3pt;
@@ -258,6 +249,41 @@ input.textShort {
 
 input.textShortName {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 235px;
+	height: 22px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #ffffff;
+    #background-image: url('some_background.png');
+    #background-position: 10px 10px;
+    #background-repeat: no-repeat;
+    #border-bottom: 2px solid blue;
+    #color: white;
+}
+
+textarea.taskDescription {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 235px;
+    height: 50x;
+    padding: 3pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #ffffff;
+	resize: none;
+    transition: width 0.4s ease-in-out;
+}
+
+textarea.taskDescription:focus {
+  width: 170%;
+}
+
+input.textTaskCostValue {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	width: 140px;
 	height: 22px;
     padding: 0pt 10pt 0pt 5pt;
@@ -271,41 +297,6 @@ input.textShortName {
     #background-repeat: no-repeat;
     #border-bottom: 2px solid blue;
     #color: white;
-    transition: width 0.4s ease-in-out;
-}
-
-input.textShortName:focus {
-  width: 150%;
-}
-
-input.textShortValue {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	width: 90px;
-	height: 22px;
-    padding: 0pt 10pt 0pt 5pt;
-    border-right: 1px solid Gray;
-    border-bottom: 1px solid Gray;
-    border-top: 1px solid Gray;
-    border-left: 1px solid Gray;
-    background-color: #ffffff;
-}
-
-textarea.description {
-	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-	width: 140px;
-    height: 72px;
-    padding: 3pt 10pt 0pt 5pt;
-    border-right: 1px solid Gray;
-    border-bottom: 1px solid Gray;
-    border-top: 1px solid Gray;
-    border-left: 1px solid Gray;
-    background-color: #ffffff;
-	resize: none;
-    transition: width 0.4s ease-in-out;
-}
-
-textarea.description:focus {
-  width: 150%;
 }
 
 input.filterPhrase {
@@ -351,10 +342,10 @@ input.dateShort {
 }
 
 
-select.selectValueUnit
+select.selectStandard
 {
 	    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-        width: 80px;
+        width: 70px;
         height: 24px;
         padding: 0pt 10pt 0pt 5pt;
         border-right: 1px solid Gray;
@@ -384,43 +375,6 @@ option.selectMediumOption
 {
     font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
     background-color: #ffffff;
-}
-
-select.selectStandard
-{
-    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-    width: 75px;
-    height: 24px;
-    padding: 0pt 10pt 0pt 5pt;
-    border-right: 1px solid Gray;
-    border-bottom: 1px solid Gray;
-    border-top: 1px solid Gray;
-    border-left: 1px solid Gray;
-    background-color: #ffffff;
-    vertical-align: bottom;
-    text-align: bottom;
-}
-
-option.selectStandardOption
-{
-    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-    background-color: #ffffff;
-}
-
-select.selectRequiredByTaskList
-{
-    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-    width: 162px;
-    height: 80px;
-    size:5;
-    padding: 0pt 10pt 0pt 5pt;
-    border-right: 1px solid Gray;
-    border-bottom: 1px solid Gray;
-    border-top: 1px solid Gray;
-    border-left: 1px solid Gray;
-    background-color: #ffffff;
-    vertical-align: bottom;
-    text-align: bottom;
 }
 
 select.selectList

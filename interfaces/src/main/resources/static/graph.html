@@ -8,15 +8,14 @@
             }
         </style>
     <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
-</head>
-<script>
+    <script>
         function draw() {
             var config = {
                 container_id: "viz",
                 server_url: "bolt://localhost:7687",
                 server_user: "neo4j",
-                server_password: "secret",
-                initial_cypher: "MATCH p=()-->({name:'Karma'}) RETURN p LIMIT 200"
+                server_password: "aaaaaa",
+                initial_cypher: "MATCH (n) RETURN n LIMIT 25"
                 //initial_cypher: "MATCH (task:Task {name:'Karma'}) RETURN task UNION MATCH ((mainTask:Task {name:'Karma'})-[r]->(task:Task)) RETURN task"
             }
 
@@ -24,6 +23,7 @@
             viz.render();
         }
     </script>
+</head>
 <body onload="draw()">
 <div id="viz"></div>
 </body>
