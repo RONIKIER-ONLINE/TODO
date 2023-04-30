@@ -11,6 +11,8 @@ import java.util.Optional;
 
 public interface TaskService extends SuperService {
 
+    public Task initializeTask();
+
     public void processComplete(Task processedTask);
 
     public Optional<Task> findTaskById(Long taskId);

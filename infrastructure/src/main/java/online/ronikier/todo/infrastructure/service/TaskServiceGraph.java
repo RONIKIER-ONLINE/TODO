@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,6 +34,51 @@ public class TaskServiceGraph implements TaskService {
         return "Lou kills";
     }
 
+    /**
+     * @return
+     * @throws ParseException
+     */
+    @Override
+    public Task initializeTask() {
+
+        //TODO: Implement system common tasks
+        //return new Task(dafaultTasks,
+
+
+        Task newTask = new Task(
+                appendMaintanceTasks(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                Utilities.dateCurrent(),
+                null,       //Utilities.dateFuture(taskCompletionTimeDays),
+                null,
+                null,
+                "chuj",
+                Double.valueOf(1),
+                CostUnit.SOLDIER,
+                TaskState.NEW,
+                TaskType.GENERAL,
+                TaskStatus.OK
+        );
+
+        return newTask;
+
+    }
+
+    /**
+     * @return
+     */
+    private List<Task> appendMaintanceTasks() {
+        if (Parameters.SYSTEM_SKIP_MAINTENANCE_TASKS) {
+            log.info(Messages.SKIPPING_MAINTENANCE_TASKS);
+            return null;
+        }
+        return getMaintanceTasks();
+    }
+
     @Override
     public void processComplete(Task processedTask) {
         processedTask.setTaskState(TaskState.COMPLETED);
@@ -45,7 +91,6 @@ public class TaskServiceGraph implements TaskService {
     public void processReject(Task processedTask) {
         processedTask.setTaskState(TaskState.REJECTED);
         processedTask.setDue(null);
-        processedTask.setTaskStatus(TaskStatus.UNKNOWN);
         saveTask(processedTask);
     }
 

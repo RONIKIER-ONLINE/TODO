@@ -9,8 +9,7 @@ public enum CostUnit {
     PLN(Messages.COST_UNIT_PLN),
     HOUR(Messages.COST_UNIT_HOUR),
     DAY(Messages.COST_UNIT_DAY),
-    SOLDIER(Messages.COST_UNIT_SOLDIER),
-    LUCK(Messages.COST_UNIT_LUCK);;
+    SOLDIER(Messages.COST_UNIT_SOLDIER);
 
     private String label;
 

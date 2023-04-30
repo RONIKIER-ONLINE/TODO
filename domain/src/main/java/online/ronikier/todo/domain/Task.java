@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 //@ToString // 500 java.lang.StackOverflowError: null - requiredTasks processing ???
 @Data
 @NoArgsConstructor
-//@RequiredArgsConstructor
 @AllArgsConstructor
 @NodeEntity
 public class Task extends SuperEntity {
@@ -29,19 +28,19 @@ public class Task extends SuperEntity {
 
     protected Task isRequiredBy;
     protected List<Task> isRequiredByList;
-//    @NonNull
+    // @NonNull
     protected Boolean important;
-//    @NonNull
+    // @NonNull
     protected Boolean urgent;
-//    @NonNull
-//    @Past
-private Date created;
-//    @NonNull
-private Date start;
-//    @NonNull
-//    @Future
-private Date due;
-//    @NonNull
+    // @NonNull
+    // @Past
+    private Date created;
+    // @NonNull
+    private Date start;
+    // @NonNull
+    // @Future
+    private Date due;
+    // @NonNull
     @Size(max = 30)
     protected String name;
     //@NonNull

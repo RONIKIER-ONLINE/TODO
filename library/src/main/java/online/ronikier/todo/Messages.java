@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Messages {
 
-    // Remove development message
+    //TODO: Remove development message
     public static final String DEV_IMPLEMENT_ME = "DEV_IMPLEMENT_ME";
 
     public static final String SEPARATOR = " - ";
@@ -24,24 +24,23 @@ public class Messages {
     public static final String TASK_TYPE_MONEY = "Payment";
 
     public static final String TASK_STATE_NEW = "New";
+    public static final String TASK_STATE_INITIALIZED = "Initialized";
+    public static final String TASK_STATE_MODIFIED = "Modified";
     public static final String TASK_STATE_STARTED = "Started";
     public static final String TASK_STATE_ON_HOLD = "On hold";
     public static final String TASK_STATE_COMPLETED = "Completed";
     public static final String TASK_STATE_REJECTED= "Rejected";
-    public static final String TASK_STATE_UNKNOWN= "Unknown";
 
     public static final String TASK_STATUS_OK = "OK";
     public static final String TASK_STATUS_THIS_WEEK = "This week";
     public static final String TASK_STATUS_TODAY = "Today";
     public static final String TASK_STATUS_APPROACHING = "Tomorrow";
     public static final String TASK_STATUS_DELAYED = "Delayed";
-    public static final String TASK_STATUS_UNKNOWN = "Not evaluated";
 
     public static final String COST_UNIT_PLN = "PLN";
     public static final String COST_UNIT_HOUR = "Hours";
     public static final String COST_UNIT_DAY = "Days";
     public static final String COST_UNIT_SOLDIER = "YARI";
-    public static final String COST_UNIT_LUCK = "Zdrowaskaz";
 
 
     public static final String TYPE_PLACE_CITY = "TYPE_PLACE_CITY";
@@ -80,6 +79,8 @@ public class Messages {
     public static final String TASK_DELETING = "TASK_DELETING";
     public static final String SKIPPING_MAINTENANCE_TASKS = "SKIPPING_MAINTENANCE_TASKS";
     public static final String SKIPPING_NOT_REQUIRED = "SKIPPING_NOT_REQUIRED";
+
+    public static final String UNKNOWN_TASK_STATE = "UNKNOWN_TASK_STATE";
 
     public static final String FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL = "FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL";
     public static final String FORM_TASK_VALIDATION_URGENT_NOT_NULL = "FORM_TASK_VALIDATION_URGENT_NOT_NULL";

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.*;
+import online.ronikier.todo.domain.exception.TaskStateException;
 import online.ronikier.todo.infrastructure.service.TaskService;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class TaskProcessor {
 
     }
 
-    private void processTaskState(Task task) {
+    private void processTaskState(Task task) throws TaskStateException {
         switch (task.getTaskState()) {
             case NEW:
             case STARTED: break;
@@ -67,8 +68,8 @@ public class TaskProcessor {
             case COMPLETED:
             case REJECTED: return;
             default: {
-                log.warn(Messages.TASK_STATE_UNKNOWN + Messages.SEPARATOR + task.getTaskState());
-                task.setTaskState(TaskState.UNKNOWN);
+                log.warn(Messages.UNKNOWN_TASK_STATE + Messages.SEPARATOR + task.getTaskState());
+                throw new TaskStateException(Messages.UNKNOWN_TASK_STATE + Messages.SEPARATOR + task.getTaskState());
             }
         }
 

@@ -26,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TaskForm extends SuperForm {
 
-    private Task task = new Task();
+    private Task task = new Task(); // Needed for form fields
 
     private Long taskId;
 

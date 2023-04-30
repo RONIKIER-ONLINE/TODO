@@ -97,13 +97,13 @@ public class PersonControler extends SuperController {
         try {
             Person processedPerson = personService.findPersonByUsername(personForm.getUsername());
             if (processedPerson != null) {
-                log.info((Messages.INFO_PERSON_EXISTS));
+                log.info((Messages.PERSON_EXISTS));
                 log.debug(processedPerson.toString());
             } else {
                 processedPerson = initializePerson(personForm);
             }
             savePerson(personForm, processedPerson);
-            log.info(Messages.INFO_PERSON_CREATED);
+            log.info(Messages.PERSON_CREATED);
             log.debug(processedPerson.toString());
         } catch (Exception e) {
             log.error(Messages.EXCEPTION_PERSON_CREATION + Messages.SEPARATOR + e.getMessage());
@@ -113,7 +113,7 @@ public class PersonControler extends SuperController {
     }
 
     private void savePerson(PersonForm personForm, Person person) {
-        log.info(Messages.INFO_PERSON_MODIFIED);
+        log.info(Messages.PERSON_MODIFIED);
         personMapper.form2Domain(personForm, person);
         personService.savePerson(person);
         if (personForm.getKnownByPersonId() != null && !personForm.getKnownByPersonId().equals("none")) {
@@ -127,7 +127,7 @@ public class PersonControler extends SuperController {
             }
         }
 
-        log.info(Messages.INFO_PERSON_MODIFIED);
+        log.info(Messages.PERSON_MODIFIED);
         log.debug(person.toString());
     }
 
@@ -140,7 +140,7 @@ public class PersonControler extends SuperController {
      */
     @GetMapping("person_delete/{personId}")
     public String personDelete(@PathVariable(name = "personId", required = false) Long personId, PersonForm personForm, Model model) {
-        log.info(Messages.INFO_PERSON_DELETING);
+        log.info(Messages.PERSON_DELETING);
         personService.deletePersonById(personId);
         initializeForm(personForm, model);
         return "person";
