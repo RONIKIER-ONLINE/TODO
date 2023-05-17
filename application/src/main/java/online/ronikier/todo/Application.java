@@ -17,12 +17,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
+//import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Slf4j
 @SpringBootApplication
-@EnableNeo4jRepositories
+//@EnableNeo4jRepositories
 @EnableScheduling
 @EnableConfigurationProperties(StorageProperties.class)
 public class Application {
@@ -44,7 +44,7 @@ public class Application {
                 taskRepository.deleteAll();
             }
 
-            Task millionDollarTask = new Task(null,null,null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars", 1000000d, CostUnit.SOLDIER, TaskState.STARTED , TaskType.MONEY, TaskStatus.OK);
+            Task millionDollarTask = new Task(null,null,null,null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars", 1000000d, CostUnit.SOLDIER, TaskState.STARTED , TaskType.MONEY, TaskStatus.OK);
             taskRepository.save(millionDollarTask);
 
             storageService.deleteAll();

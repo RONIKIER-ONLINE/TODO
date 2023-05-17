@@ -3,37 +3,42 @@ package online.ronikier.todo.domain;
 import lombok.*;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.templete.SuperEntity;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
+//import org.neo4j.ogm.annotation.NodeEntity;
+//import org.neo4j.ogm.annotation.Relationship;
+
+import javax.persistence.*;
 
 import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@ToString
-@Data
+//@ToString
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@NodeEntity
+
+
 @NoArgsConstructor
-@AllArgsConstructor
-@NodeEntity
-public class Person extends SuperEntity {
+//@ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
+@Data
+@Entity(name="PERSON")
 
-    public Person(String personId) {
-        super();
-        username = Parameters.NEW_USERNAME + personId;
-        id = Long.valueOf(personId);
-    }
+public class Person {
 
-    @Relationship(type = "KNOWS")
-    protected List<Person> knownPersons;
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    //@Relationship(type = "KNOWS")
+    @ManyToMany
+    private List<Person> knownPersons;
 
     @NonNull
     @Size(min = 6, max = 10)
     private String username;
 
     public void knows(Person person) {
-        if (getKnownPersons() == null) {
-            setKnownPersons(new ArrayList<>());
-        }
         getKnownPersons().add(person);
     }
 
@@ -47,9 +52,6 @@ public class Person extends SuperEntity {
     }
 
     public List<Person> getKnownPersons() {
-        if (knownPersons == null) {
-            setKnownPersons(new ArrayList<>());
-        }
         return knownPersons;
     }
 

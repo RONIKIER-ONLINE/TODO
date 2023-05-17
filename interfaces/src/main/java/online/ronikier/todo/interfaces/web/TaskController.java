@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 //import org.w3c.dom.css.Counter;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.*;
@@ -53,20 +54,12 @@ public class TaskController extends SuperController {
     @Value("${task.completion.time.days:7}")
     private Integer taskCompletionTimeDays;
 
-    /**
-     * @param registry
-     */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/task").setViewName("task");
         registry.addViewController("/task_delete").setViewName("task");
     }
 
-    /**
-     * @param taskForm
-     * @param model
-     * @return
-     */
     @GetMapping(value = "task", produces = "text/html")
     public String getTask(TaskForm taskForm, Model model) {
         if (!securityCheckOK(model)) return "login";
@@ -77,12 +70,6 @@ public class TaskController extends SuperController {
         return "task";
     }
 
-    /**
-     * @param taskId
-     * @param taskForm
-     * @param model
-     * @return
-     */
     @GetMapping(value = "task/{taskId}", produces = "text/html")
     public String getTaskById(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
         if (!securityCheckOK(model)) return "/";
@@ -99,12 +86,6 @@ public class TaskController extends SuperController {
         return "task";
     }
 
-    /**
-     * @param taskForm
-     * @param bindingResult
-     * @param model
-     * @return
-     */
     @PostMapping("task")
     public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model) {
 
@@ -174,12 +155,6 @@ public class TaskController extends SuperController {
         return "task";
     }
 
-    /**
-     * @param taskId
-     * @param taskForm
-     * @param model
-     * @return
-     */
     @GetMapping(value = "task_delete/{taskId}", produces = "text/html")
     public String getTaskDelete(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
 
@@ -196,6 +171,7 @@ public class TaskController extends SuperController {
      * @param taskForm
      * @param task
      */
+    @Transactional
     private void saveTask(TaskForm taskForm, Task task) {
         log.info(Messages.TASK_MODIFIED);
         taskMapper.form2Domain(taskForm, task);
@@ -209,6 +185,7 @@ public class TaskController extends SuperController {
             } else {
                 Task requiredByTask = requiredByTaskOptional.get();
                 requiredByTask.requires(task);
+                taskService.saveTask(task);
                 taskService.saveTask(requiredByTask);
             }
         } else {
@@ -238,11 +215,6 @@ public class TaskController extends SuperController {
             log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + task + Messages.SEPARATOR + responsibleOptional.get());
         }
     }
-
-
-
-
-
 
     /**
      * @param taskId

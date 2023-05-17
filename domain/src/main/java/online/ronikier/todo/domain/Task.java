@@ -7,26 +7,46 @@ import online.ronikier.todo.domain.dictionary.TaskStatus;
 import online.ronikier.todo.domain.dictionary.TaskType;
 import online.ronikier.todo.library.Utilities;
 import online.ronikier.todo.templete.SuperEntity;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
+//import org.neo4j.ogm.annotation.NodeEntity;
+//import org.neo4j.ogm.annotation.Relationship;
+
+import javax.persistence.*;
 
 import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//@ToString // 500 java.lang.StackOverflowError: null - requiredTasks processing ???
-@Data
+////@ToString // 500 java.lang.StackOverflowError: null - requiredTasks processing ???
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@NodeEntity
+
 @NoArgsConstructor
 @AllArgsConstructor
-@NodeEntity
-public class Task extends SuperEntity {
+@ToString(onlyExplicitlyIncluded = true, includeFieldNames = false)
+@Data
+@Entity(name="TASK")
 
-    @Relationship(type = "REQUIRES")
+public class Task { //extends SuperEntity {
+
+    @Id
+    @GeneratedValue
+    protected Long id;
+
+//    @Relationship(type = "REQUIRES")
+    @ManyToMany
     protected List<Task> requiredTasks;
-    @Relationship(type = "IS DONE BY")
+//    @Relationship(type = "IS DONE BY")
+    @ManyToOne
+    @JoinColumn(name = "responsible_person_id")
     protected Person responsiblePerson;
 
+    @ManyToOne
+    @JoinColumn(name = "is_required_by_task_id")
     protected Task isRequiredBy;
+
+    @ManyToMany
     protected List<Task> isRequiredByList;
     // @NonNull
     protected Boolean important;

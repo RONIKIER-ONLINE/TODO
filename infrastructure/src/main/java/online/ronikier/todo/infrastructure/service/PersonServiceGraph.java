@@ -83,10 +83,11 @@ public class PersonServiceGraph implements PersonService {
 
     @Override
     public Person getSuperPerson() {
-        if (personRepository.findByUsername(SUPER_HERO) != null) {
-            return personRepository.findByUsername(SUPER_HERO);
-        }
-        return new Person(SUPER_HERO);
+//        if (personRepository.findByUsername(SUPER_HERO) != null) {
+//            return personRepository.findByUsername(SUPER_HERO);
+//        }
+//        return new Person(SUPER_HERO);
+        return null;
     }
 
 }

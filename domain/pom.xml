@@ -17,10 +17,18 @@
             <artifactId>todo-library</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.neo4j</groupId>-->
+<!--            <artifactId>neo4j-ogm-core</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-ogm-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+<!--            <version>${org.springframework.boot.version}</version>-->
         </dependency>
+
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>

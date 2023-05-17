@@ -35,17 +35,14 @@ public class TaskServiceGraph implements TaskService {
     }
 
     /**
-     * @return
-     * @throws ParseException
+     * @return new born task
      */
     @Override
     public Task initializeTask() {
 
         //TODO: Implement system common tasks
-        //return new Task(dafaultTasks,
 
-
-        Task newTask = new Task(
+        return new Task(null,
                 appendMaintanceTasks(),
                 null,
                 null,
@@ -64,12 +61,10 @@ public class TaskServiceGraph implements TaskService {
                 TaskStatus.OK
         );
 
-        return newTask;
-
     }
 
     /**
-     * @return
+     * @return jak w temacie
      */
     private List<Task> appendMaintanceTasks() {
         if (Parameters.SYSTEM_SKIP_MAINTENANCE_TASKS) {
@@ -188,7 +183,7 @@ public class TaskServiceGraph implements TaskService {
     @Cacheable("TASKS_SORTED")
     public List<Task> allTasks(SortOrder sortOrder) {
 
-        Comparator<Task> taskComparator = (Task tasksA, Task tasksB) -> tasksA.getName().compareTo(tasksB.getName());
+        Comparator<Task> taskComparator;
 
         switch (sortOrder) {
             case NONE: return StreamSupport.stream(taskRepository.findAll().spliterator(), true).collect(Collectors.toList());
@@ -199,6 +194,7 @@ public class TaskServiceGraph implements TaskService {
             }
             case NAME :
             default:
+                taskComparator = Comparator.comparing(Task::getName);
         }
 
         // Sorting cannot be done parallel
@@ -211,8 +207,8 @@ public class TaskServiceGraph implements TaskService {
     public List<Task> getMaintanceTasks() {
         // Implement individual task level tasks
         // One task set for alla ore task set each
-        Task maintanceTaskA = new Task(null, null,null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
-        Task maintanceTaskB = new Task(null, null,null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
+        Task maintanceTaskA = null; //new Task(null, null,null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "A Maintance", "Maintance task A", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
+        Task maintanceTaskB = null; //new Task(null, null,null, null, true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(1), "B Maintance", "Maintance task B", 0d, CostUnit.SOLDIER, TaskState.NEW ,TaskType.GENERAL, TaskStatus.OK);
         return Arrays.asList(maintanceTaskA, maintanceTaskB);
     }
 
