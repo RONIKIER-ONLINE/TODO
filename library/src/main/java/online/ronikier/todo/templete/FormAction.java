@@ -5,5 +5,12 @@ public enum FormAction {
     FILTER,
     REJECT,
     COMPLETE,
-    DELETE
+    DELETE,
+    UPLOAD,
+    START,
+    STOP,
+    PROCES,
+    TODAY,
+    TOMMOROW,
+    NEXT_WEEK
 }

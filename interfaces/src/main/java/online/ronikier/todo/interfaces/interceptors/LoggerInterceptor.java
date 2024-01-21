@@ -2,7 +2,6 @@ package online.ronikier.todo.interfaces.interceptors;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import online.ronikier.todo.Messages;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;

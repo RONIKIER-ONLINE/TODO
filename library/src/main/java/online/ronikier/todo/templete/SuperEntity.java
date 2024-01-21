@@ -1,10 +1,9 @@
 package online.ronikier.todo.templete;
 
 import lombok.Data;
-//import org.neo4j.ogm.annotation.GeneratedValue;
-//import org.neo4j.ogm.annotation.Id;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Data
 public abstract class SuperEntity {

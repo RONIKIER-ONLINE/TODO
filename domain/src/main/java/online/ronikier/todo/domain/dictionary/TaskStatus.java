@@ -8,11 +8,12 @@ import online.ronikier.todo.Messages;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum TaskStatus {
 
-    OK(Messages.TASK_STATUS_OK,"color:Grey;"),
-    THIS_WEEK(Messages.TASK_STATUS_THIS_WEEK,"color:#006600;"),
-    TODAY(Messages.TASK_STATUS_TODAY,"color:#660000;"),
-    APPROACHING(Messages.TASK_STATUS_APPROACHING,"color:#660000;"),
-    DELAYED(Messages.TASK_STATUS_DELAYED,"color:#FF0000;");
+    TODAY(Messages.TASK_STATUS_TODAY,"color:Red;"),
+    TOMMOROW(Messages.TASK_STATUS_TOMMOROW,"color:Orange;"),
+    THIS_WEEK(Messages.TASK_STATUS_THIS_WEEK,"color:Yellow;"),
+    APPROACHING(Messages.TASK_STATUS_APPROACHING,"color:Purple;"),
+    DELAYED(Messages.TASK_STATUS_DELAYED,"color:Black;"),
+    OK(Messages.TASK_STATUS_OK,"color:Green;");
 
 
     @Getter

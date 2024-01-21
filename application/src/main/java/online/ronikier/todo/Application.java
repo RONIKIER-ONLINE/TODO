@@ -17,7 +17,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-//import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Slf4j
@@ -27,7 +26,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableConfigurationProperties(StorageProperties.class)
 public class Application {
 
-    @Value("${todo.setup.initialize.database:false}")
+    @Value("${todo.setup.initialize.database:0}")
     private boolean setupInitializeDatabase;
 
     public static void main(String[] args) {
@@ -41,10 +40,10 @@ public class Application {
 
             if (setupInitializeDatabase) {
                 log.info(Messages.INITIALISING_DATABASE);
-                taskRepository.deleteAll();
+                //taskRepository.deleteAll();
             }
 
-            Task millionDollarTask = new Task(null,null,null,null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7), "Be Rich", "Million Dollars", 1000000d, CostUnit.SOLDIER, TaskState.STARTED , TaskType.MONEY, TaskStatus.OK);
+            Task millionDollarTask = new Task(null,null,null,null,null,true, true, Utilities.dateCurrent(), Utilities.dateCurrent(), Utilities.dateFuture(7),null, "Be Rich", "Million Dollars", 1000000d, CostUnit.SOLDIER, TaskState.STARTED , TaskType.MONEY, TaskStatus.OK);
             taskRepository.save(millionDollarTask);
 
             storageService.deleteAll();

@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.*;
+import online.ronikier.todo.domain.exception.DataException;
+import online.ronikier.todo.domain.exception.ParameterException;
 import online.ronikier.todo.domain.exception.TaskExistsException;
 import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
@@ -14,7 +16,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,9 +27,11 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TaskServiceGraph implements TaskService {
+public class TaskServiceGraph implements TaskService, DialogService {
 
     private final TaskRepository taskRepository;
+
+    private String dialogMessage;
 
     public String kill() {
         return "Lou kills";
@@ -42,7 +45,8 @@ public class TaskServiceGraph implements TaskService {
 
         //TODO: Implement system common tasks
 
-        return new Task(null,
+        return new Task(
+                null,
                 appendMaintanceTasks(),
                 null,
                 null,
@@ -53,10 +57,11 @@ public class TaskServiceGraph implements TaskService {
                 null,       //Utilities.dateFuture(taskCompletionTimeDays),
                 null,
                 null,
+                null,
                 "chuj",
                 Double.valueOf(1),
                 CostUnit.SOLDIER,
-                TaskState.NEW,
+                TaskState.ON_HOLD,
                 TaskType.GENERAL,
                 TaskStatus.OK
         );
@@ -98,6 +103,35 @@ public class TaskServiceGraph implements TaskService {
                 throw new TaskExistsException(taskName);
             }
         return task;
+    }
+
+    @Override
+    public List<Task> activeTasks() {
+        return StreamSupport.stream(taskRepository.findAll()
+                .spliterator(), true)
+                .filter(task -> {
+
+                    if (task.getTaskStatus() == null) return true;
+                    if (task.getTaskState() == null) return true;
+
+                    if (task.getTaskState() == TaskState.REJECTED) return false;
+                    if (task.getTaskState() == TaskState.COMPLETED) return false;
+
+                    if (task.getTaskStatus() == TaskStatus.DELAYED) return true;
+                    if (task.getTaskStatus() == TaskStatus.TOMMOROW && task.getTaskState() != TaskState.STARTED) return true;
+                    if (task.getTaskStatus() == TaskStatus.APPROACHING) return true;
+                    if (task.getTaskState() == TaskState.ON_HOLD && task.getTaskStatus() != TaskStatus.OK) return true;
+
+                    return false;
+
+                })
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public Long countActiveTasks() {
+        return Long.valueOf(activeTasks().size());
     }
 
 
@@ -230,6 +264,62 @@ public class TaskServiceGraph implements TaskService {
     private boolean filterFlag(Boolean flag) {
         if (filterSelected(flag)) return flag;
         return false;
+    }
+
+    @Override
+    public String processTaskAction(String action, String taskId) throws DataException, ParameterException {
+        if (action == null && action.trim().length() == 0) {
+            log.error(Messages.ERROR_PARAMETER_VALUE_EMPTY);
+            throw new ParameterException(Messages.EXCEPTION_DIALOG_ACTION_NULL);
+        }
+        if (taskId == null) {
+            throw new IllegalArgumentException(Messages.EXCEPTION_DIALOG_TASK_ID_NULL);
+        }
+
+        Optional<Task> taskOption = findTaskById(Long.valueOf(taskId));
+        if (!taskOption.isPresent()) throw new DataException(Messages.ERROR_TASK_DOES_NOT_EXIST);
+        Task task = taskOption.get();
+
+        switch (action) {
+            case "TODAY":
+                task.setDue(Utilities.dateCurrent());
+                task.setTaskStatus(TaskStatus.TODAY);
+                task.setTaskState(TaskState.STARTED);
+                task.setStart(Utilities.dateCurrent());
+                break;
+            case "TOMMOROW":
+                task.setDue(Utilities.dateFuture(1));
+                task.setTaskStatus(TaskStatus.TOMMOROW);
+//                task.setTaskState(TaskState.ON_HOLD);
+                break;
+            case "NEXT_WEEK":
+                task.setDue(Utilities.dateFuture(7));
+                task.setTaskStatus(TaskStatus.THIS_WEEK);
+//                task.setTaskState(TaskState.ON_HOLD);
+                break;
+            case "ON_HOLD":
+                task.setTaskStatus(TaskStatus.OK);
+                task.setTaskState(TaskState.ON_HOLD);
+                break;
+            case "REJECT":
+                task.setTaskStatus(TaskStatus.OK);
+                task.setTaskState(TaskState.REJECTED);
+                log.info(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + Messages.TASK_STATE_REJECTED + task.getName());
+                task.setStop(Utilities.dateCurrent());
+                break;
+            case "COMPLETE":
+                task.setTaskStatus(TaskStatus.OK);
+                task.setTaskState(TaskState.COMPLETED);
+                log.info(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + Messages.TASK_STATE_COMPLETED + task.getName());
+                task.setStop(Utilities.dateCurrent());
+                break;
+            default:
+                dialogMessage = Messages.ERROR_DIALOG_ACTION + Messages.SEPARATOR + action + " action not known !!!";
+        }
+
+        saveTask(task);
+
+        return dialogMessage;
     }
 
 }
