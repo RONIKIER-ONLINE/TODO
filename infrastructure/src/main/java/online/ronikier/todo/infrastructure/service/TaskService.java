@@ -36,4 +36,8 @@ public interface TaskService extends SuperService {
     void processReject(Task processedTask);
 
     Task processSave(Task task, String taskName) throws TaskExistsException;
+
+    List<Task> activeTasks();
+
+    public Long countActiveTasks();
 }

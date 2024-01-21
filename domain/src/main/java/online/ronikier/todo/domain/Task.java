@@ -1,20 +1,20 @@
 package online.ronikier.todo.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.TaskState;
 import online.ronikier.todo.domain.dictionary.TaskStatus;
 import online.ronikier.todo.domain.dictionary.TaskType;
 import online.ronikier.todo.library.Utilities;
-import online.ronikier.todo.templete.SuperEntity;
-//import org.neo4j.ogm.annotation.NodeEntity;
-//import org.neo4j.ogm.annotation.Relationship;
 
 import javax.persistence.*;
-
 import javax.validation.constraints.Size;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 ////@ToString // 500 java.lang.StackOverflowError: null - requiredTasks processing ???
 //@Data
@@ -60,6 +60,9 @@ public class Task { //extends SuperEntity {
     // @NonNull
     // @Future
     private Date due;
+    // @NonNull
+    // @Future
+    private Date stop;
     // @NonNull
     @Size(max = 30)
     protected String name;

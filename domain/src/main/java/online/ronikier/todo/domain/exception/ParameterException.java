@@ -3,10 +3,10 @@ package online.ronikier.todo.domain.exception;
 import online.ronikier.todo.templete.SuperException;
 
 /**
- * Data inconsistency.
+ * Parameter not OK ;)
  */
-public class DataException extends SuperException {
-    public DataException(String message) {
+public class ParameterException extends SuperException {
+    public ParameterException(String message) {
         super(message);
     }
 }

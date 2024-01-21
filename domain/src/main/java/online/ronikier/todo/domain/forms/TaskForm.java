@@ -1,6 +1,5 @@
 package online.ronikier.todo.domain.forms;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,20 +10,29 @@ import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.TaskState;
 import online.ronikier.todo.domain.dictionary.TaskStatus;
 import online.ronikier.todo.domain.dictionary.TaskType;
+import online.ronikier.todo.domain.dictionary.utility.LegendsRepository;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
+import online.ronikier.todo.templete.FormAction;
 import online.ronikier.todo.templete.SuperForm;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 @Slf4j
 @NoArgsConstructor
 public class TaskForm extends SuperForm {
+
+    String infoTaskStatus = LegendsRepository.taskStatusLegend();
+
+    String infoTaskState = LegendsRepository.taskStateLegeng();
 
     private Task task = new Task(); // Needed for form fields // Needs work ;)
 
@@ -43,6 +51,11 @@ public class TaskForm extends SuperForm {
     private List<Task> tasks;
 
     private List<Task> requiredTasks;
+
+    private List<String> actions = Arrays
+            .stream(FormAction.values())
+            .map(Object::toString)
+            .collect(Collectors.toList());
 
     private List<Person> persons;
 

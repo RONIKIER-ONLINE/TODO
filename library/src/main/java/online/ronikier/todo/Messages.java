@@ -23,19 +23,37 @@ public class Messages {
     public static final String TASK_TYPE_PERSONAL = "Work";
     public static final String TASK_TYPE_MONEY = "Payment";
 
-    public static final String TASK_STATE_NEW = "New";
-    public static final String TASK_STATE_INITIALIZED = "Initialized";
-    public static final String TASK_STATE_MODIFIED = "Modified";
-    public static final String TASK_STATE_STARTED = "Started";
-    public static final String TASK_STATE_ON_HOLD = "On hold";
-    public static final String TASK_STATE_COMPLETED = "Completed";
-    public static final String TASK_STATE_REJECTED= "Rejected";
+//    public static final String TASK_STATE_STARTED = "Started";
+//    public static final String TASK_STATE_ON_HOLD = "On hold";
+//    public static final String TASK_STATE_COMPLETED = "Completed";
+//    public static final String TASK_STATE_REJECTED= "Rejected";
+//
+//    public static final String TASK_STATUS_OK = "OK";
+//    public static final String TASK_STATUS_THIS_WEEK = "This week";
+//    public static final String TASK_STATUS_TODAY = "Today";
+//    public static final String TASK_STATUS_TOMMOROW = "Tommorow";
+//    public static final String TASK_STATUS_APPROACHING = "Approaching";
+//    public static final String TASK_STATUS_DELAYED = "Delayed";
 
-    public static final String TASK_STATUS_OK = "OK";
-    public static final String TASK_STATUS_THIS_WEEK = "This week";
-    public static final String TASK_STATUS_TODAY = "Today";
-    public static final String TASK_STATUS_APPROACHING = "Tomorrow";
-    public static final String TASK_STATUS_DELAYED = "Delayed";
+    public static final String TASK_STATE_STARTED = "▶";
+    public static final String TASK_STATE_ON_HOLD = "⭕";
+    public static final String TASK_STATE_COMPLETED = "✔";
+    public static final String TASK_STATE_REJECTED= "❌";
+
+    public static final String TASK_STATUS_OK = "\uD83D\uDFE2";
+    public static final String TASK_STATUS_THIS_WEEK = "\uD83D\uDFE1";
+    public static final String TASK_STATUS_TODAY = "\uD83D\uDD34";
+    public static final String TASK_STATUS_TOMMOROW = "\uD83D\uDFE0";
+    public static final String TASK_STATUS_APPROACHING = "\uD83D\uDFE3";
+    public static final String TASK_STATUS_DELAYED = "⚫";
+
+
+
+    public static final String TASK_PROCESSING_SKIPPED = "TASK_PROCESSING_SKIPPED";
+    public static final String TASK_PROCESSING_STARTED = "TASK_PROCESSING_STARTED";
+    public static final String TASK_PROCESSING_IN_PROGRESS = "TASK_PROCESSING_IN_PROGRESS";
+    public static final String TASK_PROCESSING_HALT = "TASK_PROCESSING_HALT";
+    public static final String TASK_PROCESSING_CUSTOM_ACTION = "TASK_PROCESSING_CUSTOM_ACTION";
 
     public static final String COST_UNIT_PLN = "PLN";
     public static final String COST_UNIT_HOUR = "Hours";
@@ -53,16 +71,22 @@ public class Messages {
     public static final String TYPE_ORGANISATION_OFFICE = "TYPE_ORGANISATION_OFFICE";
     public static final String TYPE_ORGANISATION_COMPANY = "TYPE_ORGANISATION_COMPANY";
 
+    public static final String ERROR_DIALOG_ACTION = "ERROR_DIALOG_ACTION";
+    public static final String EXCEPTION_TASK_DATE_PARSE = "EXCEPTION_TASK_DATE_PARSE";
+    public static final String EXCEPTION_DIALOG_ACTION_NULL = "EXCEPTION_DIALOG_ACTION_NULL";
+    public static final String EXCEPTION_DIALOG_TASK_ID_NULL = "EXCEPTION_DIALOG_TASK_ID_NULL";
+    public static final String EXCEPTION_DIALOG_ACTION_TASK = "EXCEPTION_DIALOG_ACTION_TASK";
+
     public static final String EXCEPTION_TASK_CREATION = "EXCEPTION_TASK_CREATION";
     public static final String EXCEPTION_PERSON_CREATION = "EXCEPTION_PERSON_CREATION";
-
-    public static final String EXCEPTION_TASK_DATE_PARSE = "EXCEPTION_TASK_DATE_PARSE";
 
     public static final String TASK_STATUS_CHANGED = "TASK_STATUS_CHANGED";
 
     public static final String ERROR_TASK_ADD = "ERROR_TASK_ADD";
     public static final String ERROR_PARAMETER_NAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
+    public static final String ERROR_PARAMETER_VALUE_EMPTY = "ERROR_PARAMETER_VALUE_EMPTY";
     public static final String ERROR_TASK_DOES_NOT_EXIST = "ERROR_TASK_DOES_NOT_EXIST";
+    public static final String ERROR_PARAMETER_COMMAND_BUTTON_ACTION = "ERROR_PARAMETER_COMMAND_BUTTON_ACTION";
 
     public static final String ERROR_PERSON_ADD = "ERROR_PERSON_ADD";
     public static final String ERROR_PARAMETER_USERNAME_EMPTY = "ERROR_PARAMETER_NAME_EMPTY";
@@ -109,4 +133,5 @@ public class Messages {
     public static final String SERVICE_RESPONSE_404_TASK = "SERVICE_RESPONSE_404_TASK";
 
     public static final String DEBUG_MESSAGE_PREFIX = "DEBUG_MESSAGE_PREFIX";
+
 }
