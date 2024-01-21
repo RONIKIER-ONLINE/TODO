@@ -222,13 +222,7 @@ public class TaskServiceGraph implements TaskService, DialogService {
     @Cacheable("TASKS_SORTED")
     public List<Task> allTasks(SortOrder sortOrder) {
 
-        Arrays.stream(TaskState.values()).forEach(taskState -> {
-            log.info("taskState:" + taskState);
-        });
 
-        Arrays.stream(TaskStatus.values()).forEach(taskStatus -> {
-            log.info("taskStatus:" + taskStatus);
-        });
 
         Comparator<Task> taskComparator;
 
@@ -248,7 +242,7 @@ public class TaskServiceGraph implements TaskService, DialogService {
                     if (taskA.getDue() == null) return -1;
                     if (taskB.getDue() == null) return 1;
 
-                    return taskB.getDue().compareTo(taskA.getDue());
+                    return taskA.getDue().compareTo(taskB.getDue());
 
                 };
                 break;

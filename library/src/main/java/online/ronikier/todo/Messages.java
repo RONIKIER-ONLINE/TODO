@@ -11,6 +11,8 @@ public class Messages {
 
     public static final String SEPARATOR = " - ";
 
+    public static final String LONG_RULE =  "======================================";
+
     public static final String TYPE_RESOURCE_PERSON = "TYPE_RESOURCE_PERSON";
     public static final String TYPE_RESOURCE_MONEY = "TYPE_RESOURCE_MONEY";
     public static final String TYPE_RESOURCE_PICTURE = "TYPE_RESOURCE_PICTURE";

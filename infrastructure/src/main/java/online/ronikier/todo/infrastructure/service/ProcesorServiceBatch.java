@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 /**
  *
  */
@@ -41,6 +43,7 @@ public class ProcesorServiceBatch implements ProcesorService {
     }
 
     private Task processTask(Task task) {
+
         try {
             processTaskState(task);
             processTaskStatus(task);
@@ -134,10 +137,6 @@ public class ProcesorServiceBatch implements ProcesorService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void processTaskAction(String action, Long taskId) {
-
     }
 
 }

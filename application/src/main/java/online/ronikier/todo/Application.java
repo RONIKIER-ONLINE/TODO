@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.Arrays;
+
 @Slf4j
 @SpringBootApplication
 //@EnableNeo4jRepositories
@@ -49,6 +51,22 @@ public class Application {
             storageService.deleteAll();
             storageService.init();
 
+            logLabels();
+
         };
     }
+
+    public static void logLabels() {
+        log.info(Messages.LONG_RULE);
+        Arrays.stream(TaskState.values()).forEach(taskState -> {
+            log.info("TaskState:" + taskState);
+        });
+        log.info(Messages.LONG_RULE);
+        log.info(Messages.ERROR_PARAMETER_NAME_EMPTY);
+        Arrays.stream(TaskStatus.values()).forEach(taskStatus -> {
+            log.info("TaskStatus:" + taskStatus);
+        });
+        log.info(Messages.LONG_RULE);
+    }
+
 }
