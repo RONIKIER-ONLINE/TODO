@@ -79,27 +79,27 @@ public class ProcesorServiceBatch implements ProcesorService {
             case STARTED:
 
                 if (task.getDue() == null) {
-                    task.setDue(Utilities.dateCurrent());
+                    task.setDue(Utilities.dateMorning());
                 }
 
                 TaskStatus previousTaskStatus = task.getTaskStatus();
 
-                if (task.getDue().before(Utilities.dateCurrent())) {
+                if (task.getDue().before(Utilities.dateMidnight())) {
                     task.setTaskStatus(TaskStatus.DELAYED);
                 }
 
-                if (task.getDue().before(Utilities.dateFutureFrom(setupProcessorTaskApproachingDays, Utilities.dateCurrent()))) {
+                if (task.getDue().before(Utilities.dateFutureFrom(setupProcessorTaskApproachingDays, Utilities.dateMorning()))) {
                     if (task.getTaskStatus() != TaskStatus.DELAYED && task.getTaskStatus() != TaskStatus.TOMMOROW)
                         task.setTaskStatus(TaskStatus.APPROACHING);
                 }
-                if (task.getDue().before(Utilities.dateFutureFrom(7, Utilities.dateCurrent()))) {
-                    if (task.getTaskStatus() != TaskStatus.DELAYED && task.getTaskStatus() != TaskStatus.TOMMOROW)
+                if (task.getDue().before(Utilities.dateFutureFrom(7, Utilities.dateMorning()))) {
+                    if (task.getTaskStatus() != TaskStatus.DELAYED && task.getTaskStatus() != TaskStatus.TOMMOROW && task.getTaskStatus() != TaskStatus.APPROACHING)
                         task.setTaskStatus(TaskStatus.THIS_WEEK);
                 }
-                if (task.getDue().before(Utilities.dateFutureFrom(0, Utilities.dateCurrent()))) {
-                    if (task.getTaskStatus() != TaskStatus.DELAYED)
-                        task.setTaskStatus(TaskStatus.TODAY);
-                }
+//                if (task.getDue().after(Utilities.dateFutureFrom(0, Utilities.dateMorning()))) {
+//                    if (task.getTaskStatus() != TaskStatus.DELAYED)
+//                        task.setTaskStatus(TaskStatus.TODAY);
+//                }
 
                 if (!task.getTaskStatus().equals(previousTaskStatus)) {
                     taskStatusChanged(previousTaskStatus,task);

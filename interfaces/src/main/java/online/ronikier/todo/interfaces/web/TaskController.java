@@ -115,10 +115,10 @@ public class TaskController extends SuperController {
     }
 
     @PostMapping("task")
-    public String postTask(@RequestParam("file") MultipartFile file,@Valid TaskForm taskForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-
+//    public String postTask(@RequestParam("file") MultipartFile file,@Valid TaskForm taskForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         try {
-            storageService.store(file);
+            //storageService.store(file);
         } catch (Exception e) {
             log.error("ZJEBAŁO SIE:" + e.getMessage());
         }
@@ -146,11 +146,11 @@ public class TaskController extends SuperController {
             case TODAY:
                 if (taskForm.getTaskId() == null) return "redirect:/task";
                 processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
-                processedTask.setDue(Utilities.dateCurrent());
+                processedTask.setDue(Utilities.dateMorning());
                 processedTask.setTaskStatus(TaskStatus.TODAY);
                 processedTask.setTaskState(TaskState.STARTED);
-                processedTask.setStart(Utilities.dateCurrent());
-                processedTask.setDue(Utilities.dateCurrent());
+                processedTask.setStart(Utilities.dateMorning());
+                processedTask.setDue(Utilities.dateMorning());
                 taskService.saveTask(processedTask);
                 break;
             case TOMMOROW:
@@ -168,6 +168,8 @@ public class TaskController extends SuperController {
                 taskService.saveTask(processedTask);
                 break;
             case FILTER:
+                taskForm.setTask(taskService.initializeTask());
+                taskForm.setTaskId(null);
                 break;
             case DELETE:
                 if (taskForm.getTaskId() == null) return "redirect:/task";
@@ -179,7 +181,7 @@ public class TaskController extends SuperController {
                 if (taskForm.getTaskId() == null) return "redirect:/task";
                 processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
                 processedTask.setTaskState(TaskState.ON_HOLD);
-                processedTask.setStop(Utilities.dateCurrent());
+                processedTask.setStop(Utilities.dateMorning());
                 taskService.saveTask(processedTask);
                 break;
             case START:
@@ -187,7 +189,7 @@ public class TaskController extends SuperController {
                 processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
                 processedTask.setTaskState(TaskState.STARTED);
                 processedTask.setDue(Utilities.dateFuture(todoSetupProcessorTaskApproaching));
-                processedTask.setStart(Utilities.dateCurrent());
+                processedTask.setStart(Utilities.dateMorning());
                 taskService.saveTask(processedTask);
                 break;
             case REJECT:

@@ -21,9 +21,21 @@ public class Messages {
     public static final String TYPE_RESOURCE_PHONE_NO = "TYPE_RESOURCE_PHONE_NO";
     public static final String TYPE_RESOURCE_EMAIL = "TYPE_RESOURCE_EMAIL";
 
-    public static final String TASK_TYPE_GENERAL = "General";
-    public static final String TASK_TYPE_PERSONAL = "Work";
-    public static final String TASK_TYPE_MONEY = "Payment";
+    public static final String TASK_TYPE_GENERAL = "\uD83D\uDC7E";
+    public static final String TASK_TYPE_PERSONAL = "\uD83E\uDD16";
+    public static final String TASK_TYPE_MONEY = "\uD83D\uDC7D";
+    public static final String TASK_TYPE_WORK = "♻";
+
+//    public static final String TASK_TYPE_GENERAL = "\uD83C\uDF0D";
+//    public static final String TASK_TYPE_PERSONAL = "\uD83D\uDD31";
+//    public static final String TASK_TYPE_MONEY = "\uD83D\uDCB0";
+//    public static final String TASK_TYPE_WORK = "♻";
+
+//    public static final String TASK_TYPE_GENERAL = "\uD83D\uDD30";
+//    public static final String TASK_TYPE_PERSONAL = "⚜";
+//    public static final String TASK_TYPE_MONEY = "\uD83D\uDCB2";
+//    public static final String TASK_TYPE_WORK = "♻";
+
 
 //    public static final String TASK_STATE_STARTED = "Started";
 //    public static final String TASK_STATE_ON_HOLD = "On hold";
@@ -39,7 +51,7 @@ public class Messages {
 
     public static final String TASK_STATE_STARTED = "▶";
     public static final String TASK_STATE_ON_HOLD = "⭕";
-    public static final String TASK_STATE_COMPLETED = "✔";
+    public static final String TASK_STATE_COMPLETED = "\uD83D\uDFE9";
     public static final String TASK_STATE_REJECTED= "❌";
 
     public static final String TASK_STATUS_OK = "\uD83D\uDFE2";

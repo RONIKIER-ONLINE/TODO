@@ -86,17 +86,6 @@
                     <mainClass>online.ronikier.todo.Application</mainClass>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>appengine-maven-plugin</artifactId>
-                <version>2.2.0</version>
-                <configuration>
-                    <deploy.stopPreviousVersion>true</deploy.stopPreviousVersion>
-                    <version>1</version>
-                    <projectId>ronikier</projectId>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 </project>

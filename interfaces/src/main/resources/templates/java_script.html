@@ -1,0 +1,12 @@
+<div th:fragment="java_script">
+
+    <!--  Javascript START -->
+    <script type="text/javascript" th:src="@{/scripts/init.js}"></script>
+    <script type="text/javascript" th:src="@{/scripts/modal.js}"></script>
+
+    <div th:if="${showDialog}">
+        <script type="text/javascript" th:src="@{/scripts/modal_show.js}"></script>
+    </div>
+    <!--  Javascript END -->
+
+</div>

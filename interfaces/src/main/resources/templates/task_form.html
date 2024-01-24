@@ -1,0 +1,147 @@
+<div th:fragment="task_form">
+        <!--  Task DATA form START -->
+        <table border="0" align="center" cellpadding="3" cellspacing="0" width="700">
+            <tr><td colspan="6" align="center"><hr width="99%" size="1"/></td></tr>
+            <input th:field="*{taskId}" type="hidden"/>
+            <tr>
+                <td class="rightLabel" width="74">Name</td>
+                <td class="left" width="258" colspan="2"><input class="textShortName" id="taskName" th:field="*{name}" type="text" maxlength="30"/></td>
+                <td class="rightLabel" width="74">Required by</td>
+                <td class="left" width="164">
+                    <select class="selectMedium" th:field="*{requiredByTaskId}">
+                        <option class="selectMediumOption" value="none">none</option>
+                        <option class="selectMediumOption" th:each="task : *{tasks}" th:text="${task.name}"
+                                th:value="${task.id}"></option>
+                    </select>
+                </td>
+                <td class="error" width="94"></td>
+            </tr>
+            <tr>
+                <td class="rightLabelDescription" rowspan="3">Description</td>
+                <td class="left" colspan="2" rowspan="2"><textarea id="taskDescription" class="taskDescription" cols="40" rows="5" th:field="*{description}"/></td>
+                <td class="error">
+                </td>
+                <td class="rightLabel">Type</td>
+                <td class="leftValue">
+                    <div th:if="*{(taskType ne null)}">
+                        <label th:text="*{taskType.label}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="leftValue"></td>
+                <td class="rightLabel">State</td>
+                <td class="leftValue">
+                    <div th:if="*{(taskState ne null)}">
+                        <label th:text="*{taskState.label}" th:style="*{taskState.style}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="left"></td>
+                <td class="leftValue">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="rightCheckbox"><input th:field="*{important}" type="checkbox"/></td>
+                            <td class="leftValue">Important</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="leftValue">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="rightCheckbox"><input th:field="*{urgent}" type="checkbox"/></td>
+                            <td class="leftValue">Urgent</td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="rightLabel">Status</td>
+                <td class="leftValue">
+                    <div th:if="*{(taskStatus ne null)}">
+                        <label th:text="*{taskStatus.label}" th:style="*{taskStatus.style}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="rightLabel">Start</td>
+                <td class="left"><input class="dateShort" th:field="*{start}" type="date"/></td>
+                <td class="error"></td>
+                <td class="rightLabel">Due</td>
+                <td class="left"><input class="dateShort" th:field="*{due}" type="date"/></td>
+                <td class="error"></td>
+            </tr>
+            <tr>
+                <td class="rightLabel">Created</td>
+                <td class="leftValue" th:text="*{created}"></td>
+                <td class="error"></td>
+                <td class="rightLabel">Value</td>
+                <td class="leftValue" ><input class="textTaskCostValue" th:field="*{costValue}" type="text"></td>
+                <td class="error"></td>
+            </tr>
+            <tr>
+                <td class="rightLabel">Responsible</td>
+                <td class="leftValue">
+                    <select class="selectMedium" th:field="*{responsiblePersonId}">
+                        <option th:each="person : *{persons}" th:text="${person.username}" th:value="${person.id}" th:selected="${person.id == responsiblePersonId}"></option>
+                    </select>
+                </td>
+                <td class="Personnel"><a href="/person">Personnel</a></td>
+                <td class="rightLabel">Unit</td>
+                <td class="leftValue">
+                    <select class="selectStandard" th:field="*{costUnit}" value="*{costUnit}">
+                        <option class="selectMediumOption" th:each="costUnit : ${T(online.ronikier.todo.domain.dictionary.CostUnit).values()}"
+                                th:value="${costUnit}" th:text="${costUnit.label}"/>
+                    </select>
+                </td>
+                <td class="error"></td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <div th:insert="file_upload::file_upload">...</div>
+                </td>
+            </tr>
+            <tr><td colspan="6"><hr width="99%" size="1"/></td></tr>
+            <tr>
+                <td colspan="6">
+                    <div th:insert="action_buttons::action_buttons">...</div>
+                </td>
+            </tr>
+            <tr><td colspan="6"><hr width="99%" size="1"/></td></tr>
+            <tr>
+                <td colspan="6">
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td class="rightLabel" width="80" valign="top">State</td>
+                            <td class="leftValue" th:utext ="*{infoTaskState}" width="*" valign="top"></td>
+                        </tr>
+                        <tr>
+                            <td class="rightLabel" width="80" valign="top">Status</td>
+                            <td class="leftValue" th:utext ="*{infoTaskStatus}" width="*" valign="top"></td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+            <div th:if="${not #lists.isEmpty(tasksRequiredTasks)}">
+                <tr>
+                    <td class="rightLabel">
+
+                    </td>
+                    <td class="leftValue" colspan="5">
+                        <table border="0" cellpadding="3" cellspacing="0" th:each="tasksRequiredTask : *{tasksRequiredTasks}" width="100%">
+                            <tr>
+                                <td>
+                                    <li>
+                                        <a th:href="@{'/task/' + ${tasksRequiredTask.id}}"/>
+                                        <label th:text="${tasksRequiredTask.name}"/>
+                                    </li>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </div>
+        </table>
+        <!--  Task DATA form END -->
+</div>

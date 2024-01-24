@@ -53,7 +53,7 @@ public class TaskServiceGraph implements TaskService, DialogService {
                 null,
                 null,
                 null,
-                Utilities.dateCurrent(),
+                Utilities.dateMorning(),
                 null,       //Utilities.dateFuture(taskCompletionTimeDays),
                 null,
                 null,
@@ -311,10 +311,10 @@ public class TaskServiceGraph implements TaskService, DialogService {
 
         switch (action) {
             case "TODAY":
-                task.setDue(Utilities.dateCurrent());
+                task.setDue(Utilities.dateMorning());
                 task.setTaskStatus(TaskStatus.TODAY);
                 task.setTaskState(TaskState.STARTED);
-                task.setStart(Utilities.dateCurrent());
+                task.setStart(Utilities.dateMorning());
                 break;
             case "TOMMOROW":
                 task.setDue(Utilities.dateFuture(1));
@@ -322,25 +322,26 @@ public class TaskServiceGraph implements TaskService, DialogService {
 //                task.setTaskState(TaskState.ON_HOLD);
                 break;
             case "NEXT_WEEK":
-                task.setDue(Utilities.dateFuture(7));
+                task.setDue(Utilities.dateNextMondayMorning());
                 task.setTaskStatus(TaskStatus.THIS_WEEK);
 //                task.setTaskState(TaskState.ON_HOLD);
                 break;
             case "ON_HOLD":
                 task.setTaskStatus(TaskStatus.OK);
                 task.setTaskState(TaskState.ON_HOLD);
+                task.setStop(Utilities.dateCurrentx());
                 break;
             case "REJECT":
                 task.setTaskStatus(TaskStatus.OK);
                 task.setTaskState(TaskState.REJECTED);
                 log.info(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + Messages.TASK_STATE_REJECTED + task.getName());
-                task.setStop(Utilities.dateCurrent());
+                task.setStop(Utilities.dateCurrentx());
                 break;
             case "COMPLETE":
                 task.setTaskStatus(TaskStatus.OK);
                 task.setTaskState(TaskState.COMPLETED);
                 log.info(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + Messages.TASK_STATE_COMPLETED + task.getName());
-                task.setStop(Utilities.dateCurrent());
+                task.setStop(Utilities.dateCurrentx());
                 break;
             default:
                 dialogMessage = Messages.ERROR_DIALOG_ACTION + Messages.SEPARATOR + action + " action not known !!!";
