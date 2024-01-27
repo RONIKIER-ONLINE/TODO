@@ -32,13 +32,16 @@ public class DialogControler extends SuperController {
     public String dialog(@PathVariable("taskId") String taskId, @PathVariable("action") String action, Model model) {
 
         try {
-            dialogService.processTaskAction(action,taskId);
+            model.addAttribute("dialogMessage",
+                    model.getAttribute("dialogMessage") + Messages.HTML_BR +
+                            dialogService.processTaskAction(action,taskId));
         } catch (Exception | DataException | ParameterException e) {
             model.addAttribute("dialogMessage",
                     model.getAttribute("dialogMessage") +
                             Messages.EXCEPTION_DIALOG_ACTION_TASK + Messages.SEPARATOR + e.getMessage());
             log.error((Messages.EXCEPTION_DIALOG_ACTION_TASK + Messages.SEPARATOR + e.getMessage()));
             e.printStackTrace();
+            model.addAttribute("showDialog", true);
         }
 
         if(taskService.countActiveTasks() > 0) model.addAttribute("showDialog", true);

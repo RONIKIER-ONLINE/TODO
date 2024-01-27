@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.File;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.CostUnit;
@@ -50,7 +51,9 @@ public class TaskForm extends SuperForm {
 
     private List<Task> tasks;
 
-    private List<Task> requiredTasks;
+    private Iterable<Task> requiredTasks;
+
+    private List<File> files;
 
     private List<String> actions = Arrays
             .stream(FormAction.values())

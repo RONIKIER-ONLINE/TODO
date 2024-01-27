@@ -3,6 +3,7 @@ package online.ronikier.todo.interfaces.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.File;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.SortOrder;
@@ -36,6 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +59,8 @@ public class TaskController extends SuperController {
     private final Set<Task> dafaultTasks;
 
     private final TaskService taskService;
+
+    private final StorageService fileService;
 
     private final TaskMapper taskMapper;
 
@@ -106,22 +110,44 @@ public class TaskController extends SuperController {
         Task selectedTask = optionalTask.get();
         //initializeForm(taskForm, model);
         updateForm(taskForm, selectedTask);
+
         model.addAttribute("tasksRequiredTasks", getRequiredTaskList(selectedTask.getId()));
+        model.addAttribute("files", getTaskFileList(selectedTask.getId()));
+
+        storageService.allFiles().forEach(file -> System.out.println("FILE:" + file));
+
         refreshForm(taskForm, model);
+
+        taskForm.setRequiredTasks(getRequiredTaskList(selectedTask.getId()));
+
+        taskForm.setFiles(getTaskFileList(selectedTask.getId()));
 
         model.addAttribute("showDialog", false);
 
         return "task";
     }
 
+    /**
+     * @param taskId
+     * @return
+     */
+    private List<File> getTaskFileList(Long taskId) {
+        if (taskId == null) return null;
+        return fileService.taskFiles(taskId);
+    }
+
     @PostMapping("task")
-//    public String postTask(@RequestParam("file") MultipartFile file,@Valid TaskForm taskForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-    public String postTask(@Valid TaskForm taskForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            //storageService.store(file);
-        } catch (Exception e) {
-            log.error("ZJEBAŁO SIE:" + e.getMessage());
+    public String postTask(@RequestParam("file") MultipartFile multipartFile,@Valid TaskForm taskForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+
+        if (! multipartFile.isEmpty()) {
+            try {
+                storageService.store(multipartFile,taskForm.getTaskId());
+            } catch (IOException e) {
+                log.error(Messages.FILE_STORE_FAILED + e.getMessage());
+                appendMessage(model, Messages.FILE_STORE_FAILED + Messages.SEPARATOR + e.getMessage());
+            }
         }
+
 //        redirectAttributes.addFlashAttribute("message",  "You successfully uploaded " + file.getOriginalFilename() + "!");
 //
 //        return "redirect:/file";
@@ -130,7 +156,7 @@ public class TaskController extends SuperController {
 
         if (taskForm.getAction() == null) taskForm.setAction(FormAction.FILTER);
 
-        Task processedTask;
+        Task processedTask = null;
 
         // Tu na sznurek. Prowizora wieczna ...
         if (taskForm.getActionCommandButton() != null && !taskForm.getActionCommandButton().equals("CHUJ")) {
@@ -176,6 +202,7 @@ public class TaskController extends SuperController {
                 processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
                 taskService.deleteTaskById(processedTask.getId());
                 initializeForm(taskForm,model);
+                appendMessage(model, Messages.TASK_DELETING + Messages.SEPARATOR + processedTask.getName());
                 break;
             case STOP:
                 if (taskForm.getTaskId() == null) return "redirect:/task";
@@ -209,9 +236,16 @@ public class TaskController extends SuperController {
             }
             case SAVE: {
                     if (bindingResult.hasErrors()) {
+                        StringBuffer errorMessagesBuffer = new StringBuffer(0);
                         log.error(Messages.ERROR_TASK_ADD);
-                        bindingResult.getAllErrors().forEach(error -> log.error(Messages.SEPARATOR + error.toString()));
-                        initializeForm(taskForm, model);
+                        bindingResult.getAllErrors().forEach(error -> {
+                            log.error(Messages.SEPARATOR + error.getDefaultMessage());
+                            errorMessagesBuffer.append(
+                                    error.getObjectName() + Messages.HTML_BR + Messages.HTML_BR +
+                                            error.getDefaultMessage());
+                        });
+
+                        appendMessage(model, errorMessagesBuffer.toString());
                         break;
                     }
                 try {
@@ -249,10 +283,10 @@ public class TaskController extends SuperController {
             default: {
                 if (taskForm.getTask() == null) {
                     taskForm.setTask(taskService.initializeTask());
-                    model.addAttribute("files", storageService.loadAll().map(
-                                    path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-                                            "serveFile", path.getFileName().toString()).build().toUri().toString())
-                            .collect(Collectors.toList()));
+//                    model.addAttribute("files", storageService.loadTaskFiles(processedTask).map(
+//                                    path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+//                                            "serveFile", path.getFileName().toString()).build().toUri().toString())
+//                            .collect(Collectors.toList()));
                 }
             }
         }
@@ -265,6 +299,14 @@ public class TaskController extends SuperController {
         }
 
         return "task";
+    }
+
+    private void appendMessage(Model model, String messag) {
+        model.addAttribute("dialogMessage",
+                model.getAttribute("dialogMessage") + Messages.HTML_BR + Messages.HTML_BR +
+                        messag);
+
+        model.addAttribute("showDialog", true);
     }
 
     @GetMapping(value = "task_delete/{taskId}", produces = "text/html")
@@ -384,8 +426,7 @@ public class TaskController extends SuperController {
 
         model.addAttribute("taskListCounter", Utilities.counter());
 
-        //taskForm.setTasks(getTaskList(SortOrder.NAME));
-        taskForm.setTasks(getTaskList(SortOrder.PRIORITY));
+        taskForm.setTasks(getTaskList(SortOrder.NAME));
         taskForm.setPersons(getPersonList());
 
         model.addAttribute("taskCount", taskService.countTasks());
@@ -428,12 +469,12 @@ public class TaskController extends SuperController {
 //        targetTaskForm.setDue(Utilities.stringFromDate(sourceTask.getDue()));
 
     }
-    @GetMapping("/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
-        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
+//    @GetMapping("/files/{filename:.+}")
+//    @ResponseBody
+//    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+//
+//        Resource file = storageService.loadAsResource(filename);
+//        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+//                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+//    }
 }

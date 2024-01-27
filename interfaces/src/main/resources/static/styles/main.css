@@ -137,6 +137,15 @@ td.rightLabel {
 	padding: 6pt 3pt 6pt 3pt;
 }
 
+td.rightLabelTop {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: top;
+	font-weight: bold;
+	color: Gray;
+	padding: 2pt 3pt 3pt 3pt;
+}
+
 td.rightLabelDescription {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	text-align:right;

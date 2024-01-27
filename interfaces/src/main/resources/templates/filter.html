@@ -21,21 +21,21 @@
         </td>
         <td class="leftValue" width="70">
             <select class="selectStandard" th:field="*{taskFilterForm.taskType}" value="*{taskFilterForm.taskType}">
-                <option class="selectMediumOption" value="---">⚪</option>
+                <option class="selectMediumOption" value="">⚪</option>
                 <option class="selectMediumOption" th:each="taskType : ${T(online.ronikier.todo.domain.dictionary.TaskType).values()}"
                         th:value="${taskType}" th:text="${taskType.label}"/>
             </select>
         </td>
         <td class="leftValue" width="70">
             <select class="selectStandard" th:field="*{taskFilterForm.taskState}" value="*{taskFilterForm.taskState}">
-                <option class="selectMediumOption" value="---">⚪</option>
+                <option class="selectMediumOption" value="">⚪</option>
                 <option class="selectMediumOption" th:each="taskState : ${T(online.ronikier.todo.domain.dictionary.TaskState).values()}"
                         th:value="${taskState}" th:text="${taskState.label}"/>
             </select>
         </td>
         <td class="leftValue" width="70">
             <select class="selectStandard" th:field="*{taskFilterForm.taskStatus}" value="*{taskFilterForm.taskStatus}">
-                <option class="selectMediumOption" value="---">⚪</option>
+                <option class="selectMediumOption" value="">⚪</option>
                 <option class="selectMediumOption" th:each="taskStatus : ${T(online.ronikier.todo.domain.dictionary.TaskStatus).values()}"
                         th:value="${taskStatus}" th:text="${taskStatus.label}"/>
             </select>

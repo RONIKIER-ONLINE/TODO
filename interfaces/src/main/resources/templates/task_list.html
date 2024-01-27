@@ -1,11 +1,9 @@
 <div th:fragment="task_list">
-
     <!--  Task list START -->
     <div th:if="${not #lists.isEmpty(taskList)}">
         <tr><td><hr width="100%" size="1"/></td></tr>
         <tr>
             <td>
-
                 <!--  Task list header START -->
                 <!--                width="520"                 -->
                 <table border="0" cellpadding="0" cellspacing="1" align="center" width="100%">
@@ -23,7 +21,7 @@
                                         &nbsp;
                                     </td>
                                     <td width="78" class="taskListHeader">
-                                        <label th:text="Name"/>
+                                        <label th:utext="Name"/>
                                     </td>
                                     <td width="18" align="center" class="taskListHeader">
                                         &nbsp;
@@ -152,6 +150,22 @@
         </tr>
         <tr><td><hr width="100%" size="1"/></td></tr>
     </div>
+
+    <tr>
+        <td>
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td class="rightLabel" width="80" valign="top">State</td>
+                    <td class="leftValue" th:utext ="*{infoTaskState}" width="*" valign="top"></td>
+                </tr>
+                <tr>
+                    <td class="rightLabel" width="80" valign="top">Status</td>
+                    <td class="leftValue" th:utext ="*{infoTaskStatus}" width="*" valign="top"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td><hr width="100%" size="1"/></td></tr>
     <!--  Task list END -->
 
 </div>

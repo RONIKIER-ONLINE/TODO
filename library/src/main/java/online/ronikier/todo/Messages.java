@@ -11,6 +11,8 @@ public class Messages {
 
     public static final String SEPARATOR = " - ";
 
+    public static final String HTML_BR = "<BR/>";
+
     public static final String LONG_RULE =  "======================================";
 
     public static final String TYPE_RESOURCE_PERSON = "TYPE_RESOURCE_PERSON";
@@ -68,6 +70,8 @@ public class Messages {
     public static final String TASK_PROCESSING_IN_PROGRESS = "TASK_PROCESSING_IN_PROGRESS";
     public static final String TASK_PROCESSING_HALT = "TASK_PROCESSING_HALT";
     public static final String TASK_PROCESSING_CUSTOM_ACTION = "TASK_PROCESSING_CUSTOM_ACTION";
+
+    public static final String FILE_STORE_FAILED = "FILE_STORE_FAILED";
 
     public static final String COST_UNIT_PLN = "PLN";
     public static final String COST_UNIT_HOUR = "Hours";

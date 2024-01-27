@@ -9,11 +9,10 @@
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
         <link rel="stylesheet" th:href="@{/styles/main.css}"/>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--        <meta name="viewport" content="width=device-width, initial-scale=1">-->
     </head>
 
     <body>
-
 
         <div th:insert="popup::popup">...</div>
 
@@ -21,8 +20,8 @@
 
         <table border="0" width="700" align="center" bgcolor="#EEEEEE" cellpadding="0" cellspacing="0">
             <!--  Task form START -->
-<!--            <form action="#" enctype="multipart/form-data" method="post" th:action="@{/task}" th:object="${taskForm}">-->
-            <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">
+            <form action="#" enctype="multipart/form-data" method="post" th:action="@{/task}" th:object="${taskForm}">
+<!--            <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">-->
 
                 <div th:if="*{(taskId ne null)}">
                     <tr>

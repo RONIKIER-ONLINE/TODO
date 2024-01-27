@@ -4,6 +4,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import online.ronikier.todo.Messages;
 
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +20,7 @@ public class Utilities {
 
     public static final String DATE_PATTERN = "yyyy-MM-dd";
 
-    public static Date dateCurrentx() {
+    public static Date dateCurrent() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date(System.currentTimeMillis()));
         return calendar.getTime();
@@ -112,5 +116,13 @@ public class Utilities {
 
         return new AtomicInteger(1);
 
+    }
+
+    public static void initFileDirectory(String fileDirectoryLocation) {
+        try {
+            Files.createDirectory(Paths.get(fileDirectoryLocation));
+        } catch (IOException ioe) {
+            System.err.println(ioe.getMessage());
+        }
     }
 }

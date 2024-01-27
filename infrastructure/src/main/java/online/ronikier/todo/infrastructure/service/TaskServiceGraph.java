@@ -12,10 +12,12 @@ import online.ronikier.todo.domain.forms.TaskFilterForm;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,6 +34,9 @@ public class TaskServiceGraph implements TaskService, DialogService {
     private final TaskRepository taskRepository;
 
     private String dialogMessage;
+
+    @Value("${todo.setup.storage.location}")
+    private String setupStorageLocation;
 
     public String kill() {
         return "Lou kills";
@@ -157,6 +162,7 @@ public class TaskServiceGraph implements TaskService, DialogService {
     public void saveTask(Task task) {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "SAVING TASK " + Utilities.wrapString(task.toString()));
         taskRepository.save(task);
+        Utilities.initFileDirectory(setupStorageLocation + "/" + task.getId());
     }
 
     @Override
@@ -329,19 +335,19 @@ public class TaskServiceGraph implements TaskService, DialogService {
             case "ON_HOLD":
                 task.setTaskStatus(TaskStatus.OK);
                 task.setTaskState(TaskState.ON_HOLD);
-                task.setStop(Utilities.dateCurrentx());
+                task.setStop(Utilities.dateCurrent());
                 break;
             case "REJECT":
                 task.setTaskStatus(TaskStatus.OK);
                 task.setTaskState(TaskState.REJECTED);
                 log.info(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + Messages.TASK_STATE_REJECTED + task.getName());
-                task.setStop(Utilities.dateCurrentx());
+                task.setStop(Utilities.dateCurrent());
                 break;
             case "COMPLETE":
                 task.setTaskStatus(TaskStatus.OK);
                 task.setTaskState(TaskState.COMPLETED);
                 log.info(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + Messages.TASK_STATE_COMPLETED + task.getName());
-                task.setStop(Utilities.dateCurrentx());
+                task.setStop(Utilities.dateCurrent());
                 break;
             default:
                 dialogMessage = Messages.ERROR_DIALOG_ACTION + Messages.SEPARATOR + action + " action not known !!!";

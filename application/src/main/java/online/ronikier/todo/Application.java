@@ -7,7 +7,6 @@ import online.ronikier.todo.domain.dictionary.TaskState;
 import online.ronikier.todo.domain.dictionary.TaskStatus;
 import online.ronikier.todo.domain.dictionary.TaskType;
 import online.ronikier.todo.infrastructure.repository.TaskRepository;
-import online.ronikier.todo.infrastructure.storage.StorageProperties;
 import online.ronikier.todo.infrastructure.storage.StorageService;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +24,6 @@ import java.util.Arrays;
 @SpringBootApplication
 //@EnableNeo4jRepositories
 @EnableScheduling
-@EnableConfigurationProperties(StorageProperties.class)
 public class Application {
 
     @Value("${todo.setup.initialize.database:0}")
@@ -35,7 +33,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Profile("dev,google")
+    //@Profile("dev,google")
     @Bean
     CommandLineRunner initialize(TaskRepository taskRepository, StorageService storageService) {
         return args -> {
@@ -45,11 +43,10 @@ public class Application {
                 //taskRepository.deleteAll();
             }
 
-            Task millionDollarTask = new Task(null,null,null,null,null,true, true, Utilities.dateMorning(), Utilities.dateMorning(), Utilities.dateFuture(7),null, "Be Rich", "Million Dollars", 1000000d, CostUnit.SOLDIER, TaskState.STARTED , TaskType.MONEY, TaskStatus.OK);
-            taskRepository.save(millionDollarTask);
+            //Task millionDollarTask = new Task(null,null,null,null,null,true, true, Utilities.dateMorning(), Utilities.dateMorning(), Utilities.dateFuture(7),null, "Be Rich", "Million Dollars", 1000000d, CostUnit.SOLDIER, TaskState.STARTED , TaskType.MONEY, TaskStatus.OK);
+            //taskRepository.save(millionDollarTask);
 
-            storageService.deleteAll();
-            storageService.init();
+//            storageService.init();
 
             logLabels();
 
