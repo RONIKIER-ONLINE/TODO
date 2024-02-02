@@ -2,18 +2,29 @@
 <b>Task tracking system</b><br/><br/>
 <blockquote>.doc/TODO.eap</blockquote>Sparx Systems Enterprise Architect model
 
-<h3>neo4j BACKUP (Win)</h3>
+<h3>neo4j BACKUP (Linux)</h3>
 <h6>
->cd c:\Users\Admin\.Neo4jDesktop\neo4jDatabases\database-<i>xxxxxx</i>\installation-4.0.3\bin<br/><br/>
+>sudo neo4j stop
+> 
+>sudo neo4j-admin dump --to=c:/magazyn/archive/230501 --database=neo4j
+</h6>
+
+<h3>neo4j BACKUP (Win) ?</h3>
+<h6>
+>cd c:\Users\Admin\\.Neo4jDesktop\neo4jDatabases\database-<i>xxxxxx</i>\installation-4.0.3\bin<br/><br/>
 >neo4j-admin backup --from=localhost:6362 --backup-dir=c:/magazyn/archive/200602 --database=neo4j --pagecache=4G
 </h6>
 
 <h3>neo4j RESTORE (Win)</h3>
 <h6>
->cd c:\Users\Admin\.Neo4jDesktop\neo4jDatabases\database-<i>xxxxxx</i>\installation-4.0.3\bin<br/><br/>
+>cd c:\Users\Admin\\.Neo4jDesktop\neo4jDatabases\database-<i>xxxxxx</i>\installation-4.0.3\bin<br/><br/>
 >neo4j stop<br/><br/>
 >neo4j-admin restore --from=c:/magazyn/archive/200602/neo4j --database=neo4j --force<br/><br/>
 >neo4j start
+> 
+Zmieniają to debile ...
+> 
+>C:\neo4j-community-4.2.6\bin>neo4j-admin load --force --from=C:\todo_backup\neo4j.dump --database=neo4j2
 </h6>
 
 <h3>neo4j CLEAR (Terminal)</h3>

@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public abstract class SuperForm {
-    protected String action;
+    protected FormAction action;
+    protected String actionCommandButton;
 }

@@ -20,7 +20,9 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -35,20 +37,12 @@ public class PersonControler extends SuperController {
     @Value("${person.completion.time.days:7}")
     private Integer personCompletionTimeDays;
 
-    /**
-     * @param registry
-     */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/person").setViewName("person");
         registry.addViewController("/person_delete").setViewName("person");
     }
 
-    /**
-     * @param personForm
-     * @param model
-     * @return
-     */
     @GetMapping("person")
     public String person(PersonForm personForm, Model model) {
         if (!securityCheckOK(model)) return "/";
@@ -56,12 +50,6 @@ public class PersonControler extends SuperController {
         return "person";
     }
 
-    /**
-     * @param personId
-     * @param personForm
-     * @param model
-     * @return
-     */
     @GetMapping("person/{personId}")
     public String personShow(@PathVariable(name = "personId", required = false) Long personId, PersonForm personForm, Model model) {
         if (!securityCheckOK(model)) return "/";
@@ -77,14 +65,6 @@ public class PersonControler extends SuperController {
         return "person";
     }
 
-
-
-    /**
-     * @param personForm
-     * @param bindingResult
-     * @param model
-     * @return
-     */
     @PostMapping("person")
     public String personProcess(@Valid PersonForm personForm, BindingResult bindingResult, Model model) {
         if (!securityCheckOK(model)) return "/";
@@ -97,13 +77,13 @@ public class PersonControler extends SuperController {
         try {
             Person processedPerson = personService.findPersonByUsername(personForm.getUsername());
             if (processedPerson != null) {
-                log.info((Messages.INFO_PERSON_EXISTS));
+                log.info((Messages.PERSON_EXISTS));
                 log.debug(processedPerson.toString());
             } else {
                 processedPerson = initializePerson(personForm);
             }
             savePerson(personForm, processedPerson);
-            log.info(Messages.INFO_PERSON_CREATED);
+            log.info(Messages.PERSON_CREATED);
             log.debug(processedPerson.toString());
         } catch (Exception e) {
             log.error(Messages.EXCEPTION_PERSON_CREATION + Messages.SEPARATOR + e.getMessage());
@@ -113,7 +93,7 @@ public class PersonControler extends SuperController {
     }
 
     private void savePerson(PersonForm personForm, Person person) {
-        log.info(Messages.INFO_PERSON_MODIFIED);
+        log.info(Messages.PERSON_MODIFIED);
         personMapper.form2Domain(personForm, person);
         personService.savePerson(person);
         if (personForm.getKnownByPersonId() != null && !personForm.getKnownByPersonId().equals("none")) {
@@ -127,37 +107,31 @@ public class PersonControler extends SuperController {
             }
         }
 
-        log.info(Messages.INFO_PERSON_MODIFIED);
+        log.info(Messages.PERSON_MODIFIED);
         log.debug(person.toString());
     }
 
-
-    /**
-     * @param personId
-     * @param personForm
-     * @param model
-     * @return
-     */
     @GetMapping("person_delete/{personId}")
     public String personDelete(@PathVariable(name = "personId", required = false) Long personId, PersonForm personForm, Model model) {
-        log.info(Messages.INFO_PERSON_DELETING);
+        log.info(Messages.PERSON_DELETING);
         personService.deletePersonById(personId);
         initializeForm(personForm, model);
         return "person";
     }
 
-    /**
-     * @param personForm
-     * @return
-     * @throws ParseException
-     */
     private Person initializePerson(PersonForm personForm) throws ParseException {
 
         //TODO: Implement system common persons
         //return new Person(dafaultPersons,
 
-        return new Person(ilPadre(),
-                personForm.getUsername());
+//        return new Person(ilPadre(), personForm.getUsername());
+
+        Person newPerson = new Person();
+        newPerson.setKnownPersons(ilPadre());
+        newPerson.setUsername(personForm.getUsername());
+
+        return newPerson;
+
     }
 
     private List<Person> ilPadre() {
@@ -178,7 +152,7 @@ public class PersonControler extends SuperController {
 
     /**
      *
-     * @return
+     * @return returns all mafioso
      */
     private Iterable<Person> getPersonList() {
         log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Form person filtering");

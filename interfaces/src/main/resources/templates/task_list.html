@@ -1,0 +1,165 @@
+<div th:fragment="task_list">
+    <!--  Task list START -->
+    <div th:if="${not #lists.isEmpty(taskList)}">
+        <tr><td><hr width="100%" size="1"/></td></tr>
+        <tr>
+            <td>
+                <!--  Task list header START -->
+                <!--                width="520"                 -->
+                <table border="0" cellpadding="0" cellspacing="1" align="center" width="100%">
+                    <tr>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="18" align="right" class="taskListHeader">
+                                        <label th:text="lp."/>
+                                    </td>
+                                    <td width="13" align="center" class="taskListHeader">
+                                        &nbsp;
+                                    </td>
+                                    <td width="13" align="center" class="taskListHeader">
+                                        &nbsp;
+                                    </td>
+                                    <td width="78" class="taskListHeader">
+                                        <label th:utext="Name"/>
+                                    </td>
+                                    <td width="18" align="center" class="taskListHeader">
+                                        &nbsp;
+                                    </td>
+                                    <td width="78" align="center" class="taskListHeader">
+                                        <label th:text="Created"/>
+                                    </td>
+<!--                                    <td width="78" align="center" class="taskListHeader">-->
+<!--                                        <label th:text="Started"/>-->
+<!--                                    </td>-->
+                                    <td width="78" align="center" class="taskListHeader">
+                                        <label th:text="Due"/>
+                                    </td>
+                                    <td width="7" align="right" class="taskListHeader">
+
+                                    </td>
+                                    <td width="88" align="center" class="taskListHeader">
+                                        <label th:text="Cost"/>
+                                    </td>
+                                    <td width="*" align="center" class="taskListHeader">
+                                        &nbsp;
+                                    </td>
+                                    <td width="18" align="center" class="taskListHeader">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <!--  Task list header END -->
+            </td>
+        </tr>
+        <tr><td><hr width="100%" size="1"/></td></tr>
+        <tr>
+            <td>
+                <!--  Task list table START -->
+                <table border="0" cellpadding="0" cellspacing="1" align="center" th:each="task : *{taskList}" width="100%">
+                    <tr>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="21" align="right" class="taskListPosition">
+                                        <a class="taskListName" th:href="@{'/task/' + ${task.id}}">
+                                            <label th:text="${taskListCounter.getAndIncrement()}"/>.
+                                        </a>
+                                    </td>
+                                    <td width="16" align="center" class="taskListPosition">
+                                        <div th:if="${task.important}">📌</div>
+                                    </td>
+                                    <td width="16" align="center" class="taskListPosition">
+                                        <div th:if="${task.urgent}">🔥</div>
+                                    </td>
+                                    <td width="81" class="taskListPosition">
+                                        <a class="taskListName" th:href="@{'/task/' + ${task.id}}">
+                                            <label class="taskListName" th:text="${task.name}"/>
+                                        </a>
+                                    </td>
+                                    <td width="21" align="center" class="taskListPosition">
+                                        <a class="taskListName" th:href="@{'/task/' + ${task.id}}">
+                                            <label th:text="${task.taskState.label}" th:style="${task.taskState.style}"/>
+                                        </a>
+                                    </td>
+                                    <td width="81" align="center" class="taskListPosition">
+                                        <a class="taskListName" th:href="@{'/task/' + ${task.id}}">
+                                            <label th:text="${task.createdFormatted}"/>
+                                        </a>
+                                    </td>
+<!--                                    <td width="81" align="center" class="taskListPosition">-->
+<!--                                        <a class="taskListName" th:href="@{'/task/' + ${task.id}}">-->
+<!--                                            <label th:text="${task.startFormatted}"/>-->
+<!--                                        </a>-->
+<!--                                    </td>-->
+                                    <td width="81" align="center" class="taskListPosition">
+                                        <a class="taskListName" th:href="@{'/task/' + ${task.id}}">
+                                            <label th:text="${task.dueFormatted}"/>
+                                        </a>
+                                    </td>
+                                    <td width="10" align="right" class="taskListPosition">
+
+                                    </td>
+                                    <td width="91" class="taskListPosition">
+                                        <a class="taskListName" th:href="@{'/task/' + ${task.id}}">
+                                            <label th:text="${task.costValue}"/>&nbsp;<label th:text="${task.costUnit.label}"/>
+                                        </a>
+                                    </td>
+                                    <td width="*" align="right" class="taskListPosition">
+
+                                    </td>
+                                    <td width="21" align="center" class="taskListPosition">
+                                        <a class="taskListName" th:href="@{'/task/' + ${task.id}}">
+                                            <div th:if="${(task.taskStatus ne null)}">
+                                                <label th:text="${task.taskStatus.label}" th:style="${task.taskStatus.style}"/>
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <div th:if="${showTaskDetails}">
+                        <tr>
+                            <td class="taskListTaskDescription" th:utext="${task.descriptionHTML}"></td>
+                        </tr>
+                        <div th:if="${not #lists.isEmpty(task.requiredTasks)}">
+                            <tr><td><hr width="100%" size="1"/></td></tr>
+                            <tr>
+                                <td>
+                                    <table border="0" cellpadding="0" cellspacing="0" th:each="requiredTask : *{task.requiredTasks}" width="100%">
+                                        <tr>
+                                            <td class="rightLabel" width="5"></td>
+                                            <td><li><a th:href="@{'/task/' + ${requiredTask.id}}"><label class="taskListName" th:text="${requiredTask.name}"/></a></li></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </div>
+                        <div th:if="${not #lists.isEmpty(task.files)}">
+                            <tr><td><hr width="100%" size="1"/></td></tr>
+                            <tr>
+                                <td>
+                                    <table border="0" cellpadding="0" cellspacing="0" th:each="file : *{task.files}" width="100%">
+                                        <tr>
+                                            <td class="rightLabel" width="5"></td>
+                                            <td><li><a th:href="@{'/file/' + ${file.id}}"><label class="taskListName" th:text="${file.name}"/></a></li></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </div>
+                        <tr><td><hr width="100%" size="1"/></td></tr>
+                    </div>
+
+                </table>
+            </td>
+        </tr>
+
+    </div>
+
+</div>

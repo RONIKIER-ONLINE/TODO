@@ -1,32 +1,41 @@
 package online.ronikier.todo.domain.forms;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import online.ronikier.todo.Messages;
+import online.ronikier.todo.domain.File;
 import online.ronikier.todo.domain.Person;
 import online.ronikier.todo.domain.Task;
 import online.ronikier.todo.domain.dictionary.CostUnit;
 import online.ronikier.todo.domain.dictionary.TaskState;
 import online.ronikier.todo.domain.dictionary.TaskStatus;
 import online.ronikier.todo.domain.dictionary.TaskType;
+import online.ronikier.todo.domain.dictionary.utility.LegendsRepository;
 import online.ronikier.todo.library.Parameters;
 import online.ronikier.todo.library.Utilities;
+import online.ronikier.todo.templete.FormAction;
 import online.ronikier.todo.templete.SuperForm;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 @Slf4j
 @NoArgsConstructor
-@AllArgsConstructor
 public class TaskForm extends SuperForm {
+
+    String infoTaskStatus = LegendsRepository.taskStatusLegend();
+
+    String infoTaskState = LegendsRepository.taskStateLegeng();
+
+    private Task task = new Task(); // Needed for form fields // Needs work ;)
 
     private Long taskId;
 
@@ -36,15 +45,20 @@ public class TaskForm extends SuperForm {
 
     private Boolean clearDescription;
 
-    private Task task;
-
     private TaskFilterForm taskFilterForm;
 
     private String requiredByTaskId;
 
     private List<Task> tasks;
 
-    private List<Task> requiredTasks;
+    private Iterable<Task> requiredTasks;
+
+    private List<File> files;
+
+    private List<String> actions = Arrays
+            .stream(FormAction.values())
+            .map(Object::toString)
+            .collect(Collectors.toList());
 
     private List<Person> persons;
 
@@ -52,30 +66,30 @@ public class TaskForm extends SuperForm {
 
     @NotNull(message = Messages.FORM_TASK_VALIDATION_IMPORTANT_NOT_NULL)
     public Boolean getImportant() {
-        return getTask().getImportant();
+        return task.getImportant();
     }
 
     public void setImportant(Boolean important) {
-        getTask().setImportant(important);
+        task.setImportant(important);
     }
 
     @NotNull(message = Messages.FORM_TASK_VALIDATION_URGENT_NOT_NULL)
     public Boolean getUrgent() {
-        return getTask().getUrgent();
+        return task.getUrgent();
     }
 
     public void setUrgent(Boolean urgent) {
-        getTask().setUrgent(urgent);
+        task.setUrgent(urgent);
     }
 
 //    @NotEmpty(message = Messages.FORM_TASK_VALIDATION_CREATED_NOT_NULL)
     public String getCreated() {
-        return Utilities.stringFromDate(getTask().getCreated());
+        return Utilities.stringFromDate(task.getCreated());
     }
 
     public void setCreated(String created) {
         try {
-            getTask().setCreated(Utilities.dateFromString(created));
+            task.setCreated(Utilities.dateFromString(created));
         } catch (ParseException e) {
             log.error(Messages.EXCEPTION_TASK_DATE_PARSE + Messages.SEPARATOR + e.getMessage());
         }
@@ -83,12 +97,12 @@ public class TaskForm extends SuperForm {
 
 //    @NotNull(message = Messages.FORM_TASK_VALIDATION_START_NOT_NULL)
     public String getStart() {
-        return Utilities.stringFromDate(getTask().getStart());
+        return Utilities.stringFromDate(task.getStart());
     }
 
     public void setStart(String start) {
         try {
-            getTask().setStart(Utilities.dateFromString(start));
+            task.setStart(Utilities.dateFromString(start));
         } catch (ParseException e) {
             log.error(Messages.EXCEPTION_TASK_DATE_PARSE + Messages.SEPARATOR + e.getMessage());
         }
@@ -96,12 +110,12 @@ public class TaskForm extends SuperForm {
 
 //    @NotNull(message = Messages.FORM_TASK_VALIDATION_DUE_NOT_NULL)
     public String getDue() {
-    return Utilities.stringFromDate(getTask().getDue());
+    return Utilities.stringFromDate(task.getDue());
 }
 
     public void setDue(String due) {
         try {
-            getTask().setDue(Utilities.dateFromString(due));
+            task.setDue(Utilities.dateFromString(due));
         } catch (ParseException e) {
             log.error(Messages.EXCEPTION_TASK_DATE_PARSE + Messages.SEPARATOR + e.getMessage());
         }
@@ -110,59 +124,70 @@ public class TaskForm extends SuperForm {
     @NotEmpty(message = Messages.FORM_TASK_VALIDATION_NAME_NOT_EMPTY)
     @Size(max = Parameters.FORM_TASK_VALIDATION_NAME_SIZE_MAX, message = Messages.FORM_TASK_VALIDATION_NAME_SIZE_MAX)
     public String getName() {
-        return getTask().getName();
+        return task.getName();
     }
 
     public void setName(String name) {
-        getTask().setName(name);
+        task.setName(name);
     }
 
     //@NotEmpty(message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_NOT_EMPTY)
     @Size(max = Parameters.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX, message = Messages.FORM_TASK_VALIDATION_DESCRIPTION_SIZE_MAX)
 
-    //TODO: Bust this ...
-    public Task getTask() {
-        if (task == null) task = new Task();
-        return task;
-    }
     public String getDescription() {
-        return getTask().getDescription();
+        return task.getDescription();
     }
     public void setDescription(String description) {
-        getTask().setDescription(description);
+        task.setDescription(description);
     }
     public List<Task> getTasksRequiredTasks() {
-        return getTask().getRequiredTasks();
+        return task.getRequiredTasks();
     }
     public List<Task> getRequiredTasks() {
-        return getTask().getRequiredTasks();
+        return task.getRequiredTasks();
     }
     public TaskState getTaskState() {
-        return getTask().getTaskState();
+        return task.getTaskState();
     }
     public TaskType getTaskType() {
-        return getTask().getTaskType();
+        return task.getTaskType();
     }
     public Double getCostValue() {
-        return getTask().getCostValue();
+        return task.getCostValue();
     }
     public void setCostValue(Double costValue) {
-        getTask().setCostValue(costValue);
+        task.setCostValue(costValue);
     }
     public CostUnit getCostUnit() {
-        return getTask().getCostUnit();
+        return task.getCostUnit();
     }
     public void setCostUnit(CostUnit costUnit) {
-        getTask().setCostUnit(costUnit);
+        task.setCostUnit(costUnit);
     }
     public TaskStatus getTaskStatus() {
-        return getTask().getTaskStatus();
+        return task.getTaskStatus();
     }
     public void setTaskStatus(TaskStatus taskStatus) {
-        getTask().setTaskStatus(taskStatus);
+        task.setTaskStatus(taskStatus);
     }
 
     public Long getTaskId() {
         return taskId;
+    }
+
+    public Task getIsRequiredBy() {
+        return task.getIsRequiredBy();
+    }
+
+    public void setIsRequiredBy(Task isRequiredBy) {
+        task.setIsRequiredBy(isRequiredBy);
+    }
+
+    public List<Task> getIsRequiredByList() {
+        return task.getIsRequiredByList();
+    }
+
+    public void setIsRequiredByList(List<Task> isRequiredByList) {
+        task.setIsRequiredByList(isRequiredByList);
     }
 }

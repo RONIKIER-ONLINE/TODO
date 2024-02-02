@@ -8,9 +8,10 @@ import online.ronikier.todo.infrastructure.repository.PersonRepository;
 import online.ronikier.todo.library.Utilities;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StreamUtils;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -32,7 +33,7 @@ public class PersonServiceGraph implements PersonService {
         log.debug(Messages.DEBUG_MESSAGE_PREFIX + Messages.SEPARATOR + "FINDING PERSON " + personId);
         Optional<Person> personOptional = personRepository.findById(personId);
         if (personOptional.isPresent()) return personOptional;
-        log.info((Messages.INFO_PERSON_NOT_FOUND + Messages.SEPARATOR + personId));
+        log.info((Messages.PERSON_NOT_FOUND + Messages.SEPARATOR + personId));
         return Optional.empty();
     }
 
@@ -76,7 +77,7 @@ public class PersonServiceGraph implements PersonService {
         if (personsKnownPersons.isPresent()) {
             return personsKnownPersons.get().getKnownPersons();
         }
-        return null;
+        return Collections.emptyList();
     }
 
 
@@ -84,10 +85,11 @@ public class PersonServiceGraph implements PersonService {
 
     @Override
     public Person getSuperPerson() {
-        if (personRepository.findByUsername(SUPER_HERO) != null) {
-            return personRepository.findByUsername(SUPER_HERO);
-        }
-        return new Person(SUPER_HERO);
+//        if (personRepository.findByUsername(SUPER_HERO) != null) {
+//            return personRepository.findByUsername(SUPER_HERO);
+//        }
+//        return new Person(SUPER_HERO);
+        return null;
     }
 
 }

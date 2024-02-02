@@ -43,7 +43,7 @@ a:hover {
 .taskInfoDialog {
   background-color: #fefefe;
   margin: auto;
-  padding: 20px;
+  padding: 12px;
   border: 1px solid #888;
   width: 80%;
 }
@@ -105,11 +105,10 @@ td.taskListTaskName {
 }
 
 td.taskListTaskDescription {
-	font: 11px Purisa, Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
-	font-style : italic;
+	font: 11px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
 	vertical-align: top;
-	color: 6666FF;
-	padding: 3pt 3pt 3pt 6pt;
+	color: Grey;
+	padding: 6pt 3pt 3pt 6pt;
 }
 
 .Purisa {
@@ -137,6 +136,24 @@ td.rightLabel {
 	padding: 6pt 3pt 6pt 3pt;
 }
 
+td.rightLabelInfo {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: top;
+	font-weight: bold;
+	color: Gray;
+	padding: 2pt 3pt 3pt 3pt;
+}
+
+td.rightLabelTop {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: top;
+	font-weight: bold;
+	color: Gray;
+	padding: 2pt 3pt 3pt 3pt;
+}
+
 td.rightLabelDescription {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	text-align:right;
@@ -162,6 +179,15 @@ td.centerValue {
 }
 
 td.leftValue {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	vertical-align: middle;
+   	font-weight: bold;
+    color: Gray;
+	padding: 3pt 3pt 3pt 3pt;
+}
+
+td.leftValueInfo {
    	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
   	text-align:left;
   	vertical-align: middle;
@@ -222,7 +248,7 @@ a.knowsSomething {
 .buttonShort {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	height: 23px;
-	width: 80px;
+	width: 72px;
 	color: Gray;
 	border-right: 1px solid Gray;
 	border-bottom: 1px solid Gray;
@@ -230,6 +256,20 @@ a.knowsSomething {
 	border-left: 1px solid Gray;
 	background-color: #ffffff;
 }
+
+input.fileSelect {
+    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    height: 23px;
+    width: 250px;
+    padding: 5pt 0pt 0pt 5pt;
+    color: Gray;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #ffffff;
+}
+
 input.textShort {
 	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
 	width: 140px;
@@ -301,7 +341,7 @@ input.textTaskCostValue {
 
 input.filterPhrase {
 	    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-    	width: 200px;
+    	width: 120px;
     	height: 22px;
         border-right: 1px solid Gray;
         border-bottom: 1px solid Gray;
@@ -345,7 +385,7 @@ input.dateShort {
 select.selectStandard
 {
 	    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
-        width: 70px;
+        width: 85px;
         height: 24px;
         padding: 0pt 10pt 0pt 5pt;
         border-right: 1px solid Gray;

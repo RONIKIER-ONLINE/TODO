@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="file_upload">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td class="rightLabel" width="74">File</td>
+        <td class="left" width="*"><input type="file" name="file" class="fileSelect"/></td>
+        <td class="rightButton" WIDTH="73">
+        </td>
+        <td class="rightButton" WIDTH="73">
+
+        </td>
+    </tr>
+
+<!--    <div th:if="${not #lists.isEmpty(files)}">-->
+<!--        <tr>-->
+<!--            <td class="rightLabel" width="74"></td>-->
+<!--            <td class="left" width="*" colspan="3">-->
+<!--                <ul>-->
+<!--                    <li th:each="file : ${files}">-->
+<!--                        <a th:href="${file}" th:text="${file}" />-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </td>-->
+<!--            <td class="left" width="164"></td>-->
+<!--            <td class="error" width="94"></td>-->
+<!--        </tr>-->
+<!--    </div>-->
+    </table>
+</div>

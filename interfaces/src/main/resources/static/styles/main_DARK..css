@@ -1,0 +1,415 @@
+/* ================= General parameters ================= */
+
+body {font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;}
+
+a {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	vertical-align: top;
+	font-weight: bold;
+	color: Gray;
+	text-decoration:none;
+	cursor:grabbing;
+}
+a:hover {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	vertical-align: top;
+	font-weight: bold;
+	color: red;
+	text-decoration:underline;
+	cursor:grabbing;
+}
+
+
+/* ===================  Info dialog ======================= */
+/* https://www.w3schools.com/howto/howto_css_modals.asp
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.taskInfoDialog {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 12px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 16px;
+  font-weight: bold;
+  vertical-align: top;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.taskListName {
+    text-decoration: none;
+    cursor:grabbing;
+}
+
+
+/* =================== Table formatting =================== */
+
+table.task {
+	/*
+	border: 1px solid red;
+	*/
+}
+
+td.taskListHeader {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	/* background-color: #000000;" */
+	vertical-align: middle;
+    font-weight: bold;
+    color: Gray;
+    padding: 3pt 3pt 3pt 3pt;
+}
+
+td.taskListPosition {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	background-color: #000000;"
+	vertical-align: middle;
+    font-weight: bold;
+    color: Gray;
+    padding: 2pt 2pt 2pt 2pt;
+}
+
+td.taskListTaskName {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
+	font-color: red;
+	font-weight: bold;
+	vertical-align: top;
+	padding: 3pt 3pt 3pt 3pt;
+}
+
+td.taskListTaskDescription {
+	font: 11px Purisa, Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
+	font-style : italic;
+	vertical-align: top;
+	color: 6666FF;
+	padding: 3pt 3pt 3pt 6pt;
+}
+
+.Purisa {
+	font: 11px Purisa, Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
+	font-style : italic;
+	color: 6666FF;
+	padding: 0pt 0pt 0pt 0pt;
+}
+
+td.Personnel {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	vertical-align: middle;
+	font-weight: bold;
+	color: Gray;
+	padding: 3pt 3pt 3pt 7pt;
+}
+
+td.rightLabel {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: middle;
+	font-weight: bold;
+	color: Gray;
+	padding: 6pt 3pt 6pt 3pt;
+}
+
+td.rightLabelDescription {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: top;
+	font-weight: bold;
+	color: Gray;
+	padding: 7pt 3pt 3pt 3pt;
+}
+
+td.rightCheckbox {
+    text-align:right;
+    vertical-align: middle;
+    padding: 0pt 0pt 0pt 0pt;
+}
+
+td.centerValue {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+	color: Gray;
+	padding: 3pt 3pt 3pt 3pt;
+}
+
+td.leftValue {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	vertical-align: middle;
+   	font-weight: bold;
+    color: Gray;
+	padding: 3pt 3pt 3pt 3pt;
+}
+
+td.error {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
+	color: red;
+	vertical-align: top;
+	padding: 6pt 3pt 3pt 3pt;
+}
+
+td.formInfo {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:left;
+	vertical-align: middle;
+	font-weight: bold;
+	color: Gray;
+	padding: 3pt 3pt 3pt 3pt;
+}
+
+td.rightButton {
+  	text-align:right;
+  	vertical-align: middle;
+	padding: 3pt 6pt 3pt 3pt;
+}
+
+label.knowsSomething {
+	font: 10px Purisa, Verdana, Geneva, Arial, Helvetica, sans-serif;
+    text-align:left;
+    vertical-align: top;
+    font-style : italic;
+    color: blue;
+    text-decoration: none;
+    cursor:crosshair;
+    padding: 3pt 0pt 3pt 0pt;
+}
+
+a.knowsSomething {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    text-align:left;
+    vertical-align: top;
+    font-style : italic;
+    color: blue;
+    text-decoration: none;
+    cursor:crosshair;
+    padding: 3pt 0pt 3pt 3pt;
+}
+
+
+
+/* =========================================================== */
+
+/* ===================== Form fields ===================== */
+.buttonShort {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	height: 23px;
+	width: 72px;
+	color: Gray;
+	border-right: 1px solid Gray;
+	border-bottom: 1px solid Gray;
+	border-top: 1px solid Gray;
+	border-left: 1px solid Gray;
+	background-color: #000000;"
+}
+
+input.fileSelect {
+    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    height: 23px;
+    width: 250px;
+    padding: 5pt 0pt 0pt 5pt;
+    color: Gray;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #000000;"
+}
+
+input.textShort {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 140px;
+	height: 22px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #000000;"
+    #background-image: url('some_background.png');
+    #background-position: 10px 10px;
+    #background-repeat: no-repeat;
+    #border-bottom: 2px solid blue;
+    #color: white;
+}
+
+input.textShortName {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 235px;
+	height: 22px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #000000;"
+    #background-image: url('some_background.png');
+    #background-position: 10px 10px;
+    #background-repeat: no-repeat;
+    #border-bottom: 2px solid blue;
+    #color: white;
+}
+
+textarea.taskDescription {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 235px;
+    height: 50x;
+    padding: 3pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #000000;"
+	resize: none;
+    transition: width 0.4s ease-in-out;
+}
+
+textarea.taskDescription:focus {
+  width: 170%;
+}
+
+input.textTaskCostValue {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 140px;
+	height: 22px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #000000;"
+    #background-image: url('some_background.png');
+    #background-position: 10px 10px;
+    #background-repeat: no-repeat;
+    #border-bottom: 2px solid blue;
+    #color: white;
+}
+
+input.filterPhrase {
+	    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    	width: 120px;
+    	height: 22px;
+        border-right: 1px solid Gray;
+        border-bottom: 1px solid Gray;
+        border-top: 1px solid Gray;
+        border-left: 1px solid Gray;
+        background-color: #000000;"
+        #background-image: url('some_background.png');
+        #background-position: 10px 10px;
+        #background-repeat: no-repeat;
+        #border-bottom: 2px solid blue;
+        #color: white;
+        padding: 0pt 10pt 0pt 5pt;
+}
+
+input.textMedium {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=70px;height=18px;
+}
+input.textLong {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=200px;height=18px;
+}
+input.textVeryLong {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=470px;height=18px;
+}
+input.textLogin {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=60px;height=18px;
+}
+
+input.dateShort {
+		font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    	width: 90px;
+    	height: 18px;
+        padding: 3pt 10pt 0pt 5pt;
+        border-right: 1px solid Gray;
+        border-bottom: 1px solid Gray;
+        border-top: 1px solid Gray;
+        border-left: 1px solid Gray;
+        background-color: #000000;"
+}
+
+
+select.selectStandard
+{
+	    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+        width: 85px;
+        height: 24px;
+        padding: 0pt 10pt 0pt 5pt;
+        border-right: 1px solid Gray;
+        border-bottom: 1px solid Gray;
+        border-top: 1px solid Gray;
+        border-left: 1px solid Gray;
+        background-color: #000000;"
+        vertical-align: bottom;
+        text-align: bottom;
+}
+select.selectMedium
+{
+    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    width: 162px;
+    height: 24px;
+    padding: 0pt 10pt 0pt 5pt;
+    border-right: 1px solid Gray;
+    border-bottom: 1px solid Gray;
+    border-top: 1px solid Gray;
+    border-left: 1px solid Gray;
+    background-color: #000000;"
+    vertical-align: bottom;
+    text-align: bottom;
+}
+
+option.selectMediumOption
+{
+    font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+    background-color: #000000;"
+}
+
+select.selectList
+{
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=350px;
+	size:5;
+	height:100px;
+}
+select.listMedium
+{
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=350px;
+	size:5;
+	height:70px;
+}
+select.listLong
+{
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=350px;
+	size:5;
+	height:120px;
+}
+input.file {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;width=200px;
+}
+/* =========================================================== */

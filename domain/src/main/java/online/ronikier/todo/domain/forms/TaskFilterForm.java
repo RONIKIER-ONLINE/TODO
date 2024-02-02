@@ -7,13 +7,15 @@ import online.ronikier.todo.domain.dictionary.TaskType;
 import online.ronikier.todo.templete.SuperForm;
 
 import java.util.Date;
-import java.util.Optional;
 
 
 @Data
 public class TaskFilterForm extends SuperForm {
-    private String phrase;
+
     private Boolean important;
+
+    private String phrase;
+    private Boolean showDetails;
     private Boolean urgent;
     private Date createdFrom;
     private Date createdTo;
@@ -24,7 +26,5 @@ public class TaskFilterForm extends SuperForm {
     private TaskState taskState;
     private TaskStatus taskStatus;
     private TaskType taskType;
-
-
 
 }

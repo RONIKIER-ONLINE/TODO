@@ -1,4 +1,4 @@
-package online.ronikier.todo.interfaces.configuration;
+package online.ronikier.todo.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,5 +36,4 @@ public class Swagger implements WebMvcConfigurer {
                 new Contact("Lou Ronikier", "http://ronikier.online/", "lukasz657@gmail.com"),
                 "GNU GENERAL PUBLIC LICENSE", "https://www.gnu.org/licenses/gpl-3.0.html", Collections.emptyList());
     }
-
 }
