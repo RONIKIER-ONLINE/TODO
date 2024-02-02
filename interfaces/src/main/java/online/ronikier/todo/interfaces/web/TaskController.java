@@ -86,9 +86,10 @@ public class TaskController extends SuperController {
     }
 
     @GetMapping(value = "task", produces = "text/html")
-    public String getTask(TaskForm taskForm, Model model) {
+    public String getTask(TaskForm taskForm, TaskFilterForm taskFilterForm, Model model) {
         if (!securityCheckOK(model)) return "login";
         refreshForm(taskForm, model);
+
         if (taskForm.getTask().getId() == null) {
             taskForm.setTask(taskService.initializeTask());
         }
@@ -96,11 +97,18 @@ public class TaskController extends SuperController {
             taskForm.setShowDialog(true);
             model.addAttribute("showDialog", true);
         }
+
+        refreshAttributes(model);
+
+        model.addAttribute("showTaskDetails", taskFilterForm.getShowDetails());
+
+        model.addAttribute("taskList", getFilteredTaskList(taskFilterForm, SortOrder.PRIORITY));
+
         return "task";
     }
 
     @GetMapping(value = "task/{taskId}", produces = "text/html")
-    public String getTaskById(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, Model model) {
+    public String getTaskById(@PathVariable(name = "taskId", required = false) Long taskId, TaskForm taskForm, TaskFilterForm taskFilterForm, Model model) {
         if (!securityCheckOK(model)) return "/";
         Optional<Task> optionalTask = taskService.findTaskById(taskId);
         if (!optionalTask.isPresent()) {
@@ -113,8 +121,6 @@ public class TaskController extends SuperController {
 
         model.addAttribute("tasksRequiredTasks", getRequiredTaskList(selectedTask.getId()));
         model.addAttribute("files", getTaskFileList(selectedTask.getId()));
-
-        storageService.allFiles().forEach(file -> System.out.println("FILE:" + file));
 
         refreshForm(taskForm, model);
 
@@ -137,7 +143,7 @@ public class TaskController extends SuperController {
     }
 
     @PostMapping("task")
-    public String postTask(@RequestParam("file") MultipartFile multipartFile,@Valid TaskForm taskForm, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String postTask(@RequestParam("file") MultipartFile multipartFile,@Valid TaskForm taskForm, TaskFilterForm taskFilterForm, BindingResult bindingResult, Model model) {
 
         if (! multipartFile.isEmpty()) {
             try {
@@ -168,6 +174,7 @@ public class TaskController extends SuperController {
         switch (taskForm.getAction()) {
             case PROCES:
                 procesorService.processTasks();
+                taskForm.setTaskId(null);
                 break;
             case TODAY:
                 if (taskForm.getTaskId() == null) return "redirect:/task";
@@ -178,6 +185,9 @@ public class TaskController extends SuperController {
                 processedTask.setStart(Utilities.dateMorning());
                 processedTask.setDue(Utilities.dateMorning());
                 taskService.saveTask(processedTask);
+                initializeForm(taskForm,model);
+                taskForm.setTaskId(null);
+                appendMessage(model, Messages.TASK_RESCHEDULED + Messages.SEPARATOR + processedTask.getName());
                 break;
             case TOMMOROW:
                 if (taskForm.getTaskId() == null) return "redirect:/task";
@@ -185,16 +195,43 @@ public class TaskController extends SuperController {
                 processedTask.setDue(Utilities.dateFuture(1));
                 processedTask.setTaskStatus(TaskStatus.TOMMOROW);
                 taskService.saveTask(processedTask);
+                initializeForm(taskForm,model);
+                taskForm.setTaskId(null);
+                appendMessage(model, Messages.TASK_RESCHEDULED + Messages.SEPARATOR + processedTask.getName());
+                break;
+            case THIS_WEEKEND:
+                if (taskForm.getTaskId() == null) return "redirect:/task";
+                processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
+                processedTask.setDue(Utilities.dateNextWeekend());
+                processedTask.setTaskStatus(TaskStatus.NEXT_WEEK);
+                taskService.saveTask(processedTask);
+                initializeForm(taskForm,model);
+                taskForm.setTaskId(null);
+                appendMessage(model, Messages.TASK_RESCHEDULED + Messages.SEPARATOR + processedTask.getName());
                 break;
             case NEXT_WEEK:
                 if (taskForm.getTaskId() == null) return "redirect:/task";
                 processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
-                processedTask.setDue(Utilities.dateFuture(7));
-                processedTask.setTaskStatus(TaskStatus.THIS_WEEK);
+                processedTask.setDue(Utilities.dateNextMondayMorning());
+                processedTask.setTaskStatus(TaskStatus.NEXT_WEEK);
                 taskService.saveTask(processedTask);
+                initializeForm(taskForm,model);
+                taskForm.setTaskId(null);
+                appendMessage(model, Messages.TASK_RESCHEDULED + Messages.SEPARATOR + processedTask.getName());
+                break;
+            case NEXT_MONTH:
+                if (taskForm.getTaskId() == null) return "redirect:/task";
+                processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
+                processedTask.setDue(Utilities.dateNextMonth());
+                processedTask.setTaskStatus(TaskStatus.NEXT_WEEK);
+                taskService.saveTask(processedTask);
+                initializeForm(taskForm,model);
+                taskForm.setTaskId(null);
+                appendMessage(model, Messages.TASK_RESCHEDULED + Messages.SEPARATOR + processedTask.getName());
                 break;
             case FILTER:
                 taskForm.setTask(taskService.initializeTask());
+                initializeForm(taskForm,model);
                 taskForm.setTaskId(null);
                 break;
             case DELETE:
@@ -202,6 +239,7 @@ public class TaskController extends SuperController {
                 processedTask = taskService.findTaskById(taskForm.getTaskId()).get();
                 taskService.deleteTaskById(processedTask.getId());
                 initializeForm(taskForm,model);
+                taskForm.setTaskId(null);
                 appendMessage(model, Messages.TASK_DELETING + Messages.SEPARATOR + processedTask.getName());
                 break;
             case STOP:
@@ -210,6 +248,8 @@ public class TaskController extends SuperController {
                 processedTask.setTaskState(TaskState.ON_HOLD);
                 processedTask.setStop(Utilities.dateMorning());
                 taskService.saveTask(processedTask);
+                taskForm.setTaskId(null);
+                initializeForm(taskForm,model);
                 break;
             case START:
                 if (taskForm.getTaskId() == null) return "redirect:/task";
@@ -218,6 +258,8 @@ public class TaskController extends SuperController {
                 processedTask.setDue(Utilities.dateFuture(todoSetupProcessorTaskApproaching));
                 processedTask.setStart(Utilities.dateMorning());
                 taskService.saveTask(processedTask);
+                initializeForm(taskForm,model);
+                taskForm.setTaskId(null);
                 break;
             case REJECT:
                 if (taskForm.getTaskId() == null) return "redirect:/task";
@@ -225,6 +267,8 @@ public class TaskController extends SuperController {
                 processedTask.setTaskState(TaskState.REJECTED);
                 processedTask.setDue(null);
                 taskService.saveTask(processedTask);
+                initializeForm(taskForm,model);
+                taskForm.setTaskId(null);
                 break;
             case COMPLETE: {
                 if (taskForm.getTaskId() == null) return "redirect:/task";
@@ -232,6 +276,8 @@ public class TaskController extends SuperController {
                 processedTask.setTaskState(TaskState.COMPLETED);
                 processedTask.setTaskStatus(TaskStatus.OK);
                 taskService.saveTask(processedTask);
+                initializeForm(taskForm,model);
+                taskForm.setTaskId(null);
                 break;
             }
             case SAVE: {
@@ -293,6 +339,8 @@ public class TaskController extends SuperController {
 
         refreshForm(taskForm, model);
 
+        refreshAttributes(model);
+
         if (todoSetupDialogOn && taskService.countActiveTasks() > 0) {
             taskForm.setShowDialog(true);
             model.addAttribute("showDialog", true);
@@ -300,6 +348,17 @@ public class TaskController extends SuperController {
 
         return "task";
     }
+
+    @PostMapping("filter")
+    public String postFilter(TaskFilterForm taskFilterForm, BindingResult bindingResult, Model model) {
+        model.addAttribute("taskList", getFilteredTaskList(taskFilterForm, SortOrder.PRIORITY));
+        refreshAttributes(model);
+
+        model.addAttribute("showTaskDetails", taskFilterForm.getShowDetails());
+
+        return "task";
+    }
+
 
     private void appendMessage(Model model, String messag) {
         model.addAttribute("dialogMessage",
@@ -375,7 +434,6 @@ public class TaskController extends SuperController {
      * @return
      */
     private Iterable<Task> getRequiredTaskList(Long taskId) {
-        log.error(Messages.DEV_IMPLEMENT_ME + Messages.SEPARATOR + "Required task filtering");
         if (taskId == null) return null;
         return taskService.tasksRequiredTasks(taskId);
     }
@@ -401,7 +459,10 @@ public class TaskController extends SuperController {
      */
     private void initializeForm(TaskForm taskForm, Model model) {
         taskForm.setTask(taskService.initializeTask());
-        taskForm.setTaskFilterForm(new TaskFilterForm());
+        TaskFilterForm taskFilterForm = new TaskFilterForm();
+        taskFilterForm.setShowDetails(false);
+        taskForm.setTaskFilterForm(taskFilterForm);
+
         //taskForm.setShowTaskDetails(false);
         refreshForm(taskForm, model);
         taskForm.setAction(FormAction.FILTER);
@@ -413,32 +474,25 @@ public class TaskController extends SuperController {
      */
     private void refreshForm(TaskForm taskForm, Model model) {
 
-        SortOrder taskListSortOrder = SortOrder.DEFAULT;
-
-        if (taskForm.getShowTaskDetails() != null && taskForm.getShowTaskDetails()) {
-            model.addAttribute("showTaskDetails", true);
-        } else {
-            taskListSortOrder = SortOrder.PRIORITY;
-        }
-        model.addAttribute("taskList", getFilteredTaskList(taskForm.getTaskFilterForm(), taskListSortOrder));
-
-        model.addAttribute("taskListDialog", getDialogTaskList());
-
-        model.addAttribute("taskListCounter", Utilities.counter());
-
         taskForm.setTasks(getTaskList(SortOrder.NAME));
         taskForm.setPersons(getPersonList());
 
+        refreshAttributes(model);
+
+    }
+
+    private void refreshAttributes(Model model) {
+
+        model.addAttribute("showTaskDetails", false);
+
+        model.addAttribute("taskListDialog", getDialogTaskList());
+        model.addAttribute("taskListCounter", Utilities.counter());
         model.addAttribute("taskCount", taskService.countTasks());
         long activeTaskCount =  taskService.countActiveTasks();
         model.addAttribute("taskCountActive", activeTaskCount);
-
-        model.addAttribute("dialogMessage", ">>>:" + model.getAttribute("dialogMessage"));
-
+        model.addAttribute("dialogMessage", "");
         model.addAttribute("infoTaskStatus", LegendsRepository.taskStatusLegend());
-
         model.addAttribute("infoTaskState", LegendsRepository.taskStateLegeng());
-
     }
 
     private List<Task> getDialogTaskList() {

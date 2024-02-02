@@ -19,19 +19,8 @@
         <div th:insert="java_script::java_script">...</div>
 
         <table border="0" width="700" align="center" bgcolor="#EEEEEE" cellpadding="0" cellspacing="0">
-            <!--  Task form START -->
-            <form action="#" enctype="multipart/form-data" method="post" th:action="@{/task}" th:object="${taskForm}">
-<!--            <form action="#" method="post" th:action="@{/task}" th:object="${taskForm}">-->
-
-                <div th:if="*{(taskId ne null)}">
-                    <tr>
-                        <td>
 
                             <div th:insert="task_form::task_form">...</div>
-
-                        </td>
-                    </tr>
-                </div>
 
                 <tr>
                     <td>
@@ -41,13 +30,28 @@
                     </td>
                 </tr>
 
-            </form>
             <!--  Task form END -->
 
             <div th:insert="task_list::task_list">...</div>
 
+            <tr><td align="center"><hr width="99%" size="1"/></td></tr>
+            <tr>
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td class="rightLabelInfo" width="80">State</td>
+                            <td class="leftValueInfo" th:utext ="*{infoTaskState}" width="*"></td>
+                        </tr>
+                        <tr>
+                            <td class="rightLabelInfo" width="80">Status</td>
+                            <td class="leftValueInfo" th:utext ="*{infoTaskStatus}" width="*"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr><td align="center"><hr width="99%" size="1"/></td></tr>
+
         </table>
-        <!--  Main frame END -->
 
     </body>
 

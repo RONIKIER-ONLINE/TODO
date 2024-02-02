@@ -31,9 +31,6 @@ public class FileController extends SuperController {
     public ResponseEntity<Resource> serveFile(@PathVariable Long fileId) {
 
         Optional<File> optionalFile =  storageService.findFileById(fileId);
-        if (optionalFile.isPresent()) {
-            log.info("FX:>>>" + optionalFile.get().getName());
-        }
 
         Resource file = storageService.loadAsResource(fileId);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,

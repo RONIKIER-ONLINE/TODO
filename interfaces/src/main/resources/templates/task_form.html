@@ -1,6 +1,16 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:if="${taskForm ne null}">
 <div th:fragment="task_form">
-        <!--  Task DATA form START -->
-        <table border="0" align="center" cellpadding="3" cellspacing="0" width="700">
+    <form action="#" enctype="multipart/form-data" method="post" th:action="@{/task}" th:object="${taskForm}">
+        <div th:if="${taskForm ne null}">
+        <div th:if="*{(taskId ne null)}">
+            <tr>
+                <td>
+
+                    <table border="0" align="center" cellpadding="3" cellspacing="0" width="700">
             <tr><td colspan="6" align="center"><hr width="99%" size="1"/></td></tr>
             <input th:field="*{taskId}" type="hidden"/>
             <tr>
@@ -145,5 +155,11 @@
             </div>
 
         </table>
-        <!--  Task DATA form END -->
+
+                </td>
+            </tr>
+        </div>
+        </div>
+    </form>
+</div>
 </div>

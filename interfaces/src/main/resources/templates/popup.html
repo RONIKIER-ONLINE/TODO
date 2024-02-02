@@ -1,3 +1,7 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
 <div th:fragment="popup">
 
     <!--  Dialog popup START -->
@@ -24,7 +28,7 @@
             </table>
 
             <table border="0" cellpadding="3" cellspacing="0" align="center" th:each="task : *{taskListDialog}" width="100%">
-                <tr><td colspan="13"><hr width="100%" size="1"/></td></tr>
+                <tr><td colspan="17"><hr width="100%" size="1"/></td></tr>
                 <tr>
                     <td width="80" align="center" valign="top">
                         <a th:href="@{'/task/' + ${task.id}}">
@@ -56,11 +60,11 @@
                     </td>
                     <td width="*" align="left" valign="top">
                         <a th:href="@{'/task/' + ${task.id}}">
-                            <label th:utext="${task.description}"/>
+                            <label th:utext="${task.descriptionHTML}"/>
                         </a>
                     </td>
                     <td width="15" align="center" valign="top">
-                        <a th:href="@{'/dialog/' + ${task.id} + '/TODAY'}" alt="TOMMOROW">
+                        <a th:href="@{'/dialog/' + ${task.id} + '/TODAY'}" alt="TODAY">
                             😛
                         </a>
                     </td>
@@ -69,24 +73,35 @@
                             🤩
                         </a>
                     </td>
+
                     <td width="15" align="center" valign="top">
-                        <a th:href="@{'/dialog/' + ${task.id} + '/NEXT_WEEK'}">
+                        <a th:href="@{'/dialog/' + ${task.id} + '/NEXT_WEEKEND'}" alt="NEXT_WEEKEND">
+                            😁
+                        </a>
+                    </td>
+                    <td width="15" align="center" valign="top">
+                        <a th:href="@{'/dialog/' + ${task.id} + '/NEXT_WEEK'}" alt="NEXT_WEEK">
                             😉
                         </a>
                     </td>
                     <td width="15" align="center" valign="top">
-                        <a th:href="@{'/dialog/' + ${task.id} + '/ON_HOLD'}">
+                        <a th:href="@{'/dialog/' + ${task.id} + '/NEXT_MONTH'}" alt="NEXT_MONTH">
+                            😙
+                        </a>
+                    </td>
+                    <td width="15" align="center" valign="top">
+                        <a th:href="@{'/dialog/' + ${task.id} + '/ON_HOLD'}" alt="ON_HOLD">
                             😑
                         </a>
                     </td>
                     <td width="15" align="center" valign="top">
-                        <a th:href="@{'/dialog/' + ${task.id} + '/REJECT'}">
+                        <a th:href="@{'/dialog/' + ${task.id} + '/REJECT'}" alt="REJECT">
                             🤮
                         </a>
                     </td>
                     <td width="15" align="center" valign="top">
-                        <a th:href="@{'/dialog/' + ${task.id} + '/COMPLETE'}">
-                            😁
+                        <a th:href="@{'/dialog/' + ${task.id} + '/COMPLETE'}" alt="COMPLETE">
+                            😎
                         </a>
                     </td>
                 </tr>

@@ -12,8 +12,10 @@ import java.util.Date;
 @Data
 public class TaskFilterForm extends SuperForm {
 
-    private String phrase;
     private Boolean important;
+
+    private String phrase;
+    private Boolean showDetails;
     private Boolean urgent;
     private Date createdFrom;
     private Date createdTo;

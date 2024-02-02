@@ -14,12 +14,12 @@ public class LegendsRepository {
 
     public static String taskStatusLegend() {
         return Arrays.stream(TaskStatus.values()).map(taskStatus -> taskStatus.getLabel() + " " + taskStatus)
-                .collect(Collectors.joining("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"));
+                .collect(Collectors.joining("&nbsp;&nbsp;"));
     }
 
     public static String taskStateLegeng() {
         return Arrays.stream(TaskState.values()).map(taskState -> taskState.getLabel() + " " + taskState)
-                .collect(Collectors.joining("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"));
+                .collect(Collectors.joining("&nbsp;&nbsp;"));
     }
 
 }

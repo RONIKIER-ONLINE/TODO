@@ -105,11 +105,10 @@ td.taskListTaskName {
 }
 
 td.taskListTaskDescription {
-	font: 11px Purisa, Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
-	font-style : italic;
+	font: 11px Verdana, Geneva, Arial, Helvetica, sans-serif; text-align:left;
 	vertical-align: top;
-	color: 6666FF;
-	padding: 3pt 3pt 3pt 6pt;
+	color: Grey;
+	padding: 6pt 3pt 3pt 6pt;
 }
 
 .Purisa {
@@ -135,6 +134,15 @@ td.rightLabel {
 	font-weight: bold;
 	color: Gray;
 	padding: 6pt 3pt 6pt 3pt;
+}
+
+td.rightLabelInfo {
+	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align:right;
+	vertical-align: top;
+	font-weight: bold;
+	color: Gray;
+	padding: 2pt 3pt 3pt 3pt;
 }
 
 td.rightLabelTop {
@@ -171,6 +179,15 @@ td.centerValue {
 }
 
 td.leftValue {
+   	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	text-align:left;
+  	vertical-align: middle;
+   	font-weight: bold;
+    color: Gray;
+	padding: 3pt 3pt 3pt 3pt;
+}
+
+td.leftValueInfo {
    	font: 10px Verdana, Geneva, Arial, Helvetica, sans-serif;
   	text-align:left;
   	vertical-align: middle;

@@ -57,13 +57,15 @@ public class Messages {
     public static final String TASK_STATE_REJECTED= "❌";
 
     public static final String TASK_STATUS_OK = "\uD83D\uDFE2";
-    public static final String TASK_STATUS_THIS_WEEK = "\uD83D\uDFE1";
     public static final String TASK_STATUS_TODAY = "\uD83D\uDD34";
     public static final String TASK_STATUS_TOMMOROW = "\uD83D\uDFE0";
-    public static final String TASK_STATUS_APPROACHING = "\uD83D\uDFE3";
+    public static final String TASK_STATUS_NEXT_WEEKEND = "\uD83D\uDD35";
+    public static final String TASK_STATUS_NEXT_WEEK = "\uD83D\uDFE1";
+    public static final String TASK_STATUS_NEXT_MONTH = "\uD83D\uDFE3";
     public static final String TASK_STATUS_DELAYED = "⚫";
 
-
+    public static final String TASK_STATUS_THIS_WEEK = "\uD83D\uDFE6";
+    public static final String TASK_STATUS_APPROACHING = "⬜";
 
     public static final String TASK_PROCESSING_SKIPPED = "TASK_PROCESSING_SKIPPED";
     public static final String TASK_PROCESSING_STARTED = "TASK_PROCESSING_STARTED";
@@ -119,6 +121,7 @@ public class Messages {
     public static final String TASK_EXISTS = "TASK_EXISTS";
     public static final String TASK_MODIFIED = "TASK_MODIFIED";
     public static final String TASK_DELETING = "TASK_DELETING";
+    public static final String TASK_RESCHEDULED = "TASK_RESCHEDULED";
     public static final String SKIPPING_MAINTENANCE_TASKS = "SKIPPING_MAINTENANCE_TASKS";
     public static final String SKIPPING_NOT_REQUIRED = "SKIPPING_NOT_REQUIRED";
 

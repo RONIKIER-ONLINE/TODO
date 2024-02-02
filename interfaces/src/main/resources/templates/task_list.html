@@ -125,47 +125,41 @@
 
                     <div th:if="${showTaskDetails}">
                         <tr>
-                            <td class="taskListTaskDescription" th:text="${task.description}"></td>
+                            <td class="taskListTaskDescription" th:utext="${task.descriptionHTML}"></td>
                         </tr>
                         <div th:if="${not #lists.isEmpty(task.requiredTasks)}">
+                            <tr><td><hr width="100%" size="1"/></td></tr>
                             <tr>
                                 <td>
                                     <table border="0" cellpadding="0" cellspacing="0" th:each="requiredTask : *{task.requiredTasks}" width="100%">
                                         <tr>
-                                            <td class="rightLabel" width="74"></td>
-                                            <td><li><a th:href="@{'/task/' + ${requiredTask.id}}"><label class="Purisa" th:text="${requiredTask.name}"/></a></li></td>
+                                            <td class="rightLabel" width="5"></td>
+                                            <td><li><a th:href="@{'/task/' + ${requiredTask.id}}"><label class="taskListName" th:text="${requiredTask.name}"/></a></li></td>
                                         </tr>
                                     </table>
                                 </td>
                             </tr>
                         </div>
-                        <tr>
-                            <td><a th:href="@{'/task_delete/' + ${task.id}}">DELETE</a></td>
-                        </tr>
+                        <div th:if="${not #lists.isEmpty(task.files)}">
+                            <tr><td><hr width="100%" size="1"/></td></tr>
+                            <tr>
+                                <td>
+                                    <table border="0" cellpadding="0" cellspacing="0" th:each="file : *{task.files}" width="100%">
+                                        <tr>
+                                            <td class="rightLabel" width="5"></td>
+                                            <td><li><a th:href="@{'/file/' + ${file.id}}"><label class="taskListName" th:text="${file.name}"/></a></li></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </div>
+                        <tr><td><hr width="100%" size="1"/></td></tr>
                     </div>
 
                 </table>
-                <!--  Task list  table END -->
             </td>
         </tr>
-        <tr><td><hr width="100%" size="1"/></td></tr>
-    </div>
 
-    <tr>
-        <td>
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td class="rightLabel" width="80" valign="top">State</td>
-                    <td class="leftValue" th:utext ="*{infoTaskState}" width="*" valign="top"></td>
-                </tr>
-                <tr>
-                    <td class="rightLabel" width="80" valign="top">Status</td>
-                    <td class="leftValue" th:utext ="*{infoTaskStatus}" width="*" valign="top"></td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr><td><hr width="100%" size="1"/></td></tr>
-    <!--  Task list END -->
+    </div>
 
 </div>

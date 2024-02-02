@@ -26,9 +26,6 @@ public class ProcesorServiceBatch implements ProcesorService {
     @Autowired
     private TaskService taskService;
 
-    @Value("${todo.setup.processor.task.approaching.days:3}")
-    private Integer setupProcessorTaskApproachingDays;
-
     private boolean processing = false;
 
     @Override
@@ -88,14 +85,38 @@ public class ProcesorServiceBatch implements ProcesorService {
                     task.setTaskStatus(TaskStatus.DELAYED);
                 }
 
-                if (task.getDue().before(Utilities.dateFutureFrom(setupProcessorTaskApproachingDays, Utilities.dateMorning()))) {
-                    if (task.getTaskStatus() != TaskStatus.DELAYED && task.getTaskStatus() != TaskStatus.TOMMOROW)
-                        task.setTaskStatus(TaskStatus.APPROACHING);
+                if (task.getDue().before(Utilities.dateFutureFrom(1, Utilities.dateMorning()))) {
+                    if (task.getTaskStatus() != TaskStatus.DELAYED && task.getTaskStatus() != TaskStatus.TODAY)
+                        task.setTaskStatus(TaskStatus.TOMMOROW);
                 }
-                if (task.getDue().before(Utilities.dateFutureFrom(7, Utilities.dateMorning()))) {
-                    if (task.getTaskStatus() != TaskStatus.DELAYED && task.getTaskStatus() != TaskStatus.TOMMOROW && task.getTaskStatus() != TaskStatus.APPROACHING)
-                        task.setTaskStatus(TaskStatus.THIS_WEEK);
+
+                if (task.getDue().before(Utilities.dateNextWeekend())) {
+                    if (
+                            task.getTaskStatus() != TaskStatus.DELAYED &&
+                                    task.getTaskStatus() != TaskStatus.TOMMOROW
+                    )
+                        task.setTaskStatus(TaskStatus.NEXT_WEEKEND);
                 }
+
+                if (task.getDue().before(Utilities.dateNextMondayMorning())) {
+                    if (
+                            task.getTaskStatus() != TaskStatus.DELAYED &&
+                            task.getTaskStatus() != TaskStatus.TOMMOROW &&
+                            task.getTaskStatus() != TaskStatus.NEXT_WEEKEND
+                    )
+                        task.setTaskStatus(TaskStatus.NEXT_WEEK);
+                }
+
+                if (task.getDue().before(Utilities.dateNextMonth())) {
+                    if (
+                            task.getTaskStatus() != TaskStatus.DELAYED &&
+                                    task.getTaskStatus() != TaskStatus.TOMMOROW &&
+                                    task.getTaskStatus() != TaskStatus.NEXT_WEEKEND &&
+                                    task.getTaskStatus() != TaskStatus.NEXT_WEEK
+                    )
+                        task.setTaskStatus(TaskStatus.NEXT_MONTH);
+                }
+
 //                if (task.getDue().after(Utilities.dateFutureFrom(0, Utilities.dateMorning()))) {
 //                    if (task.getTaskStatus() != TaskStatus.DELAYED)
 //                        task.setTaskStatus(TaskStatus.TODAY);

@@ -68,7 +68,8 @@ public class TaskServiceGraph implements TaskService, DialogService {
                 CostUnit.SOLDIER,
                 TaskState.ON_HOLD,
                 TaskType.GENERAL,
-                TaskStatus.OK
+                TaskStatus.OK,
+                null
         );
 
     }
@@ -124,7 +125,8 @@ public class TaskServiceGraph implements TaskService, DialogService {
 
                     if (task.getTaskStatus() == TaskStatus.DELAYED) return true;
                     if (task.getTaskStatus() == TaskStatus.TOMMOROW && task.getTaskState() != TaskState.STARTED) return true;
-                    if (task.getTaskStatus() == TaskStatus.APPROACHING) return true;
+                    if (task.getTaskStatus() == TaskStatus.NEXT_WEEKEND && task.getTaskState() != TaskState.STARTED) return true;
+                    if (task.getTaskStatus() == TaskStatus.NEXT_MONTH && task.getTaskState() != TaskState.STARTED) return true;
                     if (task.getTaskState() == TaskState.ON_HOLD && task.getTaskStatus() != TaskStatus.OK) return true;
 
                     return false;
@@ -182,38 +184,42 @@ public class TaskServiceGraph implements TaskService, DialogService {
     @Override
     public List<Task> filteredTasks(TaskFilterForm taskFilterForm, SortOrder sortOrder) {
 
-        if (taskFilterForm == null) return allTasks(sortOrder);
+        //if (taskFilterForm == null) return allTasks(sortOrder);
 
         Stream<Task> filteredTasksStream = allTasks(sortOrder).parallelStream();
 
+        if (taskFilterForm.getTaskType() != null)
+            filteredTasksStream = filterSelected(taskFilterForm.getTaskType())
+                ? filteredTasksStream
+                    .filter(task -> taskFilterForm.getTaskType().equals(task.getTaskType()))
+                : filteredTasksStream;
+        if (taskFilterForm.getTaskState() != null)
+            filteredTasksStream = filterSelected(taskFilterForm.getTaskState())
+                ? filteredTasksStream.filter(task -> taskFilterForm.getTaskState().equals(task.getTaskState()))
+                : filteredTasksStream;
 
-        //TDOD: Refactor (but not too much ;)
-        filteredTasksStream = filterSelected(taskFilterForm.getTaskType())
-            ? filteredTasksStream.filter(task -> taskFilterForm.getTaskType().equals(task.getTaskType()))
-            : filteredTasksStream;
+        if (taskFilterForm.getTaskStatus() != null)
+            filteredTasksStream = filterSelected(taskFilterForm.getTaskStatus())
+                ? filteredTasksStream.filter(task -> taskFilterForm.getTaskStatus().equals(task.getTaskStatus()))
+                : filteredTasksStream;
 
-        filteredTasksStream = filterSelected(taskFilterForm.getTaskState())
-            ? filteredTasksStream.filter(task -> taskFilterForm.getTaskState().equals(task.getTaskState()))
-            : filteredTasksStream;
+        if (taskFilterForm.getImportant() != null)
+            filteredTasksStream = filterFlag(taskFilterForm.getImportant())
+                ? filteredTasksStream.filter(Task::getImportant)
+                : filteredTasksStream;
 
-        filteredTasksStream = filterSelected(taskFilterForm.getTaskStatus())
-            ? filteredTasksStream.filter(task -> taskFilterForm.getTaskStatus().equals(task.getTaskStatus()))
-            : filteredTasksStream;
+        if (taskFilterForm.getUrgent() != null)
+            filteredTasksStream = filterFlag(taskFilterForm.getUrgent())
+                ? filteredTasksStream.filter(Task::getUrgent)
+                : filteredTasksStream;
 
-        filteredTasksStream = filterFlag(taskFilterForm.getImportant())
-            ? filteredTasksStream.filter(Task::getImportant)
-            : filteredTasksStream;
-
-        filteredTasksStream = filterFlag(taskFilterForm.getUrgent())
-            ? filteredTasksStream.filter(Task::getUrgent)
-            : filteredTasksStream;
-
-        filteredTasksStream = filterSelected(taskFilterForm.getPhrase())
-            ? filteredTasksStream.filter(task -> (
-                task.getName().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())
-                ||
-                task.getDescription().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())))
-            : filteredTasksStream;
+        if (taskFilterForm.getPhrase() != null)
+            filteredTasksStream = filterSelected(taskFilterForm.getPhrase())
+                ? filteredTasksStream.filter(task -> (
+                    task.getName().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())
+                    ||
+                    task.getDescription().toUpperCase().contains(taskFilterForm.getPhrase().toUpperCase())))
+                : filteredTasksStream;
 
         return filteredTasksStream.collect(Collectors.toList());
 
@@ -327,9 +333,20 @@ public class TaskServiceGraph implements TaskService, DialogService {
                 task.setTaskStatus(TaskStatus.TOMMOROW);
 //                task.setTaskState(TaskState.ON_HOLD);
                 break;
+            case "NEXT_WEEKEND":
+                task.setDue(Utilities.dateNextWeekend());
+                task.setTaskStatus(TaskStatus.NEXT_WEEKEND);
+//                task.setTaskState(TaskState.ON_HOLD);
+                break;
             case "NEXT_WEEK":
                 task.setDue(Utilities.dateNextMondayMorning());
-                task.setTaskStatus(TaskStatus.THIS_WEEK);
+                task.setTaskStatus(TaskStatus.NEXT_WEEK);
+//                task.setTaskState(TaskState.ON_HOLD);
+                break;
+
+            case "NEXT_MONTH":
+                task.setDue(Utilities.dateNextMonth());
+                task.setTaskStatus(TaskStatus.NEXT_MONTH);
 //                task.setTaskState(TaskState.ON_HOLD);
                 break;
             case "ON_HOLD":

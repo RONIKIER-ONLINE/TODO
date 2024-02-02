@@ -80,7 +80,11 @@ public class Task { //extends SuperEntity {
 
     protected TaskStatus taskStatus;
 
-    public void requires(Task task) { getRequiredTasks().add(task);
+    @OneToMany
+    protected List<File> files;
+
+    public void requires(Task task) {
+        getRequiredTasks().add(task);
     }
 
     public void isDoneBy(Person person) {
@@ -114,4 +118,11 @@ public class Task { //extends SuperEntity {
     public String getDueFormatted() {
         return Utilities.stringFromDate(due);
     }
+
+    public String getDescriptionHTML() {
+        return (description != null)
+                ? description.replace("\r","<BR/>")
+                : description;
+    }
+
 }
